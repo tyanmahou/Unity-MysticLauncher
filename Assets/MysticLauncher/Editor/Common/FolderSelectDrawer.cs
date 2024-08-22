@@ -13,10 +13,8 @@ namespace Mystic
 
             bool enabledOld = GUI.enabled;
             // ラベルを描画
-            EditorGUI.LabelField(position, label);
-
-            position.x += EditorGUIUtility.labelWidth;
-            position.width -= EditorGUIUtility.labelWidth + 30;
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            position.width -= 30;
             GUI.enabled = enabledOld && folderSelectAttribute.FreeInput;
             EditorGUI.TextField(position, property.stringValue);
             if (_icon == null)
