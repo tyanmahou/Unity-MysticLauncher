@@ -1,0 +1,9 @@
+{
+    "name": "com.tyanmahou.mystic-launcher",
+    "displayName": "MysticLauncher",
+    "version": "1.0.0",
+    "unity": "2022.3",
+    "description": "Unity Launcher Tool",
+    "dependencies": {
+    }
+}
