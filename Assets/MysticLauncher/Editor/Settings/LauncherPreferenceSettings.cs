@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Mystic
 {
-	[FilePath("UserSettings/MysticLauncherPreferencesSettings.asset", FilePathAttribute.Location.PreferencesFolder)]
-	public class LauncherPreferenceSettings : ScriptableSingleton<LauncherPreferenceSettings>
-	{
-		[SerializeField, FileSelect]
-		private string _terminalPath = "";
-		public string TerminalPath => _terminalPath;
+    [FilePath("UserSettings/MysticLauncherPreferencesSettings.asset", FilePathAttribute.Location.PreferencesFolder)]
+    public class LauncherPreferenceSettings : ScriptableSingleton<LauncherPreferenceSettings>
+    {
+        [SerializeField, FileSelect]
+        private string _terminalPath = "";
+        public string TerminalPath => _terminalPath;
 
 
-		public void Save()
-		{
-			Save(true);
-		}
-	}
+        public void Save()
+        {
+            Save(true);
+        }
+    }
 }

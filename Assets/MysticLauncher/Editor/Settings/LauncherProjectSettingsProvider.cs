@@ -5,41 +5,41 @@ using UnityEngine.UIElements;
 
 namespace Mystic
 {
-	public class LauncherProjectSettingsProvider : SettingsProvider
-	{
-		private Editor _editor;
-		public const string SettingPath = "Project/Mystic Launcher";
+    public class LauncherProjectSettingsProvider : SettingsProvider
+    {
+        private Editor _editor;
+        public const string SettingPath = "Project/Mystic Launcher";
 
-		[SettingsProvider]
-		public static SettingsProvider CreateProvider()
-		{
-			string[] keywords = new string[]
-			{
-				"Launcher"
-			};
-			return new LauncherProjectSettingsProvider(SettingPath, SettingsScope.Project, keywords);
-		}
+        [SettingsProvider]
+        public static SettingsProvider CreateProvider()
+        {
+            string[] keywords = new string[]
+            {
+                "Launcher"
+            };
+            return new LauncherProjectSettingsProvider(SettingPath, SettingsScope.Project, keywords);
+        }
 
-		public LauncherProjectSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
-		{
-		}
-		public override void OnActivate(string searchContext, VisualElement rootElement)
-		{
-			var preferences = LauncherProjectSettings.instance;
-			preferences.hideFlags = HideFlags.HideAndDontSave & ~HideFlags.NotEditable;
-			Editor.CreateCachedEditor(preferences, null, ref _editor);
-		}
+        public LauncherProjectSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
+        {
+        }
+        public override void OnActivate(string searchContext, VisualElement rootElement)
+        {
+            var preferences = LauncherProjectSettings.instance;
+            preferences.hideFlags = HideFlags.HideAndDontSave & ~HideFlags.NotEditable;
+            Editor.CreateCachedEditor(preferences, null, ref _editor);
+        }
 
-		public override void OnGUI(string searchContext)
-		{
-			EditorGUI.BeginChangeCheck();
-			// 設定ファイルの標準のインスペクターを表示
-			_editor.OnInspectorGUI();
-			if (EditorGUI.EndChangeCheck())
-			{
-				// 差分があったら保存
-				LauncherProjectSettings.instance.Save();
-			}
-		}
-	}
+        public override void OnGUI(string searchContext)
+        {
+            EditorGUI.BeginChangeCheck();
+            // 設定ファイルの標準のインスペクターを表示
+            _editor.OnInspectorGUI();
+            if (EditorGUI.EndChangeCheck())
+            {
+                // 差分があったら保存
+                LauncherProjectSettings.instance.Save();
+            }
+        }
+    }
 }
