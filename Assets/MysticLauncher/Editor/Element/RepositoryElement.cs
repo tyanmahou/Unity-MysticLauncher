@@ -7,20 +7,34 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
-    public class FolderElement : IElement
+    public class RepositoryElement : IElement
     {
+        public Label Label;
+
         [FolderSelect]
-        public string Path;
+        public string LocalPath;
+
+        public string RemoteUrl;
 
         public void OnGUI()
         {
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
             var skin = new GUIStyle(EditorStyles.objectField);
-            GUILayout.Label(Path, skin);
-            var path = System.IO.Path.IsPathRooted(Path) 
-                ? Path
-                : Application.dataPath + "/../" + Path;
+            skin.richText = true;
+            var label = $"{Label.Text} <color=grey>({LocalPath})</color>";
+            if (Label.Icon.TryGetGUIContent(out var content))
+            {
+                content.text = label;
+                GUILayout.Label(content, skin);
+            }
+            else
+            {
+                GUILayout.Label(label, skin);
+            }
+            var path = System.IO.Path.IsPathRooted(LocalPath) 
+                ? LocalPath
+                : Application.dataPath + "/../" + LocalPath;
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {
@@ -36,6 +50,15 @@ namespace Mystic
                 if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
                 {
                     OpenTerminal(path);
+                }
+            }
+            // リモートを開く
+            GUI.enabled = old && !string.IsNullOrEmpty(RemoteUrl);
+            {
+                GUIContent icon = EditorGUIUtility.IconContent("d_Profiler.GlobalIllumination");
+                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    OpenUrl(RemoteUrl);
                 }
             }
             GUI.enabled = old;
@@ -73,9 +96,10 @@ namespace Mystic
                 UnityEngine.Debug.LogError(e.Message);
             }
         }
+        void OpenUrl(string url) => OpenFolder(url);
         public override string ToString()
         {
-            return Path;
+            return Label.Text;
         }
     }
 }

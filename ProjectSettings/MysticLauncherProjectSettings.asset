@@ -81,11 +81,11 @@ MonoBehaviour:
       type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
-          Text: Unity-MysticLauncher
+          Text: ChatGPT
           Icon:
             _icon: {fileID: 0}
-            _unityIcon: TilemapCollider2D Icon
-        FileName: https://github.com/tyanmahou/Unity-MysticLauncher
+            _unityIcon: console.infoicon@2x
+        FileName: https://chatgpt.com
     - rid: 6547972709922897938
       type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -104,8 +104,24 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: CacheServerConnected@2x
         Elements:
-        - rid: 6547972709922897941
-    - rid: 6547972709922897941
-      type: {class: FolderElement, ns: Mystic, asm: MysticLauncher.Editor}
+        - rid: 6547972709922897942
+        - rid: 6547972709922897943
+    - rid: 6547972709922897942
+      type: {class: RepositoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
-        Path: ./
+        Label:
+          Text: Unity-MysticLauncher
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        LocalPath: ./
+        RemoteUrl: https://github.com/tyanmahou/Unity-MysticLauncher
+    - rid: 6547972709922897943
+      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Open C# Project
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        ItemName: Assets/Open C# Project

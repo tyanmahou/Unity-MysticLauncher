@@ -255,7 +255,7 @@ namespace Mystic
         }
         void DrawFooter()
         {
-            if (_textureProperty != null && _textureProperty.objectReferenceValue != null)
+            if (_textureProperty != null && _textureProperty.propertyType == SerializedPropertyType.ObjectReference && _textureProperty.objectReferenceValue != null)
             {
                 var tex = _textureProperty.objectReferenceValue as Texture;
                 GUIContent iconContent = new GUIContent(tex);
