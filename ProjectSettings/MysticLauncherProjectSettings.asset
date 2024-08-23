@@ -17,10 +17,11 @@ MonoBehaviour:
       Text: Mystic Launcher
       Icon:
         _icon: {fileID: 0}
-        _unityIcon: d_Profiler.UIDetails@2x
+        _unityIcon: TilemapCollider2D Icon
   Portal:
     Elements:
     - rid: 6547972709922897924
+    - rid: 6547972709922897936
   CustomTabs: []
   references:
     version: 2
@@ -63,4 +64,33 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
-        ItemName: Window/General/Scene %1
+        ItemName: Window/Package Manager
+    - rid: 6547972709922897936
+      type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Links
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: Link@2x
+        Elements:
+        - rid: 6547972709922897938
+        - rid: 6547972709922897937
+    - rid: 6547972709922897937
+      type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity-MysticLauncher
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: TilemapCollider2D Icon
+        FileName: https://github.com/tyanmahou/Unity-MysticLauncher
+    - rid: 6547972709922897938
+      type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity Document
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: UnityLogo
+        FileName: https://docs.unity.com
