@@ -13,7 +13,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectInfo:
-    Icon:
-      _icon: {fileID: 0}
-      _unityIcon: d_Profiler.UIDetails@2x
-    ProjectName: Mystic Launcher
+    ProjectName:
+      Text: Mystic Launcher
+      Icon:
+        _icon: {fileID: 0}
+        _unityIcon: d_Profiler.UIDetails@2x
+  Portal:
+    Elements:
+    - rid: 6547972709922897924
+  CustomTabs: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6547972709922897924
+      type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Tools
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: SceneViewTools On@2x
+        Elements:
+        - rid: 6547972709922897925
+    - rid: 6547972709922897925
+      type: {class: MenuCommandElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Profiler
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_UnityEditor.ProfilerWindow@2x
+        Command: Window/Analysis/Profiler

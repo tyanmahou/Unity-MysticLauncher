@@ -8,7 +8,7 @@ namespace Mystic
     /// アイコン
     /// </summary>
     [Serializable]
-    public class Icon
+    public struct Icon
     {
         public static Icon CreateUnityIcon(string name)
         {
@@ -40,7 +40,7 @@ namespace Mystic
             }
             if (!string.IsNullOrEmpty(_unityIcon))
             {
-                icon = EditorGUIUtility.IconContent(_unityIcon);
+                icon = new GUIContent(EditorGUIUtility.IconContent(_unityIcon));
                 return true;
             }
             icon = null;

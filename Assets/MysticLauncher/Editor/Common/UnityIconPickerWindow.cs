@@ -1,6 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Linq;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
+using System;
+using Codice.Client.Common;
 
 namespace Mystic
 {
@@ -8,11 +12,35 @@ namespace Mystic
     {
         private const float doubleClickTime = 0.3f;
         private const int IconSize = 32;  // アイコンのサイズ
+
+        public static void Show(SerializedProperty textureProperty, SerializedProperty property)
+        {
+            UnityIconPickerWindow window = GetWindow<UnityIconPickerWindow>("Icon Picker");
+            window.Init(textureProperty, property);
+            window.Show();
+        }
+
         public static void Show(SerializedProperty property)
         {
             UnityIconPickerWindow window = GetWindow<UnityIconPickerWindow>("Icon Picker");
             window.Init(property);
             window.Show();
+        }
+        public void Init(SerializedProperty textureProperty, SerializedProperty property)
+        {
+            _textureProperty = textureProperty;
+
+            // Assets以下のTexture を取得
+            string[] guids = AssetDatabase.FindAssets("t:Texture", new[] { "Assets"});
+            _textures = new Texture[guids.Length];
+
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+                _textures[i] = AssetDatabase.LoadAssetAtPath<Texture>(path);
+            }
+
+            Init(property);
         }
         public void Init(SerializedProperty property)
         {
@@ -38,18 +66,44 @@ namespace Mystic
             _normalStyle = new GUIStyle(GUI.skin.button);
         }
 
-        private void OnGUI()
+        virtual protected void OnGUI()
         {
+            // Texture設定
+            if (_textureProperty != null)
+            {
+                _selectedTab = GUILayout.Toolbar(
+                    _selectedTab,
+                    new string[] {"Icon", "Assets"},
+                    EditorStyles.toolbarButton,
+                    GUI.ToolbarButtonSize.FitToContents
+                    );
+            }
+
             // 検索バーの描画
             {
                 _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField);
             }
 
-            // アイコン一覧の取得
-            string[] icons = GetFilteredIcons(_searchString);
-
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
+            if (_selectedTab == 0)
+            {
+                DrawBuildIn();
+            }
+            else
+            {
+                DrawAssets();
+            }
+
+            EditorGUILayout.EndScrollView();
+            EditorGUIUtil.DrawSeparator();
+            DrawFooter();
+        }
+        void DrawBuildIn()
+        {
+            // アイコン一覧の取得
+            string[] icons = GetFilteredIcons(_searchString);
 
             float w = this.position.width;
             int columns = Mathf.FloorToInt(w / IconSize);
@@ -79,6 +133,11 @@ namespace Mystic
                                 double currentTime = EditorApplication.timeSinceStartup;
                                 _property.stringValue = string.Empty;
                                 _property.serializedObject.ApplyModifiedProperties();
+                                if (_textureProperty != null)
+                                {
+                                    _textureProperty.Reset();
+                                    _textureProperty.serializedObject.ApplyModifiedProperties();
+                                }
                                 if (currentTime - _lastClickTime < doubleClickTime)
                                 {
                                     Close();
@@ -103,6 +162,11 @@ namespace Mystic
                             double currentTime = EditorApplication.timeSinceStartup;
                             _property.stringValue = icons[index];
                             _property.serializedObject.ApplyModifiedProperties();
+                            if (_textureProperty != null)
+                            {
+                                _textureProperty.objectReferenceValue = null;
+                                _textureProperty.serializedObject.ApplyModifiedProperties();
+                            }
                             if (currentTime - _lastClickTime < doubleClickTime)
                             {
                                 Close();
@@ -116,10 +180,93 @@ namespace Mystic
                     }
                 }
             }
+        }
+        void DrawAssets()
+        {
+            // アイコン一覧の取得
+            Texture[] icons = GetFilteredTextures(_searchString);
 
-            EditorGUILayout.EndScrollView();
-            EditorGUIUtil.DrawSeparator();
-            if (!string.IsNullOrEmpty(_property.stringValue))
+            float w = this.position.width;
+            int columns = Mathf.FloorToInt(w / IconSize);
+            int rows = System.Math.Max(1, Mathf.CeilToInt(icons.Length / (float)columns));
+
+            for (int row = 0; row < rows; row++)
+            {
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                for (int col = 0; col < columns; col++)
+                {
+                    int index = row * columns + col;
+                    if (index > icons.Length)
+                        break;
+                    var skin = _normalStyle;
+                    if (index == 0)
+                    {
+                        Rect iconRect = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
+
+                        if (string.IsNullOrEmpty(_property.stringValue))
+                        {
+                            skin = _selectedStyle;
+                        }
+                        if (GUI.Button(iconRect, "", skin))
+                        {
+                            if (Event.current.button == 0)
+                            {
+                                double currentTime = EditorApplication.timeSinceStartup;
+                                _property.stringValue = string.Empty;
+                                _property.serializedObject.ApplyModifiedProperties();
+                                if (_textureProperty != null)
+                                {
+                                    _textureProperty.Reset();
+                                    _textureProperty.serializedObject.ApplyModifiedProperties();
+                                }
+                                if (currentTime - _lastClickTime < doubleClickTime)
+                                {
+                                    Close();
+                                }
+                                _lastClickTime = currentTime;
+                            }
+                        }
+                        continue;
+                    }
+                    --index;
+
+                    Rect iconRect2 = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
+                    GUIContent iconContent = new GUIContent(icons[index]);
+                    if (_textureProperty.objectReferenceValue == icons[index])
+                    {
+                        skin = _selectedStyle;
+                    }
+                    if (GUI.Button(iconRect2, iconContent, skin))
+                    {
+                        if (Event.current.button == 0)
+                        {
+                            double currentTime = EditorApplication.timeSinceStartup;
+                            _textureProperty.objectReferenceValue = icons[index];
+                            _textureProperty.serializedObject.ApplyModifiedProperties();
+
+                            _property.stringValue = string.Empty;
+                            _property.serializedObject.ApplyModifiedProperties();
+
+                            if (currentTime - _lastClickTime < doubleClickTime)
+                            {
+                                Close();
+                            }
+                            _lastClickTime = currentTime;
+                        }
+                    }
+                }
+            }
+        }
+        void DrawFooter()
+        {
+            if (_textureProperty != null && _textureProperty.objectReferenceValue != null)
+            {
+                var tex = _textureProperty.objectReferenceValue as Texture;
+                GUIContent iconContent = new GUIContent(tex);
+                iconContent.text = tex.name;
+                GUILayout.Label(iconContent, GUILayout.Height(IconSize));
+            }
+            else if (!string.IsNullOrEmpty(_property.stringValue))
             {
                 GUIContent iconContent = new GUIContent(EditorGUIUtility.IconContent(_property.stringValue));
                 iconContent.text = _property.stringValue;
@@ -162,6 +309,19 @@ namespace Mystic
                 return _iconNames.Where(icon => icon.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
             }
         }
+        private Texture[] GetFilteredTextures(string search)
+        {
+            // アイコンのフィルタリング
+            var icons = _textures;
+            if (string.IsNullOrEmpty(search))
+            {
+                return _textures;
+            }
+            else
+            {
+                return _textures.Where(t => t.name.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+            }
+        }
         private Texture2D MakeTex(int width, int height, Color col)
         {
             Color[] pix = new Color[width * height];
@@ -174,6 +334,7 @@ namespace Mystic
             result.Apply();
             return result;
         }
+        private SerializedProperty _textureProperty;
         private SerializedProperty _property;
         private string _searchString = "";
         private Vector2 _scrollPosition;
@@ -184,6 +345,9 @@ namespace Mystic
         private GUIStyle _normalStyle;
         private GUIStyle _selectedStyle;
         private Texture2D _selectedTex;
+
+        int _selectedTab;
+        private Texture[] _textures;
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
@@ -7,18 +6,14 @@ namespace Mystic
     [FilePath("ProjectSettings/MysticLauncherProjectSettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class LauncherProjectSettings : ScriptableSingleton<LauncherProjectSettings>
     {
-        [Serializable]
-        public struct ProjectInfoType
-        {
-            public Icon Icon;
-            public string ProjectName;
-        }
         [SerializeField]
-        ProjectInfoType _projectInfo = new ProjectInfoType() {
-            Icon = Icon.CreateUnityIcon("d_Profiler.UIDetails@2x"),
-            ProjectName = "Mystic Launcher"
-        };
-        public ProjectInfoType ProjectInfo => _projectInfo;
+        ProjectInfo _projectInfo = ProjectInfo.Default();
+        public ProjectInfo ProjectInfo => _projectInfo;
+
+        public PortalLayout Portal;
+
+        [SerializeReference, SubclassSelector]
+        public ITabLayout[] CustomTabs;
 
         public void Save()
         {

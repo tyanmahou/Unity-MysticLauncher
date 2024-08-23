@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mystic
 {
@@ -19,22 +21,46 @@ namespace Mystic
 
         void OnGUI()
         {
-            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
-            _scrollPosition = scrollView.scrollPosition;
             var projSettings = LauncherProjectSettings.instance;
             if (projSettings == null)
             {
                 return;
             }
             DrawProjectHeader(projSettings);
-        }
 
+            // タブの表示
+            List<ITabLayout> tabs = new(2 + projSettings.CustomTabs.Length);
+            tabs.Add(projSettings.Portal);
+            tabs.Add(_favoriteLayout);
+            tabs.AddRange(projSettings.CustomTabs);
+
+            _selectedTab = GUILayout.Toolbar(
+                _selectedTab,
+                tabs.Select(TabContent).ToArray(),
+                EditorStyles.toolbarButton,
+                GUI.ToolbarButtonSize.FitToContents
+                );
+
+            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
+            tabs[_selectedTab].OnGUI();
+            _scrollPosition = scrollView.scrollPosition;
+
+        }
+        GUIContent TabContent(ITabLayout layout)
+        {
+            if (layout.Icon.TryGetGUIContent(out var content))
+            {
+                content.text = layout.Title;
+                return content;
+            }
+            return new GUIContent(layout.Title);
+        }
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
             // タイトル
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
-                if (projSettings.ProjectInfo.Icon.TryGetGUIContent(out var icon))
+                if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
                 {
                     Rect iconRect = GUILayoutUtility.GetRect(45, 45);
                     GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);
@@ -42,7 +68,7 @@ namespace Mystic
                 GUIStyle customStyle = new GUIStyle(GUI.skin.label);
                 customStyle.fontSize = 30;
                 customStyle.alignment = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
-                GUILayout.Label(projSettings.ProjectInfo.ProjectName, customStyle);
+                GUILayout.Label(projSettings.ProjectInfo.ProjectName.Text, customStyle);
             }
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
@@ -62,6 +88,9 @@ namespace Mystic
             EditorGUIUtil.DrawSeparator();
         }
         Vector2 _scrollPosition;
+        int _selectedTab;
+
+        FavoriteLayout _favoriteLayout = new FavoriteLayout();
     }
 
 }
