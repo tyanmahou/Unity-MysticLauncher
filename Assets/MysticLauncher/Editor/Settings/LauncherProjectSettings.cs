@@ -12,7 +12,7 @@ namespace Mystic
 
         public PortalLayout Portal;
 
-        [SerializeReference, SubclassSelector]
+        [NamedArrayElement, SerializeReference, SubclassSelector]
         public ITabLayout[] CustomTabs;
 
         public void Save()

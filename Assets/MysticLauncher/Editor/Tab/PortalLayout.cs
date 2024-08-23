@@ -8,7 +8,7 @@ namespace Mystic
     {
         public string Title => "Portal";
         public Icon Icon { get; set; } = Icon.CreateUnityIcon("d_Profiler.UIDetails");
-        [SerializeReference, SubclassSelector]
+        [NamedArrayElement, SerializeReference, SubclassSelector]
         public IElement[] Elements;
 
         public void OnGUI()

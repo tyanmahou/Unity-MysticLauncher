@@ -9,7 +9,7 @@ namespace Mystic
     {
         public Label Label;
 
-        [SerializeReference, SubclassSelector]
+        [NamedArrayElement, SerializeReference, SubclassSelector]
         public IElement[] Elements;
 
         public void OnGUI()
