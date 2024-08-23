@@ -17,7 +17,8 @@ namespace Mystic
             var icon = property.FindPropertyRelative("_icon");
             var unityIcon = property.FindPropertyRelative("_unityIcon");
 
-            position.width -= 32;
+            position.x -= EditorGUI.indentLevel * 15;
+            position.width -= 32 - EditorGUI.indentLevel * 15;
             position.height = 32;
             GUI.enabled = enabledOld && string.IsNullOrEmpty(unityIcon.stringValue);
             EditorGUI.ObjectField(position, icon, GUIContent.none);
