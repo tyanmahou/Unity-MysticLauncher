@@ -10,10 +10,5 @@ namespace Mystic
     {
         public string Text;
         public Icon Icon;
-
-        public override string ToString()
-        {
-            return Text;
-        }
     }
 }

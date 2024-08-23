@@ -28,6 +28,7 @@ MonoBehaviour:
     - rid: 6547972709922897924
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
+        name: 
         Label:
           Text: Tools
           Icon:

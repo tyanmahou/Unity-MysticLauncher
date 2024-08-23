@@ -13,5 +13,9 @@ namespace Mystic
         {
 
         }
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

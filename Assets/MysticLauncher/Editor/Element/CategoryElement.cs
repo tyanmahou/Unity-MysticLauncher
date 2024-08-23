@@ -32,5 +32,9 @@ namespace Mystic
                 entry?.OnGUI();
             }
         }
+        public override string ToString()
+        {
+            return Label.Text;
+        }
     }
 }
