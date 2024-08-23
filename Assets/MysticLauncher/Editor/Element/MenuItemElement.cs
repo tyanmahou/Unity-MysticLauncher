@@ -4,16 +4,18 @@ using UnityEditor;
 namespace Mystic
 {
     [Serializable]
-    public class MenuCommandElement : IElement
+    public class MenuItemElement : IElement
     {
         public Label Label;
-        public string Command;
+
+        [MenuItemPicker]
+        public string ItemName;
 
         public void OnGUI()
         {
             if (EditorGUIUtil.Button(Label))
             {
-                EditorApplication.ExecuteMenuItem(Command);
+                EditorApplication.ExecuteMenuItem(ItemName);
             }
         }
         public override string ToString()

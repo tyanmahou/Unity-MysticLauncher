@@ -34,13 +34,33 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: SceneViewTools On@2x
         Elements:
-        - rid: 6547972709922897925
-    - rid: 6547972709922897925
-      type: {class: MenuCommandElement, ns: Mystic, asm: MysticLauncher.Editor}
+        - rid: 6547972709922897931
+        - rid: 6547972709922897932
+        - rid: 6547972709922897935
+    - rid: 6547972709922897931
+      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
           Text: Profiler
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_UnityEditor.ProfilerWindow@2x
-        Command: Window/Analysis/Profiler
+        ItemName: Window/Analysis/Profiler %7
+    - rid: 6547972709922897932
+      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Frame Debugger
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        ItemName: Window/Analysis/Frame Debugger
+    - rid: 6547972709922897935
+      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Package Manager
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        ItemName: Window/General/Scene %1
