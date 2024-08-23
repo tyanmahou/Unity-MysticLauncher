@@ -20,6 +20,7 @@ MonoBehaviour:
         _unityIcon: TilemapCollider2D Icon
   Portal:
     Elements:
+    - rid: 6547972709922897940
     - rid: 6547972709922897924
     - rid: 6547972709922897936
   CustomTabs: []
@@ -94,3 +95,17 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: UnityLogo
         FileName: https://docs.unity.com
+    - rid: 6547972709922897940
+      type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Repository
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: CacheServerConnected@2x
+        Elements:
+        - rid: 6547972709922897941
+    - rid: 6547972709922897941
+      type: {class: FolderElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Path: ./
