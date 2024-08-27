@@ -26,13 +26,21 @@ namespace Mystic
             {
                 return;
             }
+            var userSettings = LauncherUserSettings.instance;
+            if (userSettings == null)
+            {
+                return;
+            }
             DrawProjectHeader(projSettings);
 
             // タブの表示
-            List<ITabLayout> tabs = new(2 + projSettings.CustomTabs.Length);
-            tabs.Add(projSettings.Portal);
-            tabs.Add(_favoriteLayout);
-            tabs.AddRange(projSettings.CustomTabs);
+            List<ITabLayout> tabs = new(2 + projSettings.CustomTabs.Length + userSettings.UserTabs.Length)
+            {
+                projSettings.Portal,
+                _favoriteLayout
+            };
+            tabs.AddRange(projSettings.CustomTabs.Where(t => t != null));
+            tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
 
             _selectedTab = GUILayout.Toolbar(
                 _selectedTab,
@@ -73,7 +81,7 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 GUILayout.FlexibleSpace();
-                var icon = EditorGUIUtility.IconContent("d__Popup");
+                var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
                 icon.text = "Project ";
                 if (GUILayout.Button(icon))
                 {
@@ -82,7 +90,7 @@ namespace Mystic
                 icon.text = "User ";
                 if (GUILayout.Button(icon))
                 {
-                    SettingsService.OpenUserPreferences(LauncherPreferenceSettingsProvider.SettingPath);
+                    SettingsService.OpenUserPreferences(LauncherUserSettingsProvider.SettingPath);
                 }
             }
             EditorGUIUtil.DrawSeparator();

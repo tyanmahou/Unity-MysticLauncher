@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace Mystic
 {
-    public class LauncherPreferenceSettingsProvider : SettingsProvider
+    public class LauncherUserSettingsProvider : SettingsProvider
     {
         private Editor _editor;
         public const string SettingPath = "Preferences/Mystic Launcher";
@@ -17,15 +17,15 @@ namespace Mystic
             {
                 "Launcher"
             };
-            return new LauncherPreferenceSettingsProvider(SettingPath, SettingsScope.User, keywords);
+            return new LauncherUserSettingsProvider(SettingPath, SettingsScope.User, keywords);
         }
 
-        public LauncherPreferenceSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
+        public LauncherUserSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
         {
         }
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
-            var preferences = LauncherPreferenceSettings.instance;
+            var preferences = LauncherUserSettings.instance;
             preferences.hideFlags = HideFlags.HideAndDontSave & ~HideFlags.NotEditable;
             Editor.CreateCachedEditor(preferences, null, ref _editor);
         }
@@ -38,7 +38,7 @@ namespace Mystic
             if (EditorGUI.EndChangeCheck())
             {
                 // 差分があったら保存
-                LauncherPreferenceSettings.instance.Save();
+                LauncherUserSettings.instance.Save();
             }
         }
     }

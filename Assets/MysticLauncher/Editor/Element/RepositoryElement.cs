@@ -75,7 +75,7 @@ namespace Mystic
         // ターミナル開く
         void OpenTerminal(string path)
         {
-            var terminalPath = LauncherPreferenceSettings.instance.TerminalPath;
+            var terminalPath = LauncherUserSettings.instance.TerminalPath;
             if (!File.Exists(terminalPath))
             {
                 terminalPath = string.Empty;
