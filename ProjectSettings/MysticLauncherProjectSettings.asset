@@ -17,7 +17,7 @@ MonoBehaviour:
       Text: Mystic Launcher
       Icon:
         _icon: {fileID: 0}
-        _unityIcon: TilemapCollider2D Icon
+        _unityIcon: d_Profiler.UIDetails@2x
   Portal:
     Elements:
     - rid: 6547972709922897940
@@ -113,7 +113,7 @@ MonoBehaviour:
           Text: Unity-MysticLauncher
           Icon:
             _icon: {fileID: 0}
-            _unityIcon: 
+            _unityIcon: d_Profiler.UIDetails@2x
         LocalPath: ./
         RemoteUrl: https://github.com/tyanmahou/Unity-MysticLauncher
     - rid: 6547972709922897943
@@ -123,5 +123,5 @@ MonoBehaviour:
           Text: Open C# Project
           Icon:
             _icon: {fileID: 0}
-            _unityIcon: 
+            _unityIcon: cs Script Icon
         ItemName: Assets/Open C# Project

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Mystic
 {
@@ -17,7 +18,8 @@ namespace Mystic
             {
                 try
                 {
-                    using Process process = System.Diagnostics.Process.Start(FileName);
+                    var path = PathUtil.RelativeOrFullPath(FileName);
+                    using Process process = System.Diagnostics.Process.Start(path);
                 }
                 catch (System.Exception e)
                 {

@@ -18,9 +18,7 @@ namespace Mystic
             using var horizontal = new EditorGUILayout.HorizontalScope();
             var skin = new GUIStyle(EditorStyles.objectField);
             GUILayout.Label(Path, skin);
-            var path = System.IO.Path.IsPathRooted(Path) 
-                ? Path
-                : Application.dataPath + "/../" + Path;
+            var path = PathUtil.RelativeOrFullPath(Path);
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {

@@ -27,10 +27,12 @@ namespace Mystic
                 GUILayout.Label(Label.Text, EditorStyles.boldLabel, GUILayout.Height(height));
             }
             GUILayout.Space(2);
+            EditorGUI.indentLevel++;
             foreach (var entry in Elements)
             {
                 entry?.OnGUI();
             }
+            EditorGUI.indentLevel--;
         }
         public override string ToString()
         {

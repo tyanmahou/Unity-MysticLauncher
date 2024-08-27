@@ -26,15 +26,13 @@ namespace Mystic
             if (Label.Icon.TryGetGUIContent(out var content))
             {
                 content.text = label;
-                GUILayout.Label(content, skin);
+                GUILayout.Label(content, skin, GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
             else
             {
-                GUILayout.Label(label, skin);
+                GUILayout.Label(label, skin, GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
-            var path = System.IO.Path.IsPathRooted(LocalPath) 
-                ? LocalPath
-                : Application.dataPath + "/../" + LocalPath;
+            var path = PathUtil.RelativeOrFullPath(LocalPath);
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {
