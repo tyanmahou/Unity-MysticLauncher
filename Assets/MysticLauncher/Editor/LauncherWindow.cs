@@ -66,7 +66,7 @@ namespace Mystic
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
             // タイトル
-            {
+            if (projSettings.ProjectInfo.CustomHeader == null) {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
                 {
@@ -77,6 +77,10 @@ namespace Mystic
                 customStyle.fontSize = 30;
                 customStyle.alignment = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
                 GUILayout.Label(projSettings.ProjectInfo.ProjectName.Text, customStyle);
+            }
+            else
+            {
+                projSettings.ProjectInfo.CustomHeader.OnGUI();
             }
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();

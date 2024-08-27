@@ -18,6 +18,8 @@ MonoBehaviour:
       Icon:
         _icon: {fileID: 0}
         _unityIcon: d_Profiler.UIDetails@2x
+    CustomHeader:
+      rid: -2
   Portal:
     Elements:
     - rid: 6547972709922897940
@@ -27,6 +29,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6547972709922897924
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:

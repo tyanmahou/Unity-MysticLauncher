@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Mystic
 {
@@ -17,5 +18,8 @@ namespace Mystic
             };
         }
         public Label ProjectName;
+        [SerializeReference, SubclassSelector]
+
+        public IElement CustomHeader;
     }
 }
