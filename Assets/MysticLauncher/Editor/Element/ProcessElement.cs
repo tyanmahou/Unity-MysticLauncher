@@ -12,14 +12,23 @@ namespace Mystic
         [FileSelect]
         public string FileName;
 
+        [FolderSelect]
+        public string WorkingDirectory;
+
         public void OnGUI()
         {
             if (EditorGUIUtil.Button(Label))
             {
                 try
                 {
-                    var path = PathUtil.RelativeOrFullPath(FileName);
-                    using Process process = System.Diagnostics.Process.Start(path);
+                    var fileName = PathUtil.RelativeOrFullPath(FileName);
+                    var workingDir = string.IsNullOrEmpty(WorkingDirectory) ? string.Empty : PathUtil.RelativeOrFullPath(WorkingDirectory);
+                    ProcessStartInfo processInfo = new ProcessStartInfo
+                    {
+                        FileName = fileName,
+                        WorkingDirectory = workingDir
+                    };
+                    using Process process = System.Diagnostics.Process.Start(processInfo);
                 }
                 catch (System.Exception e)
                 {

@@ -33,6 +33,7 @@ namespace Mystic
                     folderSelectAttribute.Folder,
                     folderSelectAttribute.DefaultName
                     );
+                path = PathUtil.RelativePathInProject(path, isDirectory: true);
                 if (!string.IsNullOrEmpty(path))
                 {
                     property.stringValue = path;

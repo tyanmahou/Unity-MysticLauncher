@@ -86,6 +86,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: console.infoicon@2x
         FileName: https://chatgpt.com
+        WorkingDirectory: 
     - rid: 6547972709922897938
       type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -95,6 +96,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: UnityLogo
         FileName: https://docs.unity.com
+        WorkingDirectory: 
     - rid: 6547972709922897940
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
