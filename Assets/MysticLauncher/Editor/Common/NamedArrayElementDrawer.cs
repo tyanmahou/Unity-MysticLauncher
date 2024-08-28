@@ -29,7 +29,7 @@ namespace Mystic
             switch (prop.propertyType)
             {
                 case SerializedPropertyType.Generic:
-                    break;
+                    return prop.boxedValue?.ToString();
                 case SerializedPropertyType.Integer:
                     return prop.intValue.ToString();
                 case SerializedPropertyType.Boolean:

@@ -22,15 +22,16 @@ namespace Mystic
             using var horizontal = new EditorGUILayout.HorizontalScope();
             var skin = new GUIStyle(EditorStyles.objectField);
             skin.richText = true;
+            skin.margin.left += EditorGUI.indentLevel * 15;
             var label = $"{Label.Text} <color=grey>({LocalPath})</color>";
             if (Label.Icon.TryGetGUIContent(out var content))
             {
                 content.text = label;
-                GUILayout.Label(content, skin, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                GUILayout.Label(content, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
             else
             {
-                GUILayout.Label(label, skin, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                GUILayout.Label(label, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
             var path = PathUtil.RelativeOrFullPath(LocalPath);
             GUI.enabled = old && System.IO.Directory.Exists(path);

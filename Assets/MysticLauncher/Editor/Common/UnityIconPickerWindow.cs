@@ -62,7 +62,7 @@ namespace Mystic
             _normalStyle = new GUIStyle(GUI.skin.button);
         }
 
-        virtual protected void OnGUI()
+        void OnGUI()
         {
             // Texture設定
             if (_textureProperty != null)

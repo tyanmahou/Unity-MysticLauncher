@@ -17,7 +17,9 @@ namespace Mystic
             const float height = 30;
             GUILayout.Space(4);
             {
-                using var skin = new EditorGUILayout.VerticalScope(EditorStyles.helpBox);
+                var style = new GUIStyle(EditorStyles.helpBox);
+                style.margin.left += EditorGUI.indentLevel * 15;
+                using var skin = new EditorGUILayout.VerticalScope(style);
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 if (Label.Icon.TryGetGUIContent(out var content))
                 {
@@ -27,12 +29,18 @@ namespace Mystic
                 GUILayout.Label(Label.Text, EditorStyles.boldLabel, GUILayout.Height(height));
             }
             GUILayout.Space(2);
-            EditorGUI.indentLevel++;
             foreach (var entry in Elements)
             {
-                entry?.OnGUI();
+                if (entry is CategoryElement)
+                {
+                    using var indent = new EditorGUI.IndentLevelScope();
+                    entry?.OnGUI();
+                }
+                else
+                {
+                    entry?.OnGUI();
+                }
             }
-            EditorGUI.indentLevel--;
         }
         public override string ToString()
         {

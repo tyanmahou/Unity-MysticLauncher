@@ -32,7 +32,7 @@ namespace Mystic
             _items = FindMenuItems();
         }
 
-        virtual protected void OnGUI()
+        void OnGUI()
         {
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);

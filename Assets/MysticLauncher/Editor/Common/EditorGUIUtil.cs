@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
@@ -10,11 +11,12 @@ namespace Mystic
     {
         public static bool Button(in Label label)
         {
-            return Button(label.Icon, label.Text, GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
+            return Button(label.Icon, label.Text, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
         }
         public static bool Button(Icon icon, string label, params GUILayoutOption[] options)
         {
             var skin = new GUIStyle(GUI.skin.button);
+            skin.margin.left += EditorGUI.indentLevel * 15;
             skin.alignment = TextAnchor.MiddleLeft;
             if (icon.TryGetGUIContent(out var content))
             {

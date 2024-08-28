@@ -17,6 +17,7 @@ namespace Mystic
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
             var skin = new GUIStyle(EditorStyles.objectField);
+            skin.margin.left += EditorGUI.indentLevel * 15;
             GUILayout.Label(Path, skin);
             var path = PathUtil.RelativeOrFullPath(Path);
             GUI.enabled = old && System.IO.Directory.Exists(path);

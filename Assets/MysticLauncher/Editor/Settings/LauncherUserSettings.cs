@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
@@ -15,6 +17,8 @@ namespace Mystic
         {
             new UserLayout()
         };
+
+        public FavoriteList Favorite = new();
 
         public void Save()
         {

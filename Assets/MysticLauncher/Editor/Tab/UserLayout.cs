@@ -18,6 +18,7 @@ namespace Mystic
         {
             if (Elements.Length <= 0)
             {
+                EditorGUILayout.HelpBox("Custom Edit Your Page", MessageType.Info);
                 var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
                 icon.text = "Edit";
                 if (GUILayout.Button(icon))
