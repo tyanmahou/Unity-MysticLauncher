@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
+using System.IO;
+using Unity.VisualScripting.YamlDotNet.Core;
 
 namespace Mystic
 {
@@ -21,8 +24,25 @@ namespace Mystic
                 return;
             }
             // 検索
+            bool isChangedSearch = false;
             {
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                string prevSearch = _searchString;
                 _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField, GUILayout.MinWidth(0));
+                isChangedSearch = _searchString != prevSearch;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderEmpty On Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    CloseToggleAll();
+                }
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderOpened Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    OpenToggleAll();
+                }
+
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    FavoriteWindow.Show(null);
+                }
             }
             EditorGUIUtil.DrawSeparator();
             _folderConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
@@ -42,8 +62,8 @@ namespace Mystic
             using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
             FavoriteEntry removeEntry = null;
 
-            var favList = userSettings.Favorite.Entries.Where(SearchFilter).Select(f => f.FavoriteGroup);
-            Draw(favList, dic, ref removeEntry, string.Empty);
+            var favList = userSettings.Favorite.Entries.Where(SearchFilter);
+            Draw(favList, dic, ref removeEntry, string.Empty, isChangedSearch);
             if (removeEntry != null)
             {
                 userSettings.Favorite.Unregister(removeEntry);
@@ -51,7 +71,7 @@ namespace Mystic
             }
             _scrollPosition = scrollView.scrollPosition;
         }
-        void Draw(IEnumerable<string> favList, Dictionary<string, List<FavoriteEntry>> dic, ref FavoriteEntry removeEntry,  string path)
+        void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, ref FavoriteEntry removeEntry,  string path, bool isChangedSearch)
         {
             favList = GetNextPaths(favList, path);
             foreach (string next in CalcNextPathNames(favList, path))
@@ -73,10 +93,17 @@ namespace Mystic
                 {
                     _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
                 }
+                if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
+                {
+                    if (favList.Where(SearchFilterAssetName).Count() > 0)
+                    {
+                        _toggle[nextFullPath] = true;
+                    }
+                }
                 if (_toggle[nextFullPath])
                 {
                     using var indent = new EditorGUI.IndentLevelScope();
-                    Draw(favList, dic, ref removeEntry, nextFullPath);
+                    Draw(favList, dic, ref removeEntry, nextFullPath, isChangedSearch);
                 }
             }
             if (dic.TryGetValue(path, out var list))
@@ -105,7 +132,17 @@ namespace Mystic
             }
             return false;
         }
-
+        bool SearchFilterAssetName(FavoriteEntry f)
+        {
+            if (f.Asset != null)
+            {
+                if (f.Asset.name.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         bool DrawEntry(in FavoriteEntry entry)
         {
             GUIStyle buttonStyle = new GUIStyle(EditorStyles.objectField);
@@ -164,24 +201,65 @@ namespace Mystic
         {
             return Title;
         }
-        IEnumerable<string> GetNextPaths(IEnumerable<string> list, string path)
+        IEnumerable<FavoriteEntry> GetNextPaths(IEnumerable<FavoriteEntry> list, string path)
         {
             if (!string.IsNullOrEmpty(path))
             {
                 path += "/";
             }
-            return list.Where(s => s.StartsWith(path) && s != path);
+            return list.Where(f => f.FavoriteGroup.StartsWith(path) && f.FavoriteGroup != path);
         }
-        string[] CalcNextPathNames(IEnumerable<string> list, string path)
+        IEnumerable<string> CalcNextPathNames(IEnumerable<FavoriteEntry> list, string path)
         {
             if (!string.IsNullOrEmpty(path))
             {
                 path += "/";
             }
             return list
-                    .Select(s => s.Substring(path.Length).Split('/')[0])
-                    .Distinct()
-                    .ToArray();
+                .Select(f => f.FavoriteGroup)
+                .Select(s => s.Substring(path.Length).Split('/')[0])
+            .Distinct()
+                ;
+        }
+        void CloseToggleAll()
+        {
+            foreach (var path in GetAllFolderPath())
+            {
+                _toggle[path] = false;
+            }
+        }
+        void OpenToggleAll()
+        {
+            foreach (var path in GetAllFolderPath())
+            {
+                _toggle[path] = true;
+            }
+        }
+        IEnumerable<string> GetAllFolderPath()
+        {
+            return GetChildFolderPath(LauncherUserSettings.instance.Favorite.Entries, string.Empty);
+        }
+        IEnumerable<string> GetChildFolderPath(IEnumerable<FavoriteEntry> favList, string path)
+        {
+            favList = GetNextPaths(favList, path);
+            foreach (string next in CalcNextPathNames(favList, path))
+            {
+                string nextFullPath = path;
+                if (string.IsNullOrEmpty(path))
+                {
+                    nextFullPath = next;
+                }
+                else
+                {
+                    nextFullPath += "/" + next;
+                }
+                yield return nextFullPath;
+
+                foreach (var p in GetChildFolderPath(favList, nextFullPath))
+                {
+                    yield return p;
+                }
+            }
         }
         GUIContent _folderConetent;
         GUIContent _folderOpenedConetent;
