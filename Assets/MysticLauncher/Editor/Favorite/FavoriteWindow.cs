@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 namespace Mystic
 {
@@ -52,7 +49,7 @@ namespace Mystic
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             {
-                var favList = userSettings.Favorite.Entries.Select(f => f.FavoriteGroup);
+                var favList = userSettings.Favorite.Entries.Select(f => f.FavoriteGroup).Append(_group);
                 DrawFolder(favList, string.Empty, string.Empty);
             }
 

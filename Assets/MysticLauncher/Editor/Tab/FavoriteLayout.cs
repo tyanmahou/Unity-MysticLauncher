@@ -3,10 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
-using System.IO;
-using Unity.VisualScripting.YamlDotNet.Core;
 
 namespace Mystic
 {
@@ -25,6 +21,7 @@ namespace Mystic
             }
             // 検索
             bool isChangedSearch = false;
+            GUILayout.Space(5);
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 string prevSearch = _searchString;
@@ -39,11 +36,12 @@ namespace Mystic
                     OpenToggleAll();
                 }
 
-                if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_Favorite_colored"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
                 {
                     FavoriteWindow.Show(null);
                 }
             }
+            GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();
             _folderConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
             _folderOpenedConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_FolderOpened Icon"));
