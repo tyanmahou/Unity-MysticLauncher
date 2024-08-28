@@ -32,12 +32,22 @@ namespace Mystic
             var userSettings = LauncherUserSettings.instance;
 
             bool oldEnabled = GUI.enabled;
-            _asset = EditorGUILayout.ObjectField(_asset, typeof(UnityEngine.Object), allowSceneObjects: false);
+            GUILayout.Space(5);
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
-                GUILayout.Label(EditorGUIUtility.IconContent("d_Folder Icon"), GUILayout.Width(20), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                var content = new GUIContent(EditorGUIUtility.IconContent("DefaultAsset Icon"));
+                content.text = "Asset";
+                GUILayout.Label(content, GUILayout.MaxWidth(60), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                _asset = EditorGUILayout.ObjectField(_asset, typeof(UnityEngine.Object), allowSceneObjects: false);
+            }
+            {
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                var content = new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
+                content.text = "Group";
+                GUILayout.Label(content, GUILayout.MaxWidth(60), GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 _group = GUILayout.TextField(_group);
             }
+            GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
