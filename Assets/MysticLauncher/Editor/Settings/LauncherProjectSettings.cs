@@ -10,10 +10,11 @@ namespace Mystic
         ProjectInfo _projectInfo = ProjectInfo.Default();
         public ProjectInfo ProjectInfo => _projectInfo;
 
-        public PortalLayout Portal;
+        [NamedArrayElement, SerializeReference, SubclassSelector]
+        public IElement[] PortalLayout = new IElement[0];
 
         [NamedArrayElement, SerializeReference, SubclassSelector]
-        public ITabLayout[] CustomTabs;
+        public ITabLayout[] ProjectTabs = new ITabLayout[0];
 
         public void Save()
         {

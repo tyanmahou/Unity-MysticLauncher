@@ -7,16 +7,13 @@ namespace Mystic
     [Serializable]
     public class UserLayout : ITabLayout
     {
-        [NamedArrayElement, SerializeReference, SubclassSelector]
-
-        public IElement[] Elements = new IElement[0];
-
         public string Title => "User";
         public Icon Icon => Icon.CreateUnityIcon("SoftlockInline");
 
         public void OnGUI()
         {
-            if (Elements.Length <= 0)
+            var elements = LauncherUserSettings.instance.UserLayout;
+            if (elements.Length <= 0)
             {
                 EditorGUILayout.HelpBox("Custom Edit Your Page", MessageType.Info);
                 var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
@@ -27,7 +24,7 @@ namespace Mystic
                 }
                 return;
             }
-            foreach (var entry in Elements)
+            foreach (var entry in elements)
             {
                 entry?.OnGUI();
             }

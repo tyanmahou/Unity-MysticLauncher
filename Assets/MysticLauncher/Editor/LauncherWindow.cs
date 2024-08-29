@@ -35,12 +35,11 @@ namespace Mystic
             DrawProjectHeader(projSettings);
 
             // タブの表示
-            List<ITabLayout> tabs = new(2 + projSettings.CustomTabs.Length + userSettings.UserTabs.Length)
+            List<ITabLayout> tabs = new(1 + projSettings.ProjectTabs.Length + userSettings.UserTabs.Length)
             {
-                projSettings.Portal,
-                _favoriteLayout
+                new PortalLayout(),
             };
-            tabs.AddRange(projSettings.CustomTabs.Where(t => t != null));
+            tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
 
             _selectedTab = GUILayout.Toolbar(
@@ -113,8 +112,6 @@ namespace Mystic
         }
         Vector2 _scrollPosition;
         int _selectedTab;
-
-        FavoriteLayout _favoriteLayout = new FavoriteLayout();
     }
 
 }
