@@ -41,36 +41,9 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: SceneViewTools On@2x
         Elements:
-        - rid: 6547972709922897931
-        - rid: 6547972709922897932
-        - rid: 6547972709922897935
-    - rid: 6547972709922897931
-      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Profiler
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: d_UnityEditor.ProfilerWindow@2x
-        ItemName: Window/Analysis/Profiler %7
-    - rid: 6547972709922897932
-      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Frame Debugger
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: 
-        ItemName: Window/Analysis/Frame Debugger
-    - rid: 6547972709922897935
-      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Package Manager
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: 
-        ItemName: Window/Package Manager
+        - rid: 6547972820886093870
+        - rid: 6547972820886093874
+        - rid: 6547972820886093876
     - rid: 6547972709922897936
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -80,28 +53,8 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: Link@2x
         Elements:
-        - rid: 6547972709922897938
-        - rid: 6547972709922897937
-    - rid: 6547972709922897937
-      type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: ChatGPT
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: console.infoicon@2x
-        FileName: https://chatgpt.com
-        WorkingDirectory: 
-    - rid: 6547972709922897938
-      type: {class: ProcessElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Unity Document
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: UnityLogo
-        FileName: https://docs.unity.com
-        WorkingDirectory: 
+        - rid: 6547972820886093878
+        - rid: 6547972820886093880
     - rid: 6547972709922897940
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -112,7 +65,7 @@ MonoBehaviour:
             _unityIcon: CacheServerConnected@2x
         Elements:
         - rid: 6547972709922897942
-        - rid: 6547972709922897943
+        - rid: -2
     - rid: 6547972709922897942
       type: {class: RepositoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -123,12 +76,73 @@ MonoBehaviour:
             _unityIcon: d_Profiler.UIDetails@2x
         LocalPath: ./
         RemoteUrl: https://github.com/tyanmahou/Unity-MysticLauncher
-    - rid: 6547972709922897943
-      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
+    - rid: 6547972820886093870
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
-          Text: Open C# Project
+          Text: Profiler
           Icon:
             _icon: {fileID: 0}
-            _unityIcon: cs Script Icon
-        ItemName: Assets/Open C# Project
+            _unityIcon: d_UnityEditor.ProfilerWindow@2x
+        _action:
+          rid: 6547972820886093873
+    - rid: 6547972820886093873
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Window/Analysis/Profiler %7
+    - rid: 6547972820886093874
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Frame Debugger
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        _action:
+          rid: 6547972820886093875
+    - rid: 6547972820886093875
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Window/Analysis/Frame Debugger
+    - rid: 6547972820886093876
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Pacakge Manager
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        _action:
+          rid: 6547972820886093877
+    - rid: 6547972820886093877
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Window/Package Manager
+    - rid: 6547972820886093878
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity Document
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: UnityLogo
+        _action:
+          rid: 6547972820886093882
+    - rid: 6547972820886093880
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: ChatGPT
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: console.infoicon@2x
+        _action:
+          rid: 6547972820886093884
+    - rid: 6547972820886093882
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://docs.unity.com
+    - rid: 6547972820886093884
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://chatgpt.com

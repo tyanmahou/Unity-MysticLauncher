@@ -1,21 +1,21 @@
 ﻿using System;
-using UnityEditor;
+using UnityEngine;
 
 namespace Mystic
 {
     [Serializable]
-    public class MenuItemElement : IElement
+    public class ActionElement : IElement
     {
         public Label Label;
 
-        [MenuItemPicker]
-        public string ItemName;
+        [SerializeReference, SubclassSelector]
+        private IToolAction _action;
 
         public void OnGUI()
         {
             if (EditorGUIUtil.Button(Label))
             {
-                EditorApplication.ExecuteMenuItem(ItemName);
+                _action?.Execute();
             }
         }
         public override string ToString()
