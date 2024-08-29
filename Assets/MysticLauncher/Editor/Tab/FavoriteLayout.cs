@@ -259,8 +259,8 @@ namespace Mystic
                 }
             }
         }
-        GUIContent _folderConetent;
-        GUIContent _folderOpenedConetent;
+        static GUIContent _folderConetent;
+        static GUIContent _folderOpenedConetent;
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;

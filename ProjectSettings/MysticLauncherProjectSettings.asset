@@ -88,7 +88,8 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Link@2x
-        Elements: []
+        Elements:
+        - rid: 6547972846834417671
     - rid: 6547972820886093913
       type: {class: ToolNaviElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -210,3 +211,93 @@ MonoBehaviour:
       type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         ItemName: Window/General/Test Runner
+    - rid: 6547972846834417671
+      type: {class: TreeElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Elements:
+        - Group: Unity
+          Element:
+            rid: 6547972846834417674
+        - Group: Unity
+          Element:
+            rid: 6547972846834417672
+        - Group: Unity
+          Element:
+            rid: 6547972846834417678
+        - Group: SNS
+          Element:
+            rid: 6547972846834417681
+        - Group: SNS
+          Element:
+            rid: 6547972846834417682
+    - rid: 6547972846834417672
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity Documents
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_UnityLogo
+        Tooltip: https://docs.unity.com
+        _action:
+          rid: 6547972846834417673
+    - rid: 6547972846834417673
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: 
+    - rid: 6547972846834417674
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_UnityLogo
+        Tooltip: 
+        _action:
+          rid: 6547972846834417676
+    - rid: 6547972846834417676
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://unity.com/ja
+    - rid: 6547972846834417678
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Unity Forum
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_UnityLogo
+        Tooltip: 
+        _action:
+          rid: -2
+    - rid: 6547972846834417681
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Twitter
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        Tooltip: 
+        _action:
+          rid: 6547972846834417683
+    - rid: 6547972846834417682
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Facebook
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: BuildSettings.Facebook On@2x
+        Tooltip: 
+        _action:
+          rid: 6547972846834417684
+    - rid: 6547972846834417683
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://x.com/
+    - rid: 6547972846834417684
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://www.facebook.com

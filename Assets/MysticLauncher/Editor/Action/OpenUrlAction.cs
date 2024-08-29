@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace Mystic
 {
@@ -10,14 +10,7 @@ namespace Mystic
 
         public void Execute()
         {
-            try
-            {
-                using Process process = System.Diagnostics.Process.Start(Url);
-            }
-            catch (System.Exception e)
-            {
-                UnityEngine.Debug.LogError(e.Message);
-            }
+            Application.OpenURL(Url);
         }
     }
 }
