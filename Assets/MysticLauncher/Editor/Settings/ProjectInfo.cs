@@ -14,10 +14,13 @@ namespace Mystic
                 {
                     Text = "Mystic Launcher",
                     Icon = Icon.CreateUnityIcon("d_Profiler.UIDetails@2x"),
-                }
+                },
+                HelpUrl = "https://github.com/tyanmahou/Unity-MysticLauncher",
             };
         }
         public Label ProjectName;
+        public string HelpUrl;
+
         [SerializeReference, SubclassSelector]
 
         public IElement CustomHeader;

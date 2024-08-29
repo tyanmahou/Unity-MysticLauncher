@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Mystic
 {
@@ -65,6 +66,17 @@ namespace Mystic
         }
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
+            if (!string.IsNullOrEmpty(projSettings.ProjectInfo.HelpUrl))
+            {
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button(EditorGUIUtility.IconContent("_Help"), EditorStyles.iconButton))
+                {
+                    using Process process = System.Diagnostics.Process.Start(projSettings.ProjectInfo.HelpUrl);
+                }
+                GUILayout.Space(4);
+            }
+
             // タイトル
             if (projSettings.ProjectInfo.CustomHeader == null) {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
