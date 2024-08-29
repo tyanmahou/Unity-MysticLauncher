@@ -7,16 +7,21 @@ namespace Mystic
     public class ActionElement : IElement
     {
         public Label Label;
+        public string Tooltip;
 
         [SerializeReference, SubclassSelector]
-        private IToolAction _action;
+        public IToolAction _action;
 
         public void OnGUI()
         {
-            if (EditorGUIUtil.Button(Label))
+            if (EditorGUIUtil.Button(Label, Tooltip))
             {
-                _action?.Execute();
+                Execute();
             }
+        }
+        public void Execute()
+        {
+            _action?.Execute();
         }
         public override string ToString()
         {

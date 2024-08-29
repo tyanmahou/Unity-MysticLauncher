@@ -19,7 +19,7 @@ namespace Mystic
             var skin = new GUIStyle(EditorStyles.objectField);
             skin.margin.left += EditorGUI.indentLevel * 15;
             GUILayout.Label(Path, skin);
-            var path = PathUtil.RelativeOrFullPath(Path);
+            var path = PathUtil.FixedPath(Path);
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {

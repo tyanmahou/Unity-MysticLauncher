@@ -33,7 +33,7 @@ namespace Mystic
             {
                 GUILayout.Label(label, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
-            var path = PathUtil.RelativeOrFullPath(LocalPath);
+            var path = PathUtil.FixedPath(LocalPath);
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {

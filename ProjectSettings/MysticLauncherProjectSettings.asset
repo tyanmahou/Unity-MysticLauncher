@@ -53,6 +53,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: Link@2x
         Elements:
+        - rid: 6547972820886093892
         - rid: 6547972820886093878
         - rid: 6547972820886093880
     - rid: 6547972709922897940
@@ -65,7 +66,7 @@ MonoBehaviour:
             _unityIcon: CacheServerConnected@2x
         Elements:
         - rid: 6547972709922897942
-        - rid: -2
+        - rid: 6547972820886093894
     - rid: 6547972709922897942
       type: {class: RepositoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -84,6 +85,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_UnityEditor.ProfilerWindow@2x
+        Tooltip: 
         _action:
           rid: 6547972820886093873
     - rid: 6547972820886093873
@@ -98,6 +100,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+        Tooltip: 
         _action:
           rid: 6547972820886093875
     - rid: 6547972820886093875
@@ -112,6 +115,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+        Tooltip: 
         _action:
           rid: 6547972820886093877
     - rid: 6547972820886093877
@@ -126,6 +130,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: UnityLogo
+        Tooltip: 
         _action:
           rid: 6547972820886093882
     - rid: 6547972820886093880
@@ -136,6 +141,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: console.infoicon@2x
+        Tooltip: 
         _action:
           rid: 6547972820886093884
     - rid: 6547972820886093882
@@ -146,3 +152,34 @@ MonoBehaviour:
       type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Url: https://chatgpt.com
+    - rid: 6547972820886093892
+      type: {class: ToolNaviElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Elements:
+        - Label:
+            Text: Document
+            Icon:
+              _icon: {fileID: 0}
+              _unityIcon: UnityLogo
+          Tooltip: Open Unity Document
+          _action:
+            rid: 6547972820886093893
+    - rid: 6547972820886093893
+      type: {class: OpenUrlAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Url: https://docs.unity.com
+    - rid: 6547972820886093894
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Open C# Project
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_cs Script Icon
+        Tooltip: 
+        _action:
+          rid: 6547972820886093895
+    - rid: 6547972820886093895
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Assets/Open C# Project

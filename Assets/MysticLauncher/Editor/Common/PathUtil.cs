@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Configuration;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace Mystic
 {
@@ -9,6 +12,10 @@ namespace Mystic
     public static class PathUtil
     {
         public static string ProjectPath => Application.dataPath + "/../";
+        public static string FixedPath(string path)
+        {
+            return RelativeOrFullPath(ReplaceEnv(path));
+        }
         public static string RelativeOrFullPath(string path)
         {
             return System.IO.Path.IsPathRooted(path)
@@ -43,6 +50,16 @@ namespace Mystic
                 // 絶対パス
                 return fullPath;
             }
+        }
+
+        /// <summary>
+        /// 環境変数置換
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string ReplaceEnv(string value)
+        {
+            return LauncherUserSettings.instance.Env.Replace(value);
         }
     }
 }

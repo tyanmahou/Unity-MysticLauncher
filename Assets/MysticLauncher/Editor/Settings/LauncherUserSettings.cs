@@ -8,6 +8,11 @@ namespace Mystic
     {
         [SerializeField, FileSelect]
         private string _terminalPath = "";
+
+        [SerializeField]
+        private EnvSettings _env;
+        public EnvSettings Env => _env;
+
         public string TerminalPath => _terminalPath;
 
         [NamedArrayElement, SerializeReference, SubclassSelector]

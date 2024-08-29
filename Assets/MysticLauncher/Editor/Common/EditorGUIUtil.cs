@@ -10,9 +10,13 @@ namespace Mystic
     {
         public static bool Button(in Label label)
         {
-            return Button(label.Icon, label.Text, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
+            return Button(label, string.Empty);
         }
-        public static bool Button(Icon icon, string label, params GUILayoutOption[] options)
+        public static bool Button(in Label label, string tooltip)
+        {
+            return Button(label.Icon, label.Text, tooltip, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
+        }
+        public static bool Button(Icon icon, string label, string tooltip, params GUILayoutOption[] options)
         {
             var skin = new GUIStyle(GUI.skin.button);
             skin.margin.left += EditorGUI.indentLevel * 15;
@@ -20,9 +24,56 @@ namespace Mystic
             if (icon.TryGetGUIContent(out var content))
             {
                 content.text = label;
+                content.tooltip = tooltip;
                 return GUILayout.Button(content, skin, options);
             }
-            return GUILayout.Button(label, skin, options);
+            return GUILayout.Button(new GUIContent(label, tooltip), skin, options);
+        }
+        public static bool ButtonSquare(in Label label, string tooltip, float size = 60)
+        {
+            return ButtonSquare(label.Icon, label.Text, tooltip, size);
+        }
+        public static bool ButtonSquare(Icon icon, string label, string tooltip, float size = 60)
+        {
+            float fixedSize = size - GUI.skin.button.margin.left * 2;
+
+            // Button
+            Rect buttonRect = GUILayoutUtility.GetRect(size, size, GUI.skin.button, GUILayout.MaxWidth(size), GUILayout.MaxHeight(size));
+            bool isClick = false;
+            if (GUI.Button(buttonRect, new GUIContent(string.Empty, tooltip)))
+            {
+                isClick = true;
+            }
+            Rect iconRect = buttonRect;
+            float iconSize = size - GUI.skin.button.margin.top * 2 - EditorGUIUtility.singleLineHeight;
+            iconRect.x += (iconRect.width - iconSize) / 2.0f;
+            iconRect.width = iconSize;
+            iconRect.y += GUI.skin.button.margin.top;
+            iconRect.height = iconSize;
+            if (icon.TryGetGUIContent(out var content)) {
+                GUI.DrawTexture(iconRect, content.image, ScaleMode.ScaleToFit);
+            }
+            Rect labelRect = buttonRect;
+            labelRect.y = iconRect.yMax - EditorGUIUtility.singleLineHeight - GUI.skin.button.margin.bottom;
+            GUIStyle labelStyle = GetFitStyle(label, fixedSize);
+            labelStyle.alignment = TextAnchor.MiddleCenter;
+            GUI.Label(labelRect, label, labelStyle);
+            return isClick;
+        }
+        public static GUIStyle GetFitStyle(string text, float size)
+        {
+            var content = new GUIContent(text);
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            while(style.fontSize > 1)
+            {
+                Vector2 textSize = style.CalcSize(content);
+                if (textSize.x <= size)
+                {
+                    break;
+                }
+                --style.fontSize;
+            }
+            return style;
         }
         public static void DrawSeparator()
         {

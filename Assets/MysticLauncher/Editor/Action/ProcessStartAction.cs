@@ -16,8 +16,8 @@ namespace Mystic
         {
             try
             {
-                var fileName = PathUtil.RelativeOrFullPath(FileName);
-                var workingDir = string.IsNullOrEmpty(WorkingDirectory) ? string.Empty : PathUtil.RelativeOrFullPath(WorkingDirectory);
+                var fileName = PathUtil.FixedPath(FileName);
+                var workingDir = string.IsNullOrEmpty(WorkingDirectory) ? string.Empty : PathUtil.FixedPath(WorkingDirectory);
                 ProcessStartInfo processInfo = new ProcessStartInfo
                 {
                     FileName = fileName,
