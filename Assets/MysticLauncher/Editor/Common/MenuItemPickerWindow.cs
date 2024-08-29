@@ -13,6 +13,10 @@ namespace Mystic
     public class MenuItemPickerWindow : EditorWindow
     {
         private const float doubleClickTime = 0.3f;
+        static MenuItemPickerWindow()
+        {
+            _items = FindMenuItems();
+        }
         public static void Show(SerializedProperty property)
         {
             MenuItemPickerWindow window = GetWindow<MenuItemPickerWindow>("Menu Item Picker");
@@ -28,8 +32,6 @@ namespace Mystic
             _selectedStyle.normal.background = _selectedTex;
 
             _normalStyle = new GUIStyle(EditorStyles.objectField);
-
-            _items = FindMenuItems();
         }
 
         void OnGUI()
@@ -98,13 +100,13 @@ namespace Mystic
                 return _items.Where(c => c.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
             }
         }
-        string[] FindMenuItems()
+        static string[] FindMenuItems()
         {
             List<string> items = new List<string>();
-            Assembly editorAssembly = typeof(Editor).Assembly;
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             // 全てのタイプを取得
-            foreach (Type type in editorAssembly.GetTypes())
+            foreach (Type type in assemblies.SelectMany(a => a.GetTypes()))
             {
                 // 各タイプの全てのメソッドを取得
                 foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
@@ -132,6 +134,6 @@ namespace Mystic
         private GUIStyle _selectedStyle;
         private Texture2D _selectedTex;
 
-        private string[] _items;
+        private static string[] _items;
     }
 }

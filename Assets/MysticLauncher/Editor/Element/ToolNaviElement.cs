@@ -11,8 +11,9 @@ namespace Mystic
 
         public void OnGUI()
         {
+            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition, GUILayout.ExpandHeight(false));
+            _scrollPosition = scrollView.scrollPosition;
             using var h = new GUILayout.HorizontalScope();
-
             foreach (var element in Elements) 
             {
                 if (EditorGUIUtil.ButtonSquare(element.Label, element.Tooltip))
@@ -25,5 +26,6 @@ namespace Mystic
         {
             return "Tool Navi";
         }
+        Vector2 _scrollPosition;
     }
 }
