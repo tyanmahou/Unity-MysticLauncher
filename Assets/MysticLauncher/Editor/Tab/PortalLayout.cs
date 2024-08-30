@@ -15,7 +15,7 @@ namespace Mystic
             var elements = LauncherProjectSettings.instance.PortalLayout;
             if (elements.Length <= 0)
             {
-                EditorGUILayout.HelpBox("Custom Edit Project Portal Page", MessageType.Info);
+                EditorGUILayout.HelpBox("Edit Project Portal", MessageType.Info);
                 var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
                 icon.text = "Edit";
                 if (GUILayout.Button(icon))

@@ -15,7 +15,7 @@ namespace Mystic
             var elements = LauncherUserSettings.instance.UserLayout;
             if (elements.Length <= 0)
             {
-                EditorGUILayout.HelpBox("Custom Edit Your Page", MessageType.Info);
+                EditorGUILayout.HelpBox("You can edit custom your only.", MessageType.Info);
                 var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
                 icon.text = "Edit";
                 if (GUILayout.Button(icon))
