@@ -3,9 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.UIElements;
 
 namespace Mystic
 {
@@ -63,14 +60,12 @@ namespace Mystic
             using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
             _scrollPosition = scrollView.scrollPosition;
 
-            var favList = userSettings.Favorite.Entries.Where(SearchFilter);
-
             _groupRange.Clear();
-            var rectStart = GUILayoutUtility.GetRect(0f, 0f);
-            Draw(favList, dic, string.Empty, isChangedSearch);
-            var rectEnd = GUILayoutUtility.GetRect(0f, 0f, GUILayout.ExpandHeight(true));
-            rectStart.yMax = rectEnd.yMax;
-            _groupRange.Add((rectStart, string.Empty));
+            {
+                using var registRect = ScopedRectRegist(string.Empty, true);
+                var favList = userSettings.Favorite.Entries.Where(SearchFilter);
+                Draw(favList, dic, string.Empty, isChangedSearch);
+            }
             if (TryGetDragAndDrop(out var registObjs, out string group))
             {
                 foreach (var obj in registObjs)
@@ -97,27 +92,27 @@ namespace Mystic
                 if (!_toggle.ContainsKey(nextFullPath)) {
                     _toggle[nextFullPath] = false;
                 }
-                var rectStart = GUILayoutUtility.GetRect(0f, 0f);
-                GUIContent folderContent = _toggle[nextFullPath] ? _folderOpenedConetent : _folderConetent;
-                folderContent.text = next;
+
                 {
-                    _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
-                }
-                if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
-                {
-                    if (favList.Where(SearchFilterAssetName).Count() > 0)
+                    using var registRect = ScopedRectRegist(nextFullPath);
+                    GUIContent folderContent = _toggle[nextFullPath] ? _folderOpenedConetent : _folderConetent;
+                    folderContent.text = next;
                     {
-                        _toggle[nextFullPath] = true;
+                        _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
+                    }
+                    if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
+                    {
+                        if (favList.Where(SearchFilterAssetName).Count() > 0)
+                        {
+                            _toggle[nextFullPath] = true;
+                        }
+                    }
+                    if (_toggle[nextFullPath])
+                    {
+                        using var indent = new EditorGUI.IndentLevelScope();
+                        Draw(favList, dic, nextFullPath, isChangedSearch);
                     }
                 }
-                if (_toggle[nextFullPath])
-                {
-                    using var indent = new EditorGUI.IndentLevelScope();
-                    Draw(favList, dic, nextFullPath, isChangedSearch);
-                }
-                var rectEnd = GUILayoutUtility.GetRect(0f, 0f);
-                rectStart.yMax = rectEnd.y;
-                _groupRange.Add((rectStart, nextFullPath));
             }
             if (dic.TryGetValue(path, out var list))
             {
@@ -301,6 +296,34 @@ namespace Mystic
             group = target.Value.Item2;
             _toggle[group] = true;
             return true;
+        }
+        class ScopedRectRegister : IDisposable
+        {
+            public ScopedRectRegister(string group, Action<Rect, string> register, bool expend)
+            {
+                _start = GUILayoutUtility.GetRect(0f, 0f);
+                _group = group;
+                _register = register;
+                _expend = expend;
+            }
+            public void Dispose()
+            {
+                var end = GUILayoutUtility.GetRect(0f, 0f, GUILayout.ExpandHeight(_expend));
+                _start.yMax = end.yMax;
+                _register.Invoke(_start, _group);
+            }
+            Rect _start;
+            string _group;
+            Action<Rect, string> _register;
+            bool _expend;
+        }
+        ScopedRectRegister ScopedRectRegist(string group, bool expand = false)
+        {
+            return new ScopedRectRegister(group, RegistRect, expand);
+        }
+        void RegistRect(Rect r, string group)
+        {
+            _groupRange.Add((r, group));
         }
         static GUIContent _folderConetent;
         static GUIContent _folderOpenedConetent;
