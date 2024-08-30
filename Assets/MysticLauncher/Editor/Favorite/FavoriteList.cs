@@ -25,7 +25,18 @@ namespace Mystic
                 FavoriteGroup = group,
             });
         }
-
+        public void Replace(UnityEngine.Object asset, string group)
+        {
+            var find = Find(asset);
+            if (find != null)
+            {
+                find.FavoriteGroup = group;
+            }
+            else
+            {
+                Register(asset, group);
+            }
+        }
         public void Unregister(UnityEngine.Object asset)
         {
             Entries.RemoveAll(f => f.Asset == asset);

@@ -3,6 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using NUnit.Framework;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.UIElements;
 
 namespace Mystic
 {
@@ -58,18 +61,26 @@ namespace Mystic
             }
 
             using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
-            FavoriteEntry removeEntry = null;
+            _scrollPosition = scrollView.scrollPosition;
 
             var favList = userSettings.Favorite.Entries.Where(SearchFilter);
-            Draw(favList, dic, ref removeEntry, string.Empty, isChangedSearch);
-            if (removeEntry != null)
+
+            _groupRange.Clear();
+            var rectStart = GUILayoutUtility.GetRect(0f, 0f);
+            Draw(favList, dic, string.Empty, isChangedSearch);
+            var rectEnd = GUILayoutUtility.GetRect(0f, 0f, GUILayout.ExpandHeight(true));
+            rectStart.yMax = rectEnd.yMax;
+            _groupRange.Add((rectStart, string.Empty));
+            if (TryGetDragAndDrop(out var registObjs, out string group))
             {
-                userSettings.Favorite.Unregister(removeEntry);
+                foreach (var obj in registObjs)
+                {
+                    userSettings.Favorite.Replace(obj, group);
+                }
                 userSettings.Save();
             }
-            _scrollPosition = scrollView.scrollPosition;
         }
-        void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, ref FavoriteEntry removeEntry,  string path, bool isChangedSearch)
+        void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, string path, bool isChangedSearch)
         {
             favList = GetNextPaths(favList, path);
             foreach (string next in CalcNextPathNames(favList, path))
@@ -86,6 +97,7 @@ namespace Mystic
                 if (!_toggle.ContainsKey(nextFullPath)) {
                     _toggle[nextFullPath] = false;
                 }
+                var rectStart = GUILayoutUtility.GetRect(0f, 0f);
                 GUIContent folderContent = _toggle[nextFullPath] ? _folderOpenedConetent : _folderConetent;
                 folderContent.text = next;
                 {
@@ -101,17 +113,17 @@ namespace Mystic
                 if (_toggle[nextFullPath])
                 {
                     using var indent = new EditorGUI.IndentLevelScope();
-                    Draw(favList, dic, ref removeEntry, nextFullPath, isChangedSearch);
+                    Draw(favList, dic, nextFullPath, isChangedSearch);
                 }
+                var rectEnd = GUILayoutUtility.GetRect(0f, 0f);
+                rectStart.yMax = rectEnd.y;
+                _groupRange.Add((rectStart, nextFullPath));
             }
             if (dic.TryGetValue(path, out var list))
             {
                 foreach (var entry in list.Where(SearchFilter))
                 {
-                    if (!DrawEntry(entry))
-                    {
-                        removeEntry = entry;
-                    }
+                    DrawEntry(entry);
                 }
             }
         }
@@ -141,7 +153,7 @@ namespace Mystic
             }
             return false;
         }
-        bool DrawEntry(in FavoriteEntry entry)
+        void DrawEntry(in FavoriteEntry entry)
         {
             GUIStyle buttonStyle = new GUIStyle(EditorStyles.objectField);
             buttonStyle.margin.left = EditorGUI.indentLevel * 15 + 15;
@@ -163,15 +175,6 @@ namespace Mystic
             {
                 EditorGUIUtility.PingObject(entry.Asset);
             }
-            //if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
-            //{
-            //    FavoriteWindow.Show(entry.Asset);
-            //}
-            //if (GUILayout.Button(EditorGUIUtility.IconContent("d_winbtn_mac_close_h"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
-            //{
-            //    return false;
-            //}
-            return true;
         }
         private void ShowContextMenu(FavoriteEntry entry)
         {
@@ -259,11 +262,52 @@ namespace Mystic
                 }
             }
         }
+        bool TryGetDragAndDrop(out IReadOnlyList<UnityEngine.Object> objs, out string group)
+        {
+            objs = null;
+            group = null;
+            (Rect, string)? target = null;
+            foreach (var range in _groupRange)
+            {
+                if (range.Item1.Contains(Event.current.mousePosition))
+                {
+                    target = range;
+                    if ((DragAndDrop.objectReferences?.Length ?? 0) > 0)
+                    {
+                        EditorGUI.DrawRect(range.Item1, new Color(0.274f, 0.376f, 0.486f, 0.5f));
+                        EditorWindow.mouseOverWindow.Repaint();
+                    }
+                    break;
+                }
+            }
+            if (target == null)
+            {
+                return false;
+            }
+            if (Event.current.type != EventType.DragUpdated && Event.current.type != EventType.DragPerform)
+            {
+                return false;
+            }
+            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+            if (Event.current.type != EventType.DragPerform)
+            {
+                return false;
+            }
+            DragAndDrop.AcceptDrag();
+            DragAndDrop.activeControlID = 0;
+            Event.current.Use();
+
+            objs = DragAndDrop.objectReferences;
+            group = target.Value.Item2;
+            _toggle[group] = true;
+            return true;
+        }
         static GUIContent _folderConetent;
         static GUIContent _folderOpenedConetent;
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
         Dictionary<string, bool> _toggle =new();
+        List<(Rect, string)> _groupRange = new List<(Rect, string)> ();
     }
 }
