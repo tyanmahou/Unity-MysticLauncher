@@ -9,10 +9,12 @@ namespace Mystic
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            int i = EditorGUI.indentLevel;
             EditorGUI.BeginProperty(position, label, property);
 
             // プロパティのラベルを表示
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            EditorGUI.indentLevel = 0;
             position.width -= 32;
             EditorGUI.LabelField(position, string.IsNullOrEmpty(property.stringValue) ? "None" : property.stringValue);
             position.x += position.width;
@@ -27,6 +29,7 @@ namespace Mystic
             }
 
             EditorGUI.EndProperty();
+            EditorGUI.indentLevel = i;
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

@@ -9,12 +9,14 @@ namespace Mystic
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            int i = EditorGUI.indentLevel;
             EditorGUI.BeginProperty(position, label, property);
             FolderSelectAttribute folderSelectAttribute = attribute as FolderSelectAttribute;
 
             bool enabledOld = GUI.enabled;
             // ラベルを描画
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            EditorGUI.indentLevel = 0;
             position.width -= 30;
             GUI.enabled = enabledOld && folderSelectAttribute.FreeInput;
             property.stringValue = EditorGUI.TextField(position, property.stringValue);
@@ -41,6 +43,7 @@ namespace Mystic
             }
             GUI.enabled = enabledOld;
             EditorGUI.EndProperty();
+            EditorGUI.indentLevel = i;
         }
 
         GUIContent _icon;

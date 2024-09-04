@@ -11,5 +11,17 @@ namespace Mystic
     {
         public SettingsScope Scope;
         public string SettingPath;
+
+        public void Open()
+        {
+            if (Scope == SettingsScope.Project)
+            {
+                SettingsService.OpenProjectSettings(SettingPath);
+            }
+            else
+            {
+                SettingsService.OpenUserPreferences(SettingPath);
+            }
+        }
     }
 }

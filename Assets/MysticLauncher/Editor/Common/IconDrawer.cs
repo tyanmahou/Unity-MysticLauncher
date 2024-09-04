@@ -8,10 +8,12 @@ namespace Mystic
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            int i = EditorGUI.indentLevel;
             EditorGUI.BeginProperty(position, label, property);
 
             // プロパティのラベルを表示
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            EditorGUI.indentLevel = 0;
             position.width = 32;
             position.height = 32;
             var icon = property.FindPropertyRelative("_icon");
@@ -30,6 +32,7 @@ namespace Mystic
                 UnityIconPickerWindow.Show(icon, unityIcon);
             }
             EditorGUI.EndProperty();
+            EditorGUI.indentLevel = i;
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
