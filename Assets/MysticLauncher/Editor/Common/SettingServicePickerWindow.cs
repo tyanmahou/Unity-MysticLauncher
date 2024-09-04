@@ -1,31 +1,34 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
 namespace Mystic
 {
     /// <summary>
-    /// メニューアイテムピッカー
+    /// SettingServiceピッカー
     /// </summary>
-    public class MenuItemPickerWindow : EditorWindow
+    public class SettingServicePickerWindow : EditorWindow
     {
         private const float doubleClickTime = 0.3f;
-        static MenuItemPickerWindow()
+        static SettingServicePickerWindow()
         {
-            _items = FindMenuItems();
+            _itemsUser = FindMenuItems(SettingsScope.User);
+            _itemsProject = FindMenuItems(SettingsScope.Project);
         }
         public static void Show(SerializedProperty property)
         {
-            MenuItemPickerWindow window = GetWindow<MenuItemPickerWindow>("Menu Item Picker");
+            SettingServicePickerWindow window = GetWindow<SettingServicePickerWindow>("SettingService Picker");
             window.Init(property);
             window.Show();
         }
         public void Init(SerializedProperty property)
         {
             _property = property;
+            _scope = property.FindPropertyRelative("Scope");
+            _path = property.FindPropertyRelative("SettingPath");
+
             // カスタムスタイルの定義
             _selectedStyle = new GUIStyle(EditorStyles.objectField);
             _selectedTex = EditorGUIUtil.MakeTex(2, 2, new Color(0.274f, 0.376f, 0.486f, 1.0f));
@@ -36,18 +39,23 @@ namespace Mystic
 
         void OnGUI()
         {
+            _selectedTab = GUILayout.Toolbar(
+                _selectedTab,
+                new string[] { "User", "Project" },
+                EditorStyles.toolbarButton,
+                GUI.ToolbarButtonSize.FitToContents
+                );
             // 検索バーの描画
             {
                 _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField);
             }
             EditorGUIUtil.DrawSeparator();
-
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-            foreach (string itemName in GetFilteredItems(_searchString).OrderBy(s => s)) 
+            foreach (string itemName in GetFilteredItems(_searchString)) 
             {
                 var skin = _normalStyle;
-                if (_property.stringValue == itemName)
+                if (_path.stringValue == itemName && _scope.enumValueIndex == _selectedTab)
                 {
                     skin = _selectedStyle;
                 }
@@ -56,8 +64,10 @@ namespace Mystic
                     if (Event.current.button == 0)
                     {
                         double currentTime = EditorApplication.timeSinceStartup;
-                        _property.stringValue = itemName;
-                        _property.serializedObject.ApplyModifiedProperties();
+                        _scope.enumValueIndex = _selectedTab;
+                        _scope.serializedObject.ApplyModifiedProperties();
+                        _path.stringValue = itemName;
+                        _path.serializedObject.ApplyModifiedProperties();
                         if (currentTime - _lastClickTime < doubleClickTime)
                         {
                             Close();
@@ -95,38 +105,39 @@ namespace Mystic
         {
             if (string.IsNullOrEmpty(search))
             {
-                return _items;
+                return Items;
             }
             else
             {
-                return _items.Where(c => c.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                return Items.Where(c => c.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
             }
         }
-        static string[] FindMenuItems()
+        private string[] Items => _selectedTab == 0 ? _itemsUser : _itemsProject;
+        static string[] FindMenuItems(SettingsScope scope)
         {
-            List<string> items = new List<string>();
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            return FetchSettingsProviders(scope).Select(s => s.settingsPath).OrderBy(s => s).ToArray();
+        }
+        static SettingsProvider[] FetchSettingsProviders(SettingsScope scope)
+        {
+            Type settingsService = typeof(SettingsService);
+            MethodInfo fetchMethod = settingsService.GetMethod(
+                "FetchSettingsProviders",
+                BindingFlags.NonPublic | BindingFlags.Static,
+                null,
+                new Type[] { typeof(SettingsScope) },
+                null
+            );
 
-            // 全てのタイプを取得
-            foreach (Type type in assemblies.SelectMany(a => a.GetTypes()))
+            if (fetchMethod == null)
             {
-                // 各タイプの全てのメソッドを取得
-                foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
-                {
-                    // MenuItemアトリビュートが付いているか確認
-                    object[] attributes = method.GetCustomAttributes(typeof(MenuItem), false);
-                    if (attributes.Length > 0)
-                    {
-                        foreach (MenuItem menuItem in attributes)
-                        {
-                            items.Add(menuItem.menuItem);
-                        }
-                    }
-                }
+                throw new InvalidOperationException("FetchSettingsProviders method not found.");
             }
-            return items.ToArray();
+            return (SettingsProvider[])fetchMethod.Invoke(null, new object[] { scope });
         }
         private SerializedProperty _property;
+        private SerializedProperty _scope;
+        private SerializedProperty _path;
+
         private string _searchString = "";
         private Vector2 _scrollPosition;
 
@@ -136,6 +147,8 @@ namespace Mystic
         private GUIStyle _selectedStyle;
         private Texture2D _selectedTex;
 
-        private static string[] _items;
+        private int _selectedTab = 0;
+        private static string[] _itemsProject;
+        private static string[] _itemsUser;
     }
 }

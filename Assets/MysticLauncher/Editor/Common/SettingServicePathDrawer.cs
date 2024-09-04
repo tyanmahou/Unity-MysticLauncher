@@ -29,6 +29,7 @@ namespace Mystic
             position.width = 30;
             if (GUI.Button(position, EditorGUIUtility.IconContent("Search On Icon")))
             {
+                SettingServicePickerWindow.Show(property);
             }
             EditorGUI.EndProperty();
             EditorGUI.indentLevel = i;
