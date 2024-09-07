@@ -12,7 +12,6 @@ namespace Mystic
     /// </summary>
     public class MenuItemPickerWindow : EditorWindow
     {
-        private const float doubleClickTime = 0.3f;
         static MenuItemPickerWindow()
         {
             _items = FindMenuItems();
@@ -55,14 +54,12 @@ namespace Mystic
                 {
                     if (Event.current.button == 0)
                     {
-                        double currentTime = EditorApplication.timeSinceStartup;
                         _property.stringValue = itemName;
                         _property.serializedObject.ApplyModifiedProperties();
-                        if (currentTime - _lastClickTime < doubleClickTime)
+                        if (_doubleClick.DoubleClick())
                         {
                             Close();
                         }
-                        _lastClickTime = currentTime;
                     }
                     else
                     {
@@ -130,7 +127,7 @@ namespace Mystic
         private string _searchString = "";
         private Vector2 _scrollPosition;
 
-        private double _lastClickTime = 0;
+        private DoubleClickCtrl _doubleClick = new();
 
         private GUIStyle _normalStyle;
         private GUIStyle _selectedStyle;

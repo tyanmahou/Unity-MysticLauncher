@@ -134,13 +134,11 @@ namespace Mystic
                 bool nextToggle = EditorGUILayout.Foldout(prevToggle, folderContent, true);
                 if (prevToggle != nextToggle)
                 {
-                    double currentTime = EditorApplication.timeSinceStartup;
                     _group = nextFullPath;
-                    if (currentTime - _lastClickTime < doubleClickTime)
+                    if (_doubleClick.DoubleClick())
                     {
                         _toggle[nextFullPath] = nextToggle;
                     }
-                    _lastClickTime = currentTime;
                 }
             }
             else
@@ -188,7 +186,6 @@ namespace Mystic
         private Vector2 _scrollPosition;
         Dictionary<string, bool> _toggle = new();
 
-        private const float doubleClickTime = 0.3f;
-        private double _lastClickTime = 0;
+        private DoubleClickCtrl _doubleClick;
     }
 }

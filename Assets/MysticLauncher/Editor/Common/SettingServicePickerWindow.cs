@@ -11,7 +11,6 @@ namespace Mystic
     /// </summary>
     public class SettingServicePickerWindow : EditorWindow
     {
-        private const float doubleClickTime = 0.3f;
         static SettingServicePickerWindow()
         {
             _itemsUser = FindMenuItems(SettingsScope.User);
@@ -63,16 +62,14 @@ namespace Mystic
                 {
                     if (Event.current.button == 0)
                     {
-                        double currentTime = EditorApplication.timeSinceStartup;
                         _scope.enumValueIndex = _selectedTab;
                         _scope.serializedObject.ApplyModifiedProperties();
                         _path.stringValue = itemName;
                         _path.serializedObject.ApplyModifiedProperties();
-                        if (currentTime - _lastClickTime < doubleClickTime)
+                        if (_doubleClick.DoubleClick())
                         {
                             Close();
                         }
-                        _lastClickTime = currentTime;
                     }
                     else
                     {
@@ -141,7 +138,7 @@ namespace Mystic
         private string _searchString = "";
         private Vector2 _scrollPosition;
 
-        private double _lastClickTime = 0;
+        private DoubleClickCtrl _doubleClick = new();
 
         private GUIStyle _normalStyle;
         private GUIStyle _selectedStyle;

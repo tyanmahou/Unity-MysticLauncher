@@ -6,7 +6,6 @@ namespace Mystic
 {
     public class UnityIconPickerWindow : EditorWindow
     {
-        private const float doubleClickTime = 0.3f;
         private const int IconSize = 32;  // アイコンのサイズ
 
         public static void Show(SerializedProperty textureProperty, SerializedProperty property)
@@ -126,7 +125,6 @@ namespace Mystic
                         {
                             if (Event.current.button == 0)
                             {
-                                double currentTime = EditorApplication.timeSinceStartup;
                                 _property.stringValue = string.Empty;
                                 _property.serializedObject.ApplyModifiedProperties();
                                 if (_textureProperty != null)
@@ -134,11 +132,10 @@ namespace Mystic
                                     _textureProperty.Reset();
                                     _textureProperty.serializedObject.ApplyModifiedProperties();
                                 }
-                                if (currentTime - _lastClickTime < doubleClickTime)
+                                if (_doubleClick.DoubleClick())
                                 {
                                     Close();
                                 }
-                                _lastClickTime = currentTime;
                             }
                         }
                         continue;
@@ -155,7 +152,6 @@ namespace Mystic
                     {
                         if (Event.current.button == 0)
                         {
-                            double currentTime = EditorApplication.timeSinceStartup;
                             _property.stringValue = icons[index];
                             _property.serializedObject.ApplyModifiedProperties();
                             if (_textureProperty != null)
@@ -163,11 +159,10 @@ namespace Mystic
                                 _textureProperty.objectReferenceValue = null;
                                 _textureProperty.serializedObject.ApplyModifiedProperties();
                             }
-                            if (currentTime - _lastClickTime < doubleClickTime)
+                            if (_doubleClick.DoubleClick())
                             {
                                 Close();
                             }
-                            _lastClickTime = currentTime;
                         }
                         else
                         {
@@ -207,7 +202,6 @@ namespace Mystic
                         {
                             if (Event.current.button == 0)
                             {
-                                double currentTime = EditorApplication.timeSinceStartup;
                                 _property.stringValue = string.Empty;
                                 _property.serializedObject.ApplyModifiedProperties();
                                 if (_textureProperty != null)
@@ -215,11 +209,10 @@ namespace Mystic
                                     _textureProperty.Reset();
                                     _textureProperty.serializedObject.ApplyModifiedProperties();
                                 }
-                                if (currentTime - _lastClickTime < doubleClickTime)
+                                if (_doubleClick.DoubleClick())
                                 {
                                     Close();
                                 }
-                                _lastClickTime = currentTime;
                             }
                         }
                         continue;
@@ -236,18 +229,16 @@ namespace Mystic
                     {
                         if (Event.current.button == 0)
                         {
-                            double currentTime = EditorApplication.timeSinceStartup;
                             _textureProperty.objectReferenceValue = icons[index];
                             _textureProperty.serializedObject.ApplyModifiedProperties();
 
                             _property.stringValue = string.Empty;
                             _property.serializedObject.ApplyModifiedProperties();
 
-                            if (currentTime - _lastClickTime < doubleClickTime)
+                            if (_doubleClick.DoubleClick())
                             {
                                 Close();
                             }
-                            _lastClickTime = currentTime;
                         }
                     }
                 }
@@ -321,7 +312,7 @@ namespace Mystic
         private Vector2 _scrollPosition;
         private string[] _iconNames;
 
-        private double _lastClickTime = 0;
+        private DoubleClickCtrl _doubleClick = new();
 
         private GUIStyle _normalStyle;
         private GUIStyle _selectedStyle;
