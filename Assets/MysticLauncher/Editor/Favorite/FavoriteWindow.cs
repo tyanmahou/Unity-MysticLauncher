@@ -186,6 +186,6 @@ namespace Mystic
         private Vector2 _scrollPosition;
         Dictionary<string, bool> _toggle = new();
 
-        private DoubleClickCtrl _doubleClick;
+        private DoubleClickCtrl _doubleClick = new();
     }
 }
