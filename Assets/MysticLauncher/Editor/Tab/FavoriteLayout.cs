@@ -43,11 +43,14 @@ namespace Mystic
             }
             GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();
-            _folderConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
-            _folderOpenedConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_FolderOpened Icon"));
 
+            var entries = userFavorite.Entries;
+            if (entries.Count() <= 0)
+            {
+                EditorGUILayout.HelpBox("You can register assets to favorites from the menu by right-click.\nMystic > Favotite", MessageType.Info);
+            }
             Dictionary<string, List<FavoriteEntry>> dic = new();
-            foreach (var entry in userFavorite.Entries)
+            foreach (var entry in entries)
             {
                 if (!dic.TryGetValue(entry.FavoriteGroup, out var list))
                 {
@@ -56,23 +59,30 @@ namespace Mystic
                 }
                 list.Add(entry);
             }
-
-            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
-            _scrollPosition = scrollView.scrollPosition;
-
-            _groupRange.Clear();
             {
-                using var registRect = ScopedRectRegist(string.Empty, true);
-                var favList = userFavorite.Entries.Where(SearchFilter);
-                Draw(favList, dic, string.Empty, isChangedSearch);
-            }
-            if (TryGetDragAndDrop(out var registObjs, out string group))
-            {
-                foreach (var obj in registObjs)
+                using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
+                _scrollPosition = scrollView.scrollPosition;
+
+                _groupRange.Clear();
                 {
-                    userFavorite.Replace(obj, group);
+                    using var registRect = ScopedRectRegist(string.Empty, true);
+                    var favList = entries.Where(SearchFilter);
+                    Draw(favList, dic, string.Empty, isChangedSearch);
                 }
-                userFavorite.Save();
+                if (TryGetDragAndDrop(out var registObjs, out string group))
+                {
+                    foreach (var obj in registObjs)
+                    {
+                        userFavorite.Replace(obj, group);
+                    }
+                    userFavorite.Save();
+                }
+            }
+            {
+                Rect dropArea = GUILayoutUtility.GetRect(0.0f, 20.0f, GUILayout.ExpandWidth(true));
+                var skin = new GUIStyle(GUI.skin.box);
+                skin.richText = true;
+                GUI.Box(dropArea, "<b>↑ Drag & Drop Here ↑</b>", skin);
             }
         }
         void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, string path, bool isChangedSearch)
@@ -95,8 +105,7 @@ namespace Mystic
 
                 {
                     using var registRect = ScopedRectRegist(nextFullPath);
-                    GUIContent folderContent = _toggle[nextFullPath] ? _folderOpenedConetent : _folderConetent;
-                    folderContent.text = next;
+                    GUIContent folderContent = EditorGUIUtil.FolderTogleContent(_toggle[nextFullPath], next);
                     {
                         _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
                     }
@@ -325,8 +334,6 @@ namespace Mystic
         {
             _groupRange.Add((r, group));
         }
-        static GUIContent _folderConetent;
-        static GUIContent _folderOpenedConetent;
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;

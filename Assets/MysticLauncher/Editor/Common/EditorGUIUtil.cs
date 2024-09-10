@@ -8,6 +8,36 @@ namespace Mystic
     /// </summary>
     public static class EditorGUIUtil
     {
+        public static GUIContent FolderTogleContent(bool open, string text)
+        {
+            GUIContent content = open ? FolderOpenedContent : FolderContent;
+            content.text = text;
+            return content;
+        }
+        static GUIContent FolderContent
+        {
+            get
+            {
+                if (_folderContent == null)
+                {
+                    _folderContent = new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
+                }
+                return _folderContent;
+            }
+        }
+        static GUIContent FolderOpenedContent
+        {
+            get
+            {
+                if (_folderOpendContent == null)
+                {
+                    _folderOpendContent = new GUIContent(EditorGUIUtility.IconContent("d_FolderOpened Icon"));
+                }
+                return _folderOpendContent;
+            }
+        }
+        static GUIContent _folderContent;
+        static GUIContent _folderOpendContent;
         public static bool Button(in Label label)
         {
             return Button(label, string.Empty);

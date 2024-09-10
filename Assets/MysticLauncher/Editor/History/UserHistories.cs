@@ -35,6 +35,10 @@ namespace Mystic
         {
             _histories.Remove(entry);
         }
+        public void Clear()
+        {
+            _histories.Clear();
+        }
         public void Save()
         {
             Save(true);

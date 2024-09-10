@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,9 +15,63 @@ namespace Mystic
         public void OnGUI()
         {
             var histories = UserHistories.instance;
-            foreach (var item in histories.EnumerateHistories)
+            // 検索
+            bool isChangedSearch = false;
+            GUILayout.Space(5);
             {
-                DrawEntry(item);
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                string prevSearch = _searchString;
+                _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField, GUILayout.MinWidth(0));
+                isChangedSearch = _searchString != prevSearch;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderEmpty On Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    CloseToggleAll();
+                }
+                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderOpened Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    OpenToggleAll();
+                }
+
+                if (GUILayout.Button(EditorGUIUtility.IconContent("TreeEditor.Trash"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    histories.Clear();
+                    histories.Save();
+                }
+            }
+            GUILayout.Space(5);
+            EditorGUIUtil.DrawSeparator();
+            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
+            _scrollPosition = scrollView.scrollPosition;
+
+            var entries = histories.EnumerateHistories;
+            if (entries.Count() <= 0)
+            {
+                EditorGUILayout.HelpBox("When you open an asset, it is registered in this history.", MessageType.Info);
+                return;
+            }
+            string openDate = null;
+            foreach (var item in entries.Where(SearchFilter))
+            {
+                var date = item.OpenedAt[0..10];
+                if (date != openDate)
+                {
+                    openDate = date;
+                    if (!_toggle.ContainsKey(openDate))
+                    {
+                        _toggle[openDate] = true;
+                    }
+                    if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
+                    {
+                        _toggle[openDate] = true;
+                    }
+                    GUIContent folderContent = EditorGUIUtil.FolderTogleContent(_toggle[openDate], openDate);
+                    _toggle[openDate] = EditorGUILayout.Foldout(_toggle[openDate], folderContent, true);
+                }
+                if (_toggle[openDate])
+                {
+                    using var indent = new EditorGUI.IndentLevelScope();
+                    DrawEntry(item);
+                }
             }
             if (_removeEntry != null)
             {
@@ -68,11 +124,44 @@ namespace Mystic
             });
             menu.ShowAsContext();
         }
+        void CloseToggleAll()
+        {
+            foreach (var path in GetAllFolderPath())
+            {
+                _toggle[path] = false;
+            }
+        }
+        void OpenToggleAll()
+        {
+            foreach (var path in GetAllFolderPath())
+            {
+                _toggle[path] = true;
+            }
+        }
+        bool SearchFilter(HistoryEntry entry)
+        {
+            if (entry.Asset != null)
+            {
+                if (entry.Asset.name.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        IEnumerable<string> GetAllFolderPath()
+        {
+            return UserHistories.instance.EnumerateHistories.Select(f => f.OpenedAt[0..10]).Distinct();
+        }
         public override string ToString()
         {
             return Title;
         }
         HistoryEntry _openEntry;
         HistoryEntry _removeEntry;
+
+        string _searchString = string.Empty;
+        Vector2 _scrollPosition;
+        Dictionary<string, bool> _toggle = new();
     }
 }
