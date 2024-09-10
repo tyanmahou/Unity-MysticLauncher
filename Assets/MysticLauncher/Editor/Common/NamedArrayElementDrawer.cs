@@ -11,8 +11,17 @@ namespace Mystic
             try
             {
                 int _ = int.Parse(property.propertyPath.Split('[', ']')[1]);
+
+
                 var name = GetTitle(property) ?? label.text;
-                EditorGUI.PropertyField(position, property, new GUIContent(name), true);
+                if (string.IsNullOrEmpty(name))
+                {
+                    EditorGUI.PropertyField(position, property, label, true);
+                }
+                else
+                {
+                    EditorGUI.PropertyField(position, property, new GUIContent(name), true);
+                }
             }
             catch
             {
