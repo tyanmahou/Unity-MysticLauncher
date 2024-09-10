@@ -12,6 +12,7 @@ namespace Mystic
             var asset = EditorUtility.InstanceIDToObject(instanceID);
 
             UserHistories.instance.Register(asset);
+            UserHistories.instance.Save();
             return false;
         }
     }
