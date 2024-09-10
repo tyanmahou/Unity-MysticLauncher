@@ -14,8 +14,8 @@ namespace Mystic
 
         public void OnGUI()
         {
-            var userSettings = LauncherUserSettings.instance;
-            if (userSettings == null)
+            var userFavorite = UserFavorite.instance;
+            if (userFavorite == null)
             {
                 return;
             }
@@ -47,7 +47,7 @@ namespace Mystic
             _folderOpenedConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_FolderOpened Icon"));
 
             Dictionary<string, List<FavoriteEntry>> dic = new();
-            foreach (var entry in userSettings.Favorite.Entries)
+            foreach (var entry in userFavorite.Entries)
             {
                 if (!dic.TryGetValue(entry.FavoriteGroup, out var list))
                 {
@@ -63,16 +63,16 @@ namespace Mystic
             _groupRange.Clear();
             {
                 using var registRect = ScopedRectRegist(string.Empty, true);
-                var favList = userSettings.Favorite.Entries.Where(SearchFilter);
+                var favList = userFavorite.Entries.Where(SearchFilter);
                 Draw(favList, dic, string.Empty, isChangedSearch);
             }
             if (TryGetDragAndDrop(out var registObjs, out string group))
             {
                 foreach (var obj in registObjs)
                 {
-                    userSettings.Favorite.Replace(obj, group);
+                    userFavorite.Replace(obj, group);
                 }
-                userSettings.Save();
+                userFavorite.Save();
             }
         }
         void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, string path, bool isChangedSearch)
@@ -186,10 +186,10 @@ namespace Mystic
             });
             menu.AddItem(new GUIContent("Remove"), false, () =>
             {
-                var userSettings = LauncherUserSettings.instance;
-                Undo.RecordObject(userSettings, "Remove FavoriteEntry");
-                userSettings.Favorite.Unregister(entry);
-                userSettings.Save();
+                var userFavorite = UserFavorite.instance;
+                Undo.RecordObject(userFavorite, "Remove FavoriteEntry");
+                userFavorite.Unregister(entry);
+                userFavorite.Save();
             });
             menu.ShowAsContext();
         }
@@ -233,7 +233,7 @@ namespace Mystic
         }
         IEnumerable<string> GetAllFolderPath()
         {
-            return GetChildFolderPath(LauncherUserSettings.instance.Favorite.Entries, string.Empty);
+            return GetChildFolderPath(UserFavorite.instance.Entries, string.Empty);
         }
         IEnumerable<string> GetChildFolderPath(IEnumerable<FavoriteEntry> favList, string path)
         {

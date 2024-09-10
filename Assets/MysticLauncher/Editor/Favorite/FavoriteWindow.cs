@@ -26,7 +26,7 @@ namespace Mystic
         }
         void OnGUI()
         {
-            var userSettings = LauncherUserSettings.instance;
+            var userFavorite = UserFavorite.instance;
 
             bool oldEnabled = GUI.enabled;
             GUILayout.Space(5);
@@ -49,7 +49,7 @@ namespace Mystic
             // スクロールビュー開始
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             {
-                var favList = userSettings.Favorite.Entries.Select(f => f.FavoriteGroup).Append(_group);
+                var favList = userFavorite.Entries.Select(f => f.FavoriteGroup).Append(_group);
                 DrawFolder(favList, string.Empty, string.Empty);
             }
 
@@ -60,34 +60,34 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 var fav = new GUIContent(EditorGUIUtility.IconContent("d_Favorite_colored@2x"));
-                fav.text = userSettings.Favorite.IsRegistered(_asset) ? "Update" : "Add";
+                fav.text = userFavorite.IsRegistered(_asset) ? "Update" : "Add";
 
                 GUI.enabled = oldEnabled && enabledAsset;
                 if (GUILayout.Button(fav, GUILayout.Width(80), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
                 {
-                    Undo.RecordObject(userSettings, "Add FavoriteEntry");
-                    var entry = userSettings.Favorite.Find(_asset);
+                    Undo.RecordObject(userFavorite, "Add FavoriteEntry");
+                    var entry = userFavorite.Find(_asset);
                     if (entry != null)
                     {
                         entry.FavoriteGroup = _group;
                     }
                     else
                     {
-                        userSettings.Favorite.Register(_asset, _group);
+                        userFavorite.Register(_asset, _group);
                     }
-                    userSettings.Save();
+                    userFavorite.Save();
                     Close();
                 }
 
-                GUI.enabled = oldEnabled && enabledAsset && userSettings.Favorite.IsRegistered(_asset);
+                GUI.enabled = oldEnabled && enabledAsset && userFavorite.IsRegistered(_asset);
                 var unfav = new GUIContent(EditorGUIUtility.IconContent("d_winbtn_mac_close_h"));
                 unfav.text = "Remove";
 
                 if (GUILayout.Button(unfav, GUILayout.Width(80), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
                 {
-                    Undo.RecordObject(userSettings, "Remove FavoriteEntry");
-                    userSettings.Favorite.Unregister(_asset);
-                    userSettings.Save();
+                    Undo.RecordObject(userFavorite, "Remove FavoriteEntry");
+                    userFavorite.Unregister(_asset);
+                    userFavorite.Save();
                     Close();
                 }
                 GUILayout.FlexibleSpace();

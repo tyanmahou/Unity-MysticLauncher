@@ -7,7 +7,7 @@ namespace Mystic
     /// </summary>
     public static class FavoriteTools
     {
-        private static FavoriteList Instance => LauncherUserSettings.instance.Favorite;
+        private static UserFavorite Instance => UserFavorite.instance;
         [MenuItem("Assets/Mystic/Favorite")]
         private static void Favorite()
         {

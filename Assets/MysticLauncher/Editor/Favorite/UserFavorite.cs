@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEditor;
 
 namespace Mystic
 {
-    [Serializable]
-    public class FavoriteList
+    [FilePath("UserSettings/MysticUserFavorite.asset", FilePathAttribute.Location.ProjectFolder)]
+    public class UserFavorite : ScriptableSingleton<UserFavorite>
     {
         [NamedArrayElement]
         public List<FavoriteEntry> Entries = new();
@@ -44,6 +44,11 @@ namespace Mystic
         public void Unregister(FavoriteEntry entry)
         {
             Entries.Remove(entry);
+        }
+
+        public void Save()
+        {
+            Save(true);
         }
     }
 }

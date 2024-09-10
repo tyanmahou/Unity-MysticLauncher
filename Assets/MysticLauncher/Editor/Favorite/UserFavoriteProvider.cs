@@ -5,10 +5,10 @@ using UnityEngine.UIElements;
 
 namespace Mystic
 {
-    public class UserHistoriesProvider : SettingsProvider
+    public class UserFavoriteProvider : SettingsProvider
     {
         private Editor _editor;
-        public const string SettingPath = "Preferences/Mystic Launcher/History";
+        public const string SettingPath = "Preferences/Mystic Launcher/Favorite";
 
         [SettingsProvider]
         public static SettingsProvider CreateProvider()
@@ -17,15 +17,15 @@ namespace Mystic
             {
                 "Launcher"
             };
-            return new UserHistoriesProvider(SettingPath, SettingsScope.User, keywords);
+            return new UserFavoriteProvider(SettingPath, SettingsScope.User, keywords);
         }
 
-        public UserHistoriesProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
+        public UserFavoriteProvider(string path, SettingsScope scopes, IEnumerable<string> keywords) : base(path, scopes, keywords)
         {
         }
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
-            var preferences = UserHistories.instance;
+            var preferences = UserFavorite.instance;
             preferences.hideFlags = HideFlags.HideAndDontSave & ~HideFlags.NotEditable;
             Editor.CreateCachedEditor(preferences, null, ref _editor);
         }
@@ -36,7 +36,7 @@ namespace Mystic
             _editor.OnInspectorGUI();
             if (EditorGUI.EndChangeCheck())
             {
-                UserHistories.instance.Save();
+                UserFavorite.instance.Save();
             }
         }
     }

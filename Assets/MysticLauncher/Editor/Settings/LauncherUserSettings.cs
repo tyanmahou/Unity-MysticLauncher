@@ -19,13 +19,12 @@ namespace Mystic
         public IElement[] UserLayout = new IElement[0];
 
         [NamedArrayElement, SerializeReference, SubclassSelector]
-        public ITabLayout[] UserTabs = new ITabLayout[2]
+        public ITabLayout[] UserTabs = new ITabLayout[]
         {
             new UserLayout(),
-            new FavoriteLayout()
+            new FavoriteLayout(),
+            new HistoryLayout(),
         };
-
-        public FavoriteList Favorite = new();
 
         public void Save()
         {

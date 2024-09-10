@@ -11,7 +11,7 @@ namespace Mystic
         [SerializeField]
         private int _historyMaxCount = 100;
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private List<HistoryEntry> _histories = new List<HistoryEntry>();
         public IEnumerable<HistoryEntry> EnumerateHistories => _histories.Reverse<HistoryEntry>();
 
