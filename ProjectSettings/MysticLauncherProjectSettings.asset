@@ -31,6 +31,42 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 5674513757765369856
+      type: {class: HorizontalElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Elements:
+        - rid: 5674513757765369859
+        - rid: 5674513757765369857
+    - rid: 5674513757765369857
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Frame Debugger
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: 
+        Tooltip: 
+        _action:
+          rid: 5674513757765369858
+    - rid: 5674513757765369858
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Window/Analysis/Frame Debugger
+    - rid: 5674513757765369859
+      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Profiler
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: d_UnityEditor.ProfilerWindow@2x
+        Tooltip: 
+        _action:
+          rid: 5674513757765369860
+    - rid: 5674513757765369860
+      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        ItemName: Window/Analysis/Profiler %7
     - rid: 6547972820886093901
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -77,8 +113,7 @@ MonoBehaviour:
             _unityIcon: d_CustomTool@2x
         Elements:
         - rid: 6547972820886093913
-        - rid: 6547972846834417667
-        - rid: 6547972846834417665
+        - rid: 5674513757765369856
         - rid: 6547972846834417669
     - rid: 6547972820886093908
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
@@ -166,36 +201,6 @@ MonoBehaviour:
       type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         ItemName: Window/Search/New Window
-    - rid: 6547972846834417665
-      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Frame Debugger
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: 
-        Tooltip: 
-        _action:
-          rid: 6547972846834417666
-    - rid: 6547972846834417666
-      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        ItemName: Window/Analysis/Frame Debugger
-    - rid: 6547972846834417667
-      type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Profiler
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: d_UnityEditor.ProfilerWindow@2x
-        Tooltip: 
-        _action:
-          rid: 6547972846834417668
-    - rid: 6547972846834417668
-      type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        ItemName: Window/Analysis/Profiler %7
     - rid: 6547972846834417669
       type: {class: ActionElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
