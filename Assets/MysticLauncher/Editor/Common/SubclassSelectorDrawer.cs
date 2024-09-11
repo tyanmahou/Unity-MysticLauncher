@@ -46,7 +46,7 @@ namespace Mystic
             Type monoType = typeof(MonoBehaviour);
             _inheritedTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => baseType.IsAssignableFrom(p) && p.IsClass && (!monoType.IsAssignableFrom(p) || includeMono))
+                .Where(p => baseType.IsAssignableFrom(p) && p.IsClass && !p.IsGenericType && (!monoType.IsAssignableFrom(p) || includeMono))
                 .Prepend(null)
                 .ToArray();
         }
