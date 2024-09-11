@@ -91,7 +91,7 @@ namespace Mystic
             GUIStyle buttonStyle = new GUIStyle(EditorStyles.objectField);
             buttonStyle.margin.left = EditorGUI.indentLevel * 15 + 15;
             using var horizontal = new EditorGUILayout.HorizontalScope();
-            var content = EditorGUIUtility.ObjectContent(entry.Asset, typeof(UnityEngine.Object));
+            var content = new GUIContent(EditorGUIUtility.ObjectContent(entry.Asset, typeof(UnityEngine.Object)));
             content.tooltip = entry.OpenedAt;
             if (GUILayout.Button(content, buttonStyle, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
