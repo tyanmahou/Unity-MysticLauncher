@@ -19,7 +19,7 @@ namespace Mystic
             GUIStyle buttonStyle = new GUIStyle(EditorStyles.objectField);
             buttonStyle.margin.left += EditorGUI.indentLevel * 15;
 
-            if (GUILayout.Button(content, buttonStyle, GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (GUILayout.Button(content, buttonStyle, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 EditorGUIUtility.PingObject(Asset);
                 if (_doubleClick.DoubleClick())

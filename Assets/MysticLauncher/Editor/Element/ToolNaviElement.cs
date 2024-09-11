@@ -11,7 +11,7 @@ namespace Mystic
 
         public void OnGUI()
         {
-            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition, GUILayout.ExpandHeight(false));
+            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition, GUILayout.MinHeight(64), GUILayout.ExpandHeight(false));
             _scrollPosition = scrollView.scrollPosition;
             using var h = new GUILayout.HorizontalScope();
             foreach (var element in Elements) 

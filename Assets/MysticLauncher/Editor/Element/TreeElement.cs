@@ -39,9 +39,6 @@ namespace Mystic
 
         public void OnGUI()
         {
-            _folderConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_Folder Icon"));
-            _folderOpenedConetent ??= new GUIContent(EditorGUIUtility.IconContent("d_FolderOpened Icon"));
-
             Dictionary<string, List<Elem>> dic = new();
             foreach (var entry in Elements)
             {
@@ -78,11 +75,10 @@ namespace Mystic
                 {
                     _toggle[nextFullPath] = true;
                 }
-                GUIContent folderContent = _toggle[nextFullPath] ? _folderOpenedConetent : _folderConetent;
-                folderContent.text = next;
-                {
-                    _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
-                }
+                
+                GUIContent folderContent = EditorGUIUtil.FolderTogleContent(_toggle[nextFullPath], next);
+                _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
+
                 if (_toggle[nextFullPath])
                 {
                     using var indent = new EditorGUI.IndentLevelScope();
@@ -118,9 +114,6 @@ namespace Mystic
                 .Distinct()
                 ;
         }
-
-        static GUIContent _folderConetent;
-        static GUIContent _folderOpenedConetent;
         Dictionary<string, bool> _toggle = new();
     }
 }
