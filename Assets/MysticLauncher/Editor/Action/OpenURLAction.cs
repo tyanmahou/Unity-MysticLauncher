@@ -6,11 +6,11 @@ namespace Mystic
     [Serializable]
     public class OpenUrlAction : IToolAction
     {
-        public string Url;
+        public string URL;
 
         public void Execute()
         {
-            Application.OpenURL(Url);
+            Application.OpenURL(URL);
         }
     }
 }
