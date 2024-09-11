@@ -77,15 +77,22 @@ namespace Mystic
         void OpenTerminal(string path)
         {
             var terminalPath = LauncherUserSettings.instance.TerminalPath;
-            if (!File.Exists(terminalPath))
-            {
-                terminalPath = string.Empty;
-            }
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 FileName = terminalPath,
                 WorkingDirectory = path
             };
+            if (!File.Exists(terminalPath))
+            {
+#if UNITY_EDITOR_WIN
+                processInfo.FileName = "cmd";
+#elif UNITY_EDITOR_OSX
+                processInfo.FileName = "open";
+                processInfo.Arguments = "-a Terminal";
+#elif UNITY_EDITOR_LINUX
+                processInfo.FileName = "gnome-terminal";
+#endif
+            }
             try
             {
                 using Process process = Process.Start(processInfo);
