@@ -25,16 +25,6 @@ namespace Mystic
         {
             _textureProperty = textureProperty;
 
-            // Assets以下のTexture を取得
-            string[] guids = AssetDatabase.FindAssets("t:Texture", new[] { "Assets"});
-            _textures = new Texture[guids.Length];
-
-            for (int i = 0; i < guids.Length; i++)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-                _textures[i] = AssetDatabase.LoadAssetAtPath<Texture>(path);
-            }
-
             Init(property);
         }
         public void Init(SerializedProperty property)
@@ -174,6 +164,18 @@ namespace Mystic
         }
         void DrawAssets()
         {
+            if (_textures == null)
+            {
+                // Assets以下のTexture を取得
+                string[] guids = AssetDatabase.FindAssets("t:Texture", new[] { "Assets" });
+                _textures = new Texture[guids.Length];
+
+                for (int i = 0; i < guids.Length; i++)
+                {
+                    string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+                    _textures[i] = AssetDatabase.LoadAssetAtPath<Texture>(path);
+                }
+            }
             // アイコン一覧の取得
             Texture[] icons = GetFilteredTextures(_searchString);
 
