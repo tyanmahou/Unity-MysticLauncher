@@ -17,7 +17,6 @@ namespace Mystic
         }
         public override void OnGUI(Rect rect)
         {
-            base.OnGUI(rect);
             GUILayout.Label(_prop.name, EditorStyles.boldLabel);
             var prev = _prop.stringValue;
             _prop.stringValue = EditorGUILayout.TextField(_prop.stringValue);            
