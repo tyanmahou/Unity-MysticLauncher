@@ -29,10 +29,7 @@ namespace Mystic
             position.width = 20;
             if (GUI.Button(position, EditorGUIUtility.IconContent("Info"), EditorStyles.iconButton))
             {
-                var popPos = popRect;
-                popPos.width = 0;
-                popPos.height = 0;
-                PopupWindow.Show(popPos, new TextInputPopup(tooltip, popRect.size));
+                TextInputPopup.Show(popRect, tooltip);
             }
             position.x += 20;
             position.width = 32;

@@ -5,15 +5,22 @@ namespace Mystic
 {
     public class TextInputPopup : PopupWindowContent
     {
-        public TextInputPopup(SerializedProperty prop, Vector2 size)
+        public static void Show(Rect position, SerializedProperty prop)
         {
+            Rect pos = position;
+            pos.height = 0;
+            pos.width = 0;
+            PopupWindow.Show(pos, new TextInputPopup(position, prop));
+        }
+        TextInputPopup(Rect position, SerializedProperty prop)
+        {
+            _position = position;
             _prop = prop;
-            _size = size;
         }
 
         public override Vector2 GetWindowSize()
         {
-            return _size;
+            return _position.size;
         }
         public override void OnGUI(Rect rect)
         {
@@ -26,6 +33,6 @@ namespace Mystic
             }
         }
         SerializedProperty _prop;
-        Vector2 _size;
+        Rect _position;
     }
 }
