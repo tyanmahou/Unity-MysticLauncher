@@ -41,13 +41,6 @@ namespace Mystic
                 "TerrainCollider Icon","TerrainData Icon","TextAsset Icon","TextMesh Icon","Texture Icon","Texture2D Icon","d_Tile Icon","d_Tilemap Icon","d_TilemapCollider2D Icon","d_TilemapRenderer Icon","Tile Icon","Tilemap Icon","TilemapCollider2D Icon","TilemapRenderer Icon","d_SignalAsset Icon","d_SignalEmitter Icon","d_SignalReceiver Icon","d_TimelineAsset Icon","d_TimelineAsset On Icon","SignalAsset Icon","SignalEmitter Icon","SignalReceiver Icon","TimelineAsset Icon","TimelineAsset On Icon","TrailRenderer Icon","Transform Icon","Tree Icon","d_SpriteAtlas Icon","d_SpriteAtlas On Icon","d_SpriteShapeRenderer Icon","SpriteAtlas Icon","SpriteAtlas On Icon","SpriteShapeRenderer Icon","AspectRatioFitter Icon","Button Icon","CanvasScaler Icon","ContentSizeFitter Icon","d_AspectRatioFitter Icon","d_Button Icon","d_CanvasScaler Icon","d_ContentSizeFitter Icon","d_Dropdown Icon","d_FreeformLayoutGroup Icon","d_GraphicRaycaster Icon","d_GridLayoutGroup Icon","d_HorizontalLayoutGroup Icon","d_Image Icon","d_InputField Icon","d_LayoutElement Icon","d_Mask Icon","d_Outline Icon","d_PhysicalResolution Icon","d_PositionAsUV1 Icon","d_RawImage Icon","d_RectMask2D Icon","d_Scrollbar Icon","d_ScrollRect Icon","d_ScrollViewArea Icon","d_Selectable Icon","d_SelectionList Icon","d_SelectionListItem Icon","d_SelectionListTemplate Icon","d_Shadow Icon","d_Slider Icon","d_Text Icon","d_Toggle Icon","d_ToggleGroup Icon","d_VerticalLayoutGroup Icon","Dropdown Icon","FreeformLayoutGroup Icon","GraphicRaycaster Icon","GridLayoutGroup Icon","HorizontalLayoutGroup Icon","Image Icon","InputField Icon","LayoutElement Icon","Mask Icon","Outline Icon","PositionAsUV1 Icon","RawImage Icon","RectMask2D Icon","Scrollbar Icon","ScrollRect Icon","Selectable Icon","Shadow Icon","Slider Icon","Text Icon","Toggle Icon","ToggleGroup Icon","VerticalLayoutGroup Icon","d_PanelSettings Icon","d_PanelSettings On Icon","d_StyleSheet Icon","d_ThemeStyleSheet Icon","d_UIDocument Icon","d_VisualTreeAsset Icon","PanelSettings Icon","PanelSettings On Icon","StyleSheet Icon","ThemeStyleSheet Icon","UIDocument Icon","VisualTreeAsset Icon","d_VisualEffect Icon","d_VisualEffectAsset Icon","VisualEffect Icon","VisualEffectAsset Icon","d_VideoPlayer Icon","VideoClip Icon","VideoPlayer Icon","VisualEffect Icon","VisualEffectAsset Icon","WheelCollider Icon","WheelJoint2D Icon","WindZone Icon","d_SpatialMappingCollider Icon","SpatialMappingCollider Icon","SpatialMappingRenderer Icon","UssScript Icon","UxmlScript Icon","VerticalLayoutGroup Icon","VideoEffect Icon","VisualEffect Gizmo","VisualEffectAsset Icon","WindZone Gizmo","Profiler.AssetLoading","Profiler.AssetLoading@2x","Profiler.Audio","Profiler.Audio@2x","Profiler.CPU","Profiler.CPU@2x","Profiler.Custom","Profiler.Custom@2x","Profiler.FileAccess","Profiler.FileAccess@2x","Profiler.FirstFrame","Profiler.GlobalIllumination","Profiler.GlobalIllumination@2x","Profiler.GPU","Profiler.GPU@2x","Profiler.Instrumentation","Profiler.LastFrame","Profiler.Memory","Profiler.Memory@2x","Profiler.NetworkMessages","Profiler.NetworkMessages@2x","Profiler.NetworkOperations","Profiler.NetworkOperations@2x","Profiler.NextFrame","Profiler.Open","Profiler.Open@2x","Profiler.Open@4x","Profiler.Physics","Profiler.Physics2D","Profiler.Physics2D@2x","Profiler.Physics@2x","Profiler.PrevFrame","Profiler.Record","Profiler.Rendering","Profiler.Rendering@2x","Profiler.UI","Profiler.UI@2x","Profiler.UIDetails","Profiler.UIDetails@2x","Profiler.Video","Profiler.Video@2x","Profiler.VirtualTexturing","Profiler.VirtualTexturing@2x","ProfilerColumn.WarningCount","Progress","Progress@2x","Project","Project@2x","d_PBrowserPackagesNotVisible","d_PBrowserPackagesNotVisible@2x","d_PBrowserPackagesVisible On","d_PBrowserPackagesVisible On@2x","d_PBrowserPackagesVisible","d_PBrowserPackagesVisible@2x","d_PBrowserPackagesVisible_hover","d_PBrowserPackagesVisible_hover@2x","PBrowserPackagesNotVisible On","PBrowserPackagesNotVisible On@2x","PBrowserPackagesNotVisible","PBrowserPackagesNotVisible@2x","PBrowserPackagesVisible","PBrowserPackagesVisible@2x","PBrowserPackagesVisible_hover","PBrowserPackagesVisible_hover@2x","AssetLabelIconSquare","AssetLabelIconSquare@2x","d_AssetLabelIconSquare","d_AssetLabelIconSquare@2x","d_DragArrow","d_GridView On","d_GridView On@2x","d_GridView","d_GridView@2x","d_Help","d_Help@2x","d_ListView On","d_ListView On@2x","d_ListView","d_ListView@2x","d_more","d_more@2x","d_SearchWindow","d_SearchWindow@2x","d_SyncSearch On","d_SyncSearch On@2x","d_SyncSearch","d_SyncSearch@2x","d_TableView On","d_TableView On@2x","d_TableView","d_TableView@2x","DragArrow","GridView On","GridView On@2x","GridView","GridView@2x","Help","Help@2x","ListView On","ListView On@2x","ListView","ListView@2x","more","more@2x","package_installed","package_update","SearchWindow","SearchWindow@2x","SyncSearch On","SyncSearch On@2x","SyncSearch","SyncSearch@2x","TableView On","TableView On@2x","TableView","TableView@2x","Record Off","Record Off@2x","Record On","Record On@2x","RectTool On","RectTool On@2x","RectTool","RectTool@2x","RectTransformBlueprint","RectTransformRaw","redGroove","ReflectionProbeSelector","ReflectionProbeSelector@2x","Refresh","Refresh@2x","RepaintDot","RepaintDot@2x","rightBracket","RotateTool On","RotateTool On@2x","RotateTool","RotateTool@2x","RotateTool@4x","SaveActive","SaveAs","SaveAs@2x","SaveFromPlay","SavePassive","ScaleTool On","ScaleTool On@2x","ScaleTool","ScaleTool@2x","Scene","Scene@2x","SceneLoadIn","SceneLoadOut","scenepicking_notpickable-mixed","scenepicking_notpickable-mixed@2x","scenepicking_notpickable-mixed_hover","scenepicking_notpickable-mixed_hover@2x","scenepicking_notpickable","scenepicking_notpickable@2x","scenepicking_notpickable_hover","scenepicking_notpickable_hover@2x","scenepicking_pickable-mixed","scenepicking_pickable-mixed@2x","scenepicking_pickable-mixed_hover","scenepicking_pickable-mixed_hover@2x","scenepicking_pickable","scenepicking_pickable@2x","scenepicking_pickable_hover","scenepicking_pickable_hover@2x","SceneSave","SceneSaveGrey","2d-badge-scene-template","3d-badge-scene-template","pin","pin@2x","pinned","pinned@2x","scene-template-2d-scene","scene-template-3d-scene","scene-template-dark","scene-template-default-scene","scene-template-empty-scene","scene-template-light","scene-template","SceneView2D On","SceneView2D On@2x","SceneView2D","SceneView2D@2x","SceneViewAlpha","SceneViewAudio On","SceneViewAudio On@2x","SceneViewAudio","SceneViewAudio@2x","SceneViewCamera On","SceneViewCamera On@2x","SceneViewCamera","SceneViewCamera@2x","SceneViewFx On","SceneViewFX On@2x","SceneViewFx","SceneViewFX@2x","SceneViewLighting On","SceneViewLighting On@2x","SceneViewLighting","SceneViewLighting@2x","SceneViewOrtho","SceneViewRGB","SceneViewTools On","SceneViewTools On@2x","SceneViewTools","SceneViewTools@2x","SceneViewVisibility On","SceneViewVisibility On@2x","SceneViewVisibility","SceneViewVisibility@2x","scenevis_hidden-mixed","scenevis_hidden-mixed@2x","scenevis_hidden-mixed_hover","scenevis_hidden-mixed_hover@2x","scenevis_hidden","scenevis_hidden@2x","scenevis_hidden_hover","scenevis_hidden_hover@2x","scenevis_scene_hover","scenevis_scene_hover@2x","scenevis_visible-mixed","scenevis_visible-mixed@2x","scenevis_visible-mixed_hover","scenevis_visible-mixed_hover@2x","scenevis_visible","scenevis_visible@2x","scenevis_visible_hover","scenevis_visible_hover@2x","ScrollShadow","Settings","Settings@2x","SettingsIcon","SettingsIcon@2x","alertDialog","alertDialog@2x","conflict-icon","conflict-icon@2x","ShowPanels","d_GridAxisX On","d_GridAxisX On@2x","d_GridAxisX","d_GridAxisX@2x","d_GridAxisY On","d_GridAxisY On@2x","d_GridAxisY","d_GridAxisY@2x","d_GridAxisZ On","d_GridAxisZ On@2x","d_GridAxisZ","d_GridAxisZ@2x","d_SceneViewSnap On","d_SceneViewSnap On@2x","d_SceneViewSnap","d_SceneViewSnap@2x","d_SnapIncrement","d_SnapIncrement@2x","GridAxisX On","GridAxisX On@2x","GridAxisX","GridAxisX@2x","GridAxisY On","GridAxisY On@2x","GridAxisY","GridAxisY@2x","GridAxisZ On","GridAxisZ On@2x","GridAxisZ","GridAxisZ@2x","SceneViewSnap On","SceneViewSnap On@2x","SceneViewSnap","SceneViewSnap@2x","SnapIncrement","SnapIncrement@2x","SocialNetworks.FacebookShare","SocialNetworks.LinkedInShare","SocialNetworks.Tweet","SocialNetworks.UDNLogo","SocialNetworks.UDNOpen","SoftlockInline","SpeedScale","StateMachineEditor.ArrowTip","StateMachineEditor.ArrowTipSelected","StateMachineEditor.Background","StateMachineEditor.State","StateMachineEditor.StateHover","StateMachineEditor.StateSelected","StateMachineEditor.StateSub","StateMachineEditor.StateSubHover","StateMachineEditor.StateSubSelected","StateMachineEditor.UpButton","StateMachineEditor.UpButtonHover","StepButton On","StepButton On@2x","StepButton","StepButton@2x","StepLeftButton-On","StepLeftButton","sv_icon_dot0_sml","sv_icon_dot10_sml","sv_icon_dot11_sml","sv_icon_dot12_sml","sv_icon_dot13_sml","sv_icon_dot14_sml","sv_icon_dot15_sml","sv_icon_dot1_sml","sv_icon_dot2_sml","sv_icon_dot3_sml","sv_icon_dot4_sml","sv_icon_dot5_sml","sv_icon_dot6_sml","sv_icon_dot7_sml","sv_icon_dot8_sml","sv_icon_dot9_sml","sv_icon_name0","sv_icon_name1","sv_icon_name2","sv_icon_name3","sv_icon_name4","sv_icon_name5","sv_icon_name6","sv_icon_name7","sv_icon_none","sv_label_0","sv_label_1","sv_label_2","sv_label_3","sv_label_4","sv_label_5","sv_label_6","sv_label_7","tab_next","tab_next@2x","tab_prev","tab_prev@2x","TabToFilter","TerrainInspector.TerrainToolAdd","TerrainInspector.TerrainToolAdd@2x","TerrainInspector.TerrainToolLower On","TerrainInspector.TerrainToolLower","TerrainInspector.TerrainToolLowerAlt","TerrainInspector.TerrainToolPlants On","TerrainInspector.TerrainToolPlants","TerrainInspector.TerrainToolPlants@2x","TerrainInspector.TerrainToolPlantsAlt On","TerrainInspector.TerrainToolPlantsAlt","TerrainInspector.TerrainToolRaise On","TerrainInspector.TerrainToolRaise","TerrainInspector.TerrainToolSculpt On","TerrainInspector.TerrainToolSculpt","TerrainInspector.TerrainToolSetheight On","TerrainInspector.TerrainToolSetheight","TerrainInspector.TerrainToolSetheightAlt On","TerrainInspector.TerrainToolSetheightAlt","TerrainInspector.TerrainToolSettings On","TerrainInspector.TerrainToolSettings","TerrainInspector.TerrainToolSettings@2x","TerrainInspector.TerrainToolSmoothHeight On","TerrainInspector.TerrainToolSmoothHeight","TerrainInspector.TerrainToolSplat On","TerrainInspector.TerrainToolSplat","TerrainInspector.TerrainToolSplat@2x","TerrainInspector.TerrainToolSplatAlt On","TerrainInspector.TerrainToolSplatAlt","TerrainInspector.TerrainToolTrees On","TerrainInspector.TerrainToolTrees","TerrainInspector.TerrainToolTrees@2x","TerrainInspector.TerrainToolTreesAlt On","TerrainInspector.TerrainToolTreesAlt","TestFailed","TestIgnored","TestInconclusive",
                 "TestNormal","TestPassed","TestStopwatch","Texture2DArray On","Texture2DArray On@2x","Texture2DArray","Texture2DArray@2x","toggle_searcher_preview_off","toggle_searcher_preview_off@2x","toggle_searcher_preview_on","toggle_searcher_preview_on@2x","ToggleUVOverlay","ToggleUVOverlay@2x","Toolbar Minus","Toolbar Minus@2x","Toolbar Plus More","Toolbar Plus More@2x","Toolbar Plus","Toolbar Plus@2x","d_debug","d_debug@2x","d_ObjectMode","d_ObjectMode@2x","d_SceneViewTools On","d_SceneViewTools On@2x","d_Shaded","d_Shaded@2x","d_ShadedWireframe","d_ShadedWireframe@2x","d_wireframe","d_wireframe@2x","debug On","debug On@2x","debug","debug@2x","ObjectMode","ObjectMode@2x","Shaded","Shaded@2x","ShadedWireframe","ShadedWireframe@2x","wireframe","wireframe@2x","ToolHandleCenter","ToolHandleCenter@2x","ToolHandleGlobal","ToolHandleGlobal@2x","ToolHandleLocal","ToolHandleLocal@2x","ToolHandlePivot","ToolHandlePivot@2x","ToolsIcon","tranp","TransformTool On","TransformTool On@2x","TransformTool","TransformTool@2x","tree_icon","tree_icon_branch","tree_icon_branch_frond","tree_icon_frond","tree_icon_leaf","TreeEditor.AddBranches","TreeEditor.AddLeaves","TreeEditor.Branch On","TreeEditor.Branch","TreeEditor.BranchFreeHand On","TreeEditor.BranchFreeHand","TreeEditor.BranchRotate On","TreeEditor.BranchRotate","TreeEditor.BranchScale On","TreeEditor.BranchScale","TreeEditor.BranchTranslate On","TreeEditor.BranchTranslate","TreeEditor.Distribution On","TreeEditor.Distribution","TreeEditor.Duplicate","TreeEditor.Geometry On","TreeEditor.Geometry","TreeEditor.Leaf On","TreeEditor.Leaf","TreeEditor.LeafFreeHand On","TreeEditor.LeafFreeHand","TreeEditor.LeafRotate On","TreeEditor.LeafRotate","TreeEditor.LeafScale On","TreeEditor.LeafScale","TreeEditor.LeafTranslate On","TreeEditor.LeafTranslate","TreeEditor.Material On","TreeEditor.Material","TreeEditor.Refresh","TreeEditor.Trash","TreeEditor.Wind On","TreeEditor.Wind","UndoHistory","UndoHistory@2x","UnityEditor.AnimationWindow","UnityEditor.AnimationWindow@2x","UnityEditor.ConsoleWindow","UnityEditor.ConsoleWindow@2x","UnityEditor.DebugInspectorWindow","UnityEditor.DeviceSimulation.SimulatorWindow","UnityEditor.DeviceSimulation.SimulatorWindow@2x","UnityEditor.FindDependencies","UnityEditor.GameView","UnityEditor.GameView@2x","UnityEditor.Graphs.AnimatorControllerTool","UnityEditor.Graphs.AnimatorControllerTool@2x","UnityEditor.HierarchyWindow","UnityEditor.HierarchyWindow@2x","UnityEditor.HistoryWindow","UnityEditor.HistoryWindow@2x","UnityEditor.InspectorWindow","UnityEditor.InspectorWindow@2x","UnityEditor.ProfilerWindow","UnityEditor.ProfilerWindow@2x","UnityEditor.SceneHierarchyWindow","UnityEditor.SceneHierarchyWindow@2x","UnityEditor.SceneView","UnityEditor.SceneView@2x","UnityEditor.Timeline.TimelineWindow","UnityEditor.Timeline.TimelineWindow@2x","UnityEditor.VersionControl","UnityEditor.VersionControl@2x","UnityLogo","UnityLogoLarge","UnLinked","UnLinked@2x","UpArrow","Valid","Valid@2x","d_File","d_File@2x","d_Incoming Icon","d_Incoming Icon@2x","d_Outgoing Icon@","d_Outgoing Icon@2x","d_P4_AddedLocal","d_P4_AddedLocal@2x","d_P4_AddedRemote","d_P4_AddedRemote@2x","d_P4_BlueLeftParenthesis","d_P4_BlueLeftParenthesis@2x","d_P4_BlueRightParenthesis","d_P4_BlueRightParenthesis@2x","d_P4_CheckOutLocal","d_P4_CheckOutLocal@2x","d_P4_CheckOutRemote","d_P4_CheckOutRemote@2x","d_P4_Conflicted","d_P4_Conflicted@2x","d_P4_DeletedLocal","d_P4_DeletedLocal@2x","d_P4_DeletedRemote","d_P4_DeletedRemote@2x","d_P4_Local","d_P4_Local@2x","d_P4_LockedLocal","d_P4_LockedLocal@2x","d_P4_LockedRemote","d_P4_LockedRemote@2x","d_P4_Offline","d_P4_Offline@2x","d_P4_OutOfSync","d_P4_OutOfSync@2x","d_P4_RedLeftParenthesis","d_P4_RedLeftParenthesis@2x","d_P4_RedRightParenthesis","d_P4_RedRightParenthesis@2x","d_P4_Updating","d_P4_Updating@2x","File","File@2x","Incoming Icon","Incoming Icon@2x","Incoming On Icon","Incoming On Icon@2x","Outgoing Icon","Outgoing Icon@2x","P4_AddedLocal","P4_AddedLocal@2x","P4_AddedRemote","P4_AddedRemote@2x","P4_BlueLeftParenthesis","P4_BlueLeftParenthesis@2x","P4_BlueRightParenthesis","P4_BlueRightParenthesis@2x","P4_CheckOutLocal","P4_CheckOutLocal@2x","P4_CheckOutRemote","P4_CheckOutRemote@2x","P4_Conflicted","P4_Conflicted@2x","P4_DeletedLocal","P4_DeletedLocal@2x","P4_DeletedRemote","P4_DeletedRemote@2x","P4_Local","P4_Local@2x","P4_LockedLocal","P4_LockedLocal@2x","P4_LockedRemote","P4_LockedRemote@2x","P4_Offline","P4_Offline@2x","P4_OutOfSync","P4_OutOfSync@2x","P4_RedLeftParenthesis","P4_RedLeftParenthesis@2x","P4_RedRightParenthesis","P4_RedRightParenthesis@2x","P4_Updating","P4_Updating@2x","VerticalSplit","ViewToolMove On","ViewToolMove On@2x","ViewToolMove","ViewToolMove@2x","ViewToolOrbit On","ViewToolOrbit On@2x","ViewToolOrbit","ViewToolOrbit@2x","ViewToolZoom On","ViewToolZoom On@2x","ViewToolZoom","ViewToolZoom@2x","VisibilityOff","VisibilityOn","VisualQueryBuilder","VisualQueryBuilder@2x","VUMeterTextureHorizontal","VUMeterTextureVertical","WaitSpin00","WaitSpin01","WaitSpin02","WaitSpin03","WaitSpin04","WaitSpin05","WaitSpin06","WaitSpin07","WaitSpin08","WaitSpin09","WaitSpin10","WaitSpin11","WelcomeScreen.AssetStoreLogo","winbtn_graph","winbtn_graph_close_h","winbtn_graph_max_h","winbtn_graph_min_h","winbtn_mac_close","winbtn_mac_close@2x","winbtn_mac_close_a","winbtn_mac_close_a@2x","winbtn_mac_close_h","winbtn_mac_close_h@2x","winbtn_mac_inact","winbtn_mac_inact@2x","winbtn_mac_max","winbtn_mac_max@2x","winbtn_mac_max_a","winbtn_mac_max_a@2x","winbtn_mac_max_h","winbtn_mac_max_h@2x","winbtn_mac_min","winbtn_mac_min@2x","winbtn_mac_min_a","winbtn_mac_min_a@2x","winbtn_mac_min_h","winbtn_mac_min_h@2x","winbtn_win_close","winbtn_win_close@2x","winbtn_win_close_a","winbtn_win_close_a@2x","winbtn_win_close_h","winbtn_win_close_h@2x","winbtn_win_max","winbtn_win_max@2x","winbtn_win_max_a","winbtn_win_max_a@2x","winbtn_win_max_h","winbtn_win_max_h@2x","winbtn_win_min","winbtn_win_min_a","winbtn_win_min_h","winbtn_win_rest","winbtn_win_rest_a","winbtn_win_rest_h","winbtn_win_restore","winbtn_win_restore@2x","winbtn_win_restore_a","winbtn_win_restore_a@2x","winbtn_win_restore_h","winbtn_win_restore_h@2x",
             };
-
-
-            // カスタムスタイルの定義
-            _selectedStyle = new GUIStyle(GUI.skin.button);
-            _selectedTex = EditorGUIUtil.MakeTex(2, 2, new Color(0.274f, 0.376f, 0.486f, 1.0f));
-            _selectedStyle.normal.background = _selectedTex;
-
             _normalStyle = new GUIStyle(GUI.skin.button);
         }
 
@@ -102,16 +95,11 @@ namespace Mystic
                     int index = row * columns + col;
                     if (index > icons.Length)
                         break;
-                    var skin = _normalStyle;
                     if (index == 0)
                     {
                         Rect iconRect = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
-                        if (string.IsNullOrEmpty(_property.stringValue))
-                        {
-                            skin = _selectedStyle;
-                        }
-                        if (GUI.Button(iconRect, "", skin))
+                        if (GUI.Button(iconRect, "", _normalStyle))
                         {
                             if (Event.current.button == 0)
                             {
@@ -128,17 +116,17 @@ namespace Mystic
                                 }
                             }
                         }
+                        if (string.IsNullOrEmpty(_property.stringValue))
+                        {
+                            EditorGUI.DrawRect(iconRect, _selectedColor);
+                        }
                         continue;
                     }
                     --index;
 
                     Rect iconRect2 = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-                    GUIContent iconContent = EditorGUIUtility.IconContent(icons[index]);
-                    if (_property.stringValue == icons[index])
-                    {
-                        skin = _selectedStyle;
-                    }
-                    if (GUI.Button(iconRect2, iconContent, skin))
+                    GUIContent iconContent = EditorGUIUtility.IconContent(icons[index]);                    
+                    if (GUI.Button(iconRect2, iconContent, _normalStyle))
                     {
                         if (Event.current.button == 0)
                         {
@@ -158,6 +146,10 @@ namespace Mystic
                         {
                             ShowContextMenu(icons[index]);
                         }
+                    }
+                    if (_property.stringValue == icons[index])
+                    {
+                        EditorGUI.DrawRect(iconRect2, _selectedColor);
                     }
                 }
             }
@@ -191,16 +183,11 @@ namespace Mystic
                     int index = row * columns + col;
                     if (index > icons.Length)
                         break;
-                    var skin = _normalStyle;
                     if (index == 0)
                     {
                         Rect iconRect = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
-                        if (string.IsNullOrEmpty(_property.stringValue))
-                        {
-                            skin = _selectedStyle;
-                        }
-                        if (GUI.Button(iconRect, "", skin))
+                        if (GUI.Button(iconRect, "", _normalStyle))
                         {
                             if (Event.current.button == 0)
                             {
@@ -217,17 +204,17 @@ namespace Mystic
                                 }
                             }
                         }
+                        if (string.IsNullOrEmpty(_property.stringValue))
+                        {
+                            EditorGUI.DrawRect(iconRect, _selectedColor);
+                        }
                         continue;
                     }
                     --index;
 
                     Rect iconRect2 = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
                     GUIContent iconContent = new GUIContent(icons[index]);
-                    if (_textureProperty.objectReferenceValue == icons[index])
-                    {
-                        skin = _selectedStyle;
-                    }
-                    if (GUI.Button(iconRect2, iconContent, skin))
+                    if (GUI.Button(iconRect2, iconContent, _normalStyle))
                     {
                         if (Event.current.button == 0)
                         {
@@ -242,6 +229,10 @@ namespace Mystic
                                 Close();
                             }
                         }
+                    }
+                    if (_textureProperty.objectReferenceValue == icons[index])
+                    {
+                        EditorGUI.DrawRect(iconRect2, _selectedColor);
                     }
                 }
             }
@@ -272,7 +263,6 @@ namespace Mystic
         }
         private void OnDestroy()
         {
-            DestroyImmediate(_selectedTex);
         }
         private void ShowContextMenu(string iconName)
         {
@@ -317,9 +307,7 @@ namespace Mystic
         private DoubleClickCtrl _doubleClick = new();
 
         private GUIStyle _normalStyle;
-        private GUIStyle _selectedStyle;
-        private Texture2D _selectedTex;
-
+        private Color _selectedColor = new Color(0, 1, 1, 0.3f);
         int _selectedTab;
         private Texture[] _textures;
 

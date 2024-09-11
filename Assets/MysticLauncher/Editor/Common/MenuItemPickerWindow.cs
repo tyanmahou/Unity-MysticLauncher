@@ -25,11 +25,6 @@ namespace Mystic
         public void Init(SerializedProperty property)
         {
             _property = property;
-            // カスタムスタイルの定義
-            _selectedStyle = new GUIStyle(EditorStyles.objectField);
-            _selectedTex = EditorGUIUtil.MakeTex(2, 2, new Color(0.274f, 0.376f, 0.486f, 1.0f));
-            _selectedStyle.normal.background = _selectedTex;
-
             _normalStyle = new GUIStyle(EditorStyles.objectField);
         }
 
@@ -45,12 +40,8 @@ namespace Mystic
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             foreach (string itemName in GetFilteredItems(_searchString).OrderBy(s => s)) 
             {
-                var skin = _normalStyle;
-                if (_property.stringValue == itemName)
-                {
-                    skin = _selectedStyle;
-                }
-                if (GUILayout.Button(itemName, skin))
+                Rect buttonRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight, _normalStyle);
+                if (GUI.Button(buttonRect, itemName, _normalStyle))
                 {
                     if (Event.current.button == 0)
                     {
@@ -66,6 +57,10 @@ namespace Mystic
                         ShowContextMenu(itemName);
                     }
                 }
+                if (_property.stringValue == itemName)
+                {
+                    EditorGUI.DrawRect(buttonRect, new Color(0, 1, 1, 0.15f));
+                }
             }
             EditorGUILayout.EndScrollView();
         }
@@ -75,7 +70,6 @@ namespace Mystic
         }
         private void OnDestroy()
         {
-            DestroyImmediate(_selectedTex);
         }
         private void ShowContextMenu(string itemName)
         {
@@ -129,9 +123,6 @@ namespace Mystic
         private DoubleClickCtrl _doubleClick = new();
 
         private GUIStyle _normalStyle;
-        private GUIStyle _selectedStyle;
-        private Texture2D _selectedTex;
-
         private static string[] _items;
     }
 }
