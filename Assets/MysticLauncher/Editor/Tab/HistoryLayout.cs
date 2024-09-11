@@ -97,7 +97,11 @@ namespace Mystic
             {
                 if (Event.current.button == 0)
                 {
-                    _openEntry = entry;
+                    EditorGUIUtility.PingObject(entry.Asset);
+                    if (_doubleClick.DoubleClick())
+                    {
+                        _openEntry = entry;
+                    }
                 }
                 else
                 {
@@ -107,6 +111,10 @@ namespace Mystic
             if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolZoom On@2x"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 EditorGUIUtility.PingObject(entry.Asset);
+            }
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            {
+                AssetDatabase.OpenAsset(entry.Asset);
             }
         }
         private void ShowContextMenu(HistoryEntry entry)
@@ -163,5 +171,6 @@ namespace Mystic
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
         Dictionary<string, bool> _toggle = new();
+        private DoubleClickCtrl _doubleClick = new();
     }
 }

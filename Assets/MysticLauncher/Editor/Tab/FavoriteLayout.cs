@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 
 namespace Mystic
 {
@@ -168,7 +169,11 @@ namespace Mystic
             {
                 if (Event.current.button == 0)
                 {
-                    AssetDatabase.OpenAsset(entry.Asset);
+                    EditorGUIUtility.PingObject(entry.Asset);
+                    if (_doubleClick.DoubleClick())
+                    {
+                        AssetDatabase.OpenAsset(entry.Asset);
+                    }
                 }
                 else
                 {
@@ -178,6 +183,10 @@ namespace Mystic
             if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolZoom On@2x"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 EditorGUIUtility.PingObject(entry.Asset);
+            }
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            {
+                AssetDatabase.OpenAsset(entry.Asset);
             }
         }
         private void ShowContextMenu(FavoriteEntry entry)
@@ -339,5 +348,6 @@ namespace Mystic
         Vector2 _scrollPosition;
         Dictionary<string, bool> _toggle =new();
         List<(Rect, string)> _groupRange = new List<(Rect, string)> ();
+        private DoubleClickCtrl _doubleClick = new();
     }
 }

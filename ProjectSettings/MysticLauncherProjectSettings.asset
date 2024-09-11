@@ -23,6 +23,7 @@ MonoBehaviour:
       rid: -2
   PortalLayout:
   - rid: 6547972820886093901
+  - rid: 5674513782436265990
   - rid: 6547972820886093907
   - rid: 6547972820886093908
   ProjectTabs: []
@@ -67,6 +68,25 @@ MonoBehaviour:
       type: {class: MenuItemAction, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         ItemName: Window/Analysis/Profiler %7
+    - rid: 5674513782436265990
+      type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Scenes
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: UnityLogo
+        Elements:
+        - rid: 5674513782436265993
+        - rid: 5674513782436265994
+    - rid: 5674513782436265993
+      type: {class: AssetElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Asset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+    - rid: 5674513782436265994
+      type: {class: AssetElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Asset: {fileID: 102900000, guid: db3b42020a1f52649bc799c05a662b1d, type: 3}
     - rid: 6547972820886093901
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codice.CM.Common;
+using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -20,11 +21,19 @@ namespace Mystic
 
             if (GUILayout.Button(content, buttonStyle, GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
-                AssetDatabase.OpenAsset(Asset);
+                EditorGUIUtility.PingObject(Asset);
+                if (_doubleClick.DoubleClick())
+                {
+                    AssetDatabase.OpenAsset(Asset);
+                }
             }
             if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolZoom On@2x"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 EditorGUIUtility.PingObject(Asset);
+            }
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            {
+                AssetDatabase.OpenAsset(Asset);
             }
         }
         void OpenScene(SceneAsset scene)
@@ -46,5 +55,6 @@ namespace Mystic
             }
             return Asset.name;
         }
+        private DoubleClickCtrl _doubleClick = new();
     }
 }

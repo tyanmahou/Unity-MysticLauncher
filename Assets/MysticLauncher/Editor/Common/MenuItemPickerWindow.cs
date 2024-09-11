@@ -14,7 +14,7 @@ namespace Mystic
     {
         static MenuItemPickerWindow()
         {
-            _items = FindMenuItems();
+            _items ??= FindMenuItems();
         }
         public static void Show(SerializedProperty property)
         {
@@ -104,24 +104,23 @@ namespace Mystic
             List<string> items = new List<string>();
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            // 全てのタイプを取得
-            foreach (Type type in assemblies.SelectMany(a => a.GetTypes()))
+            // 全てのstaticメソッドを取得
+            foreach (MethodInfo method in assemblies
+                .SelectMany(a => a.GetTypes())
+                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                )
             {
-                // 各タイプの全てのメソッドを取得
-                foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                // MenuItemアトリビュートが付いているか確認
+                object[] attributes = method.GetCustomAttributes(typeof(MenuItem), false);
+                if (attributes.Length > 0)
                 {
-                    // MenuItemアトリビュートが付いているか確認
-                    object[] attributes = method.GetCustomAttributes(typeof(MenuItem), false);
-                    if (attributes.Length > 0)
+                    foreach (MenuItem menuItem in attributes)
                     {
-                        foreach (MenuItem menuItem in attributes)
-                        {
-                            items.Add(menuItem.menuItem);
-                        }
+                        items.Add(menuItem.menuItem);
                     }
                 }
             }
-            return items.ToArray();
+            return items.Distinct().OrderBy(s => s).ToArray();
         }
         private SerializedProperty _property;
         private string _searchString = "";
