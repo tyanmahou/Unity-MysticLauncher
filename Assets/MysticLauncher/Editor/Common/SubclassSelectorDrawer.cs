@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace Mystic
@@ -18,9 +19,16 @@ namespace Mystic
                 _initialized = true;
             }
             GetCurrentTypeIndex(property.managedReferenceFullTypename);
-            int selectedTypeIndex = EditorGUI.Popup(GetPopupPosition(position), _currentTypeIndex, _typePopupNameArray);
-            UpdatePropertyToSelectedTypeIndex(property, selectedTypeIndex);
-
+            Rect buttonPosition = GetPopupPosition(position);
+            if (GUI.Button(buttonPosition, _typePopupNameArray[_currentTypeIndex], EditorStyles.popup))
+            {
+                string title = $"{label.text} <color=grey><i>({GetFieldType(property).Name})</i></color>";
+                var dropdown = new SubclassSelectorDropdown(new(), title, _typePopupNameArray, (i) =>
+                {
+                    UpdatePropertyToSelectedTypeIndex(property, i);
+                });
+                dropdown.Show(buttonPosition);
+            }
             EditorGUI.PropertyField(position, property, label, true);
         }
 
@@ -71,6 +79,7 @@ namespace Mystic
             Type selectedType = _inheritedTypes[selectedTypeIndex];
             property.managedReferenceValue =
                 selectedType == null ? null : Activator.CreateInstance(selectedType);
+            property.serializedObject.ApplyModifiedProperties();
         }
 
         private Rect GetPopupPosition(Rect currentPosition)
@@ -86,6 +95,5 @@ namespace Mystic
         string[] _typePopupNameArray;
         string[] _typeFullNameArray;
         int _currentTypeIndex;
-
     }
 }
