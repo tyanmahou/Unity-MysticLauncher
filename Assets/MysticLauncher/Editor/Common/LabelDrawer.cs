@@ -14,10 +14,10 @@ namespace Mystic
 
             // プロパティのラベルを表示
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-            var popPos = position;
-            popPos.height = EditorGUIUtility.singleLineHeight * 2 + 5;
-            popPos.y -= popPos.height - EditorGUIUtility.singleLineHeight;
-            popPos.width -= 32;
+            var popRect = position;
+            popRect.height = EditorGUIUtility.singleLineHeight * 2 + 5;
+            popRect.y += EditorGUIUtility.singleLineHeight;
+            popRect.width -= 32;
             EditorGUI.indentLevel = 0;
             var text = property.FindPropertyRelative("Text");
             var tooltip = property.FindPropertyRelative("Tooltip");
@@ -29,7 +29,10 @@ namespace Mystic
             position.width = 20;
             if (GUI.Button(position, EditorGUIUtility.IconContent("Info"), EditorStyles.iconButton))
             {
-                PopupWindow.Show(popPos, new TextInputPopup(tooltip, popPos.size));
+                var popPos = popRect;
+                popPos.width = 0;
+                popPos.height = 0;
+                PopupWindow.Show(popPos, new TextInputPopup(tooltip, popRect.size));
             }
             position.x += 20;
             position.width = 32;
