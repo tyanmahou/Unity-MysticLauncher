@@ -9,6 +9,7 @@ namespace Mystic
     public struct Label
     {
         public string Text;
+        public string Tooltip;
         public Icon Icon;
     }
 }

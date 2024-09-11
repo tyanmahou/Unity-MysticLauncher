@@ -15,6 +15,7 @@ MonoBehaviour:
   _projectInfo:
     ProjectName:
       Text: Mystic Launcher
+      Tooltip: 
       Icon:
         _icon: {fileID: 0}
         _unityIcon: d_Profiler.UIDetails@2x
@@ -43,6 +44,7 @@ MonoBehaviour:
       data:
         Label:
           Text: Scenes
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: UnityLogo
@@ -62,43 +64,43 @@ MonoBehaviour:
       data:
         Label:
           Text: Unity
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
-        Tooltip: 
         _action:
-          Url: https://unity.com/ja
+          URL: 
     - rid: 5674513782436266001
       type: {class: URLElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
           Text: Unity Documents
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
-        Tooltip: 
         _action:
-          Url: https://docs.unity.com
+          URL: 
     - rid: 5674513782436266003
       type: {class: URLElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
           Text: Unity Forum
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
-        Tooltip: 
         _action:
-          Url: https://discussions.unity.com
+          URL: 
     - rid: 5674513782436266004
       type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
         Label:
           Text: Open C# Project
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_cs Script Icon
-        Tooltip: 
         _action:
           ItemName: Assets/Open C# Project
     - rid: 5674513782436266005
@@ -106,10 +108,10 @@ MonoBehaviour:
       data:
         Label:
           Text: Test Runner
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
-        Tooltip: 
         _action:
           ItemName: Window/General/Test Runner
     - rid: 5674513782436266006
@@ -117,10 +119,10 @@ MonoBehaviour:
       data:
         Label:
           Text: Profiler
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_UnityEditor.ProfilerWindow@2x
-        Tooltip: 
         _action:
           ItemName: Window/Analysis/Profiler %7
     - rid: 5674513782436266007
@@ -128,10 +130,10 @@ MonoBehaviour:
       data:
         Label:
           Text: Frame Debugger
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Debug_Frame_d
-        Tooltip: 
         _action:
           ItemName: Window/Analysis/Frame Debugger
     - rid: 6547972820886093901
@@ -139,6 +141,7 @@ MonoBehaviour:
       data:
         Label:
           Text: Repositories
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_CacheServerConnected@2x
@@ -150,6 +153,7 @@ MonoBehaviour:
       data:
         Label:
           Text: Unity-MysticLauncher
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
@@ -160,6 +164,7 @@ MonoBehaviour:
       data:
         Label:
           Text: Tools
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_CustomTool@2x
@@ -172,6 +177,7 @@ MonoBehaviour:
       data:
         Label:
           Text: Links
+          Tooltip: 
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Link@2x
@@ -183,50 +189,50 @@ MonoBehaviour:
         Elements:
         - Label:
             Text: Animation
+            Tooltip: 
             Icon:
               _icon: {fileID: 0}
               _unityIcon: UnityEditor.AnimationWindow@2x
-          Tooltip: 
           _action:
             rid: 6547972820886093918
         - Label:
             Text: Animator
+            Tooltip: 
             Icon:
               _icon: {fileID: 0}
               _unityIcon: d_Animator Icon
-          Tooltip: 
           _action:
             rid: 6547972820886093914
         - Label:
             Text: Timeline
+            Tooltip: 
             Icon:
               _icon: {fileID: 0}
               _unityIcon: UnityEditor.Timeline.TimelineWindow@2x
-          Tooltip: 
           _action:
             rid: 6547972820886093916
         - Label:
             Text: Mixer
+            Tooltip: 
             Icon:
               _icon: {fileID: 0}
               _unityIcon: d_Audio Mixer@2x
-          Tooltip: 
           _action:
             rid: 6547972820886093917
         - Label:
             Text: Package
+            Tooltip: Open Package Manager
             Icon:
               _icon: {fileID: 0}
               _unityIcon: Package Manager@2x
-          Tooltip: 
           _action:
             rid: 6547972820886093915
         - Label:
             Text: Search
+            Tooltip: 
             Icon:
               _icon: {fileID: 0}
               _unityIcon: SearchDatabase Icon
-          Tooltip: 
           _action:
             rid: 6547972820886093919
     - rid: 6547972820886093914

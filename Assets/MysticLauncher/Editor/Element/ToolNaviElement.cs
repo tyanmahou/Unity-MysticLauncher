@@ -16,7 +16,7 @@ namespace Mystic
             using var h = new GUILayout.HorizontalScope();
             foreach (var element in Elements) 
             {
-                if (EditorGUIUtil.ButtonSquare(element.Label, element.Tooltip))
+                if (EditorGUIUtil.ButtonSquare(element.Label))
                 {
                     element.Execute();
                 }

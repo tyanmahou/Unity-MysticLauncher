@@ -40,11 +40,7 @@ namespace Mystic
         static GUIContent _folderOpendContent;
         public static bool Button(in Label label)
         {
-            return Button(label, string.Empty);
-        }
-        public static bool Button(in Label label, string tooltip)
-        {
-            return Button(label.Icon, label.Text, tooltip, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
+            return Button(label.Icon, label.Text ?? string.Empty, label.Tooltip ?? string.Empty, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 2));
         }
         public static bool Button(Icon icon, string label, string tooltip, params GUILayoutOption[] options)
         {
@@ -59,9 +55,9 @@ namespace Mystic
             }
             return GUILayout.Button(new GUIContent(label, tooltip), skin, options);
         }
-        public static bool ButtonSquare(in Label label, string tooltip, float size = 60)
+        public static bool ButtonSquare(in Label label, float size = 60)
         {
-            return ButtonSquare(label.Icon, label.Text, tooltip, size);
+            return ButtonSquare(label.Icon, label.Text ?? string.Empty, label.Tooltip ?? string.Empty, size);
         }
         public static bool ButtonSquare(Icon icon, string label, string tooltip, float size = 60)
         {
