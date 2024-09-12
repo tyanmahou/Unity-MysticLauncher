@@ -32,14 +32,7 @@ namespace Mystic
 
         public override void OnGUI(string searchContext)
         {
-            EditorGUI.BeginChangeCheck();
-            // 設定ファイルの標準のインスペクターを表示
             _editor.OnInspectorGUI();
-            if (EditorGUI.EndChangeCheck())
-            {
-                // 差分があったら保存
-                LauncherProjectSettings.instance.Save();
-            }
         }
     }
 }

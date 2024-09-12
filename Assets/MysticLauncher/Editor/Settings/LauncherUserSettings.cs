@@ -26,6 +26,11 @@ namespace Mystic
             new HistoryLayout(),
         };
 
+        public void OnValidate()
+        {
+            // 変更があったら保存
+            Save(true);
+        }
         public void Save()
         {
             Save(true);
