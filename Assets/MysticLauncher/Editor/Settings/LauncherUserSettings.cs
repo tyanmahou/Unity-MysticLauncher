@@ -7,11 +7,11 @@ namespace Mystic
     public class LauncherUserSettings : ScriptableSingleton<LauncherUserSettings>
     {
         [SerializeField, FileSelect]
-        private string _terminalPath = "";
+        private string _terminalPath = string.Empty;
         public string TerminalPath => _terminalPath;
 
         [SerializeField]
-        private EnvSettings _env;
+        private EnvSettings _env = new();
         public EnvSettings Env => _env;
 
         [NamedArrayElement, SerializeReference, SubclassSelector]

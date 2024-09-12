@@ -14,7 +14,7 @@ namespace Mystic
         public static string ProjectPath => Application.dataPath + "/../";
         public static string FixedPath(string path)
         {
-            return RelativeOrFullPath(ReplaceEnv(path));
+            return RelativeOrFullPath(ReplaceEnv(path ?? string.Empty));
         }
         public static string RelativeOrFullPath(string path)
         {
@@ -24,7 +24,7 @@ namespace Mystic
         }
         public static string RelativePathInProject(string fullPath, bool isDirectory = false)
         {
-            return RelativePathInProject(ProjectPath, fullPath, isDirectory);
+            return RelativePathInProject(ProjectPath, fullPath ?? string.Empty, isDirectory);
         }
         public static string RelativePathInProject(string basePath, string fullPath, bool isDirectory = false)
         {
