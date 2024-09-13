@@ -50,5 +50,12 @@ namespace Mystic
         {
             Save(true);
         }
+        private void OnValidate()
+        {
+            if (!EditorUtility.IsPersistent(this))
+            {
+                Save(true);
+            }
+        }
     }
 }

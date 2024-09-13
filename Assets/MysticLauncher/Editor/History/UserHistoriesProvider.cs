@@ -32,12 +32,7 @@ namespace Mystic
 
         public override void OnGUI(string searchContext)
         {
-            EditorGUI.BeginChangeCheck();
             _editor.OnInspectorGUI();
-            if (EditorGUI.EndChangeCheck())
-            {
-                UserHistories.instance.Save();
-            }
         }
     }
 }

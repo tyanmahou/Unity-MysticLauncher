@@ -49,6 +49,10 @@ namespace Mystic
             {
                 _historyMaxCount = 0;
             }
+            if (!EditorUtility.IsPersistent(this))
+            {
+                Save(true);
+            }
         }
     }
 }

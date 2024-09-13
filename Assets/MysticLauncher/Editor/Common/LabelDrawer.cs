@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Mystic

@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
 
 namespace Mystic
 {
