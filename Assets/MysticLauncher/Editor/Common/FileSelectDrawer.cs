@@ -36,9 +36,9 @@ namespace Mystic
                     fileSelectAttribute.Directory,
                     fileSelectAttribute.Extension
                     );
-                path = PathUtil.RelativePathInProject(path);
                 if (!string.IsNullOrEmpty(path))
                 {
+                    path = PathUtil.RelativePathInProject(path);
                     property.stringValue = path;
                 }
             }
