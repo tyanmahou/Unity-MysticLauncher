@@ -28,8 +28,11 @@ namespace Mystic
 
         public void OnValidate()
         {
-            // 変更があったら保存
-            Save(true);
+            if (!EditorUtility.IsPersistent(this))
+            {
+                Save(true);
+            }
+
         }
         public void Save()
         {

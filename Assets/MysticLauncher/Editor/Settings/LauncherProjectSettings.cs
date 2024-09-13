@@ -17,8 +17,10 @@ namespace Mystic
         public ITabLayout[] ProjectTabs = new ITabLayout[0];
         public void OnValidate()
         {
-            // 変更があったら保存
-            Save(true);
+            if (!EditorUtility.IsPersistent(this))
+            {
+                Save(true);
+            }
         }
         public void Save()
         {
