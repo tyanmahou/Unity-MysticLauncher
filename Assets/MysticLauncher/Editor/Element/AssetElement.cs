@@ -26,11 +26,11 @@ namespace Mystic
                     AssetDatabase.OpenAsset(Asset);
                 }
             }
-            if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolZoom On@2x"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (EditorGUIUtil.IconButton("ViewToolZoom On@2x", "Ping Asset"))
             {
                 EditorGUIUtility.PingObject(Asset);
             }
-            if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (EditorGUIUtil.IconButton("d_editicon.sml", "Open Asset"))
             {
                 AssetDatabase.OpenAsset(Asset);
             }

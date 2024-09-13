@@ -23,16 +23,14 @@ namespace Mystic
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {
-                GUIContent icon = EditorGUIUtility.IconContent("d_FolderOpened Icon");
-                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (EditorGUIUtil.IconButton("d_FolderOpened Icon", "Open Explorer"))
                 {
                     OpenFolder(path);
                 }
             }
             // ターミナルを開く
             {
-                GUIContent icon = EditorGUIUtility.IconContent("d_BuildSettings.Standalone");
-                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (EditorGUIUtil.IconButton("d_BuildSettings.Standalone", "Open Terminal"))
                 {
                     OpenTerminal(path);
                 }

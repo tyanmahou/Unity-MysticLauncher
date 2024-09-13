@@ -138,5 +138,18 @@ namespace Mystic
                 : new Color(0.12f, 0.12f, 0.12f, 1.333f)
                 );
         }
+
+        public static GUIContent NewIconContent(string iconName, string text = "", string tooltip = "")
+        {
+            var content = new GUIContent(EditorGUIUtility.IconContent(iconName));
+            content.text = text;
+            content.tooltip = tooltip;
+            return content;
+        }
+        public static bool IconButton(string iconName, string tooltip = "")
+        {
+            var content = NewIconContent(iconName, string.Empty, tooltip);
+            return GUILayout.Button(content, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+        }
     }
 }

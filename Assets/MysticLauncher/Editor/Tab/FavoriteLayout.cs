@@ -27,16 +27,16 @@ namespace Mystic
                 string prevSearch = _searchString;
                 _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField, GUILayout.MinWidth(0));
                 isChangedSearch = _searchString != prevSearch;
-                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderEmpty On Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (EditorGUIUtil.IconButton("d_FolderEmpty On Icon", "Close Toggle All"))
                 {
                     CloseToggleAll();
                 }
-                if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderOpened Icon"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (EditorGUIUtil.IconButton("d_FolderOpened Icon", "Open Toggle All"))
                 {
                     OpenToggleAll();
                 }
 
-                if (GUILayout.Button(EditorGUIUtility.IconContent("d_Favorite_colored"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                if (EditorGUIUtil.IconButton("d_Favorite_colored", "Show Favorite Window"))
                 {
                     FavoriteWindow.Show(null);
                 }
@@ -179,11 +179,11 @@ namespace Mystic
                     ShowContextMenu(entry);
                 }
             }
-            if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolZoom On@2x"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (EditorGUIUtil.IconButton("ViewToolZoom On@2x", "Ping Asset"))
             {
                 EditorGUIUtility.PingObject(entry.Asset);
             }
-            if (GUILayout.Button(EditorGUIUtility.IconContent("d_editicon.sml"), GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (EditorGUIUtil.IconButton("d_editicon.sml", "Open Asset"))
             {
                 AssetDatabase.OpenAsset(entry.Asset);
             }

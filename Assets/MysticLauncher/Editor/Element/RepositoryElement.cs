@@ -27,35 +27,34 @@ namespace Mystic
             if (Label.Icon.TryGetGUIContent(out var content))
             {
                 content.text = label;
+                content.tooltip = Label.Tooltip;
                 GUILayout.Label(content, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
             else
             {
-                GUILayout.Label(label, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                GUILayout.Label(new GUIContent(label, Label.Tooltip), skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
             var path = PathUtil.FixedPath(LocalPath);
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
+            if (EditorGUIUtil.IconButton("d_FolderOpened Icon", "Open Explorer"))
             {
-                GUIContent icon = EditorGUIUtility.IconContent("d_FolderOpened Icon");
-                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
-                {
-                    OpenFolder(path);
-                }
+                OpenFolder(path);
             }
             // ターミナルを開く
+            if (EditorGUIUtil.IconButton("d_BuildSettings.Standalone", "Open Terminal"))
             {
-                GUIContent icon = EditorGUIUtility.IconContent("d_BuildSettings.Standalone");
-                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
-                {
-                    OpenTerminal(path);
-                }
+                OpenTerminal(path);
             }
             // リモートを開く
             GUI.enabled = old && !string.IsNullOrEmpty(RemoteUrl);
             {
-                GUIContent icon = EditorGUIUtility.IconContent("d_Profiler.GlobalIllumination");
-                if (GUILayout.Button(icon, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                string remoteURLTooltip = string.Empty;
+                if (!string.IsNullOrEmpty(RemoteUrl))
+                {
+                    remoteURLTooltip = $"Open Remote URL\n<color=grey>{RemoteUrl}</color>";
+                }
+                if (EditorGUIUtil.IconButton("d_Profiler.GlobalIllumination", remoteURLTooltip))
                 {
                     OpenUrl(RemoteUrl);
                 }

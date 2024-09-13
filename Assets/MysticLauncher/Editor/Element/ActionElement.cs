@@ -33,11 +33,16 @@ namespace Mystic
         public Label Label;
 
         [SerializeField, Flatten]
-        private T _action;
+        protected T _action;
 
         public void OnGUI()
         {
-            if (EditorGUIUtil.Button(Label))
+            var label = Label;
+            if (string.IsNullOrEmpty(label.Tooltip))
+            {
+                label.Tooltip = DefaultTooltip();
+            }
+            if (EditorGUIUtil.Button(label))
             {
                 Execute();
             }
@@ -45,6 +50,10 @@ namespace Mystic
         public void Execute()
         {
             _action?.Execute();
+        }
+        protected virtual string DefaultTooltip()
+        {
+            return string.Empty;
         }
         public override string ToString()
         {
