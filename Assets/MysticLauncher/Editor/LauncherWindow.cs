@@ -96,14 +96,11 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 GUILayout.FlexibleSpace();
-                var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
-                icon.text = "Project ";
-                if (GUILayout.Button(icon))
+                if (EditorGUIUtil.IconTextButton("d__Popup", "Project "))
                 {
                     SettingsService.OpenProjectSettings(LauncherProjectSettingsProvider.SettingPath);
                 }
-                icon.text = "User ";
-                if (GUILayout.Button(icon))
+                if (EditorGUIUtil.IconTextButton("d__Popup", "User "))
                 {
                     SettingsService.OpenUserPreferences(LauncherUserSettingsProvider.SettingPath);
                 }

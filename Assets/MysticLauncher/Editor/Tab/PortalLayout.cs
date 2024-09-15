@@ -16,9 +16,7 @@ namespace Mystic
             if (elements.Length <= 0)
             {
                 EditorGUILayout.HelpBox("Edit Project Portal", MessageType.Info);
-                var icon = new GUIContent(EditorGUIUtility.IconContent("d__Popup"));
-                icon.text = "Edit";
-                if (GUILayout.Button(icon))
+                if (EditorGUIUtil.IconTextButton("d__Popup", "Edit"))
                 {
                     SettingsService.OpenProjectSettings(LauncherProjectSettingsProvider.SettingPath);
                 }
