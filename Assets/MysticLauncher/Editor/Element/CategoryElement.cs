@@ -8,6 +8,13 @@ namespace Mystic
     [Serializable]
     public class CategoryElement : IElement
     {
+        public static CategoryElement Create(string text, string tooltip = "", string icon = null)
+        {
+            return new CategoryElement()
+            {
+                Label = Label.Create(text, tooltip, icon),
+            };
+        }
         const float height = 30;
         const float iconSize = 20;
 

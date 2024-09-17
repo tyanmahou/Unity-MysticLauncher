@@ -9,6 +9,17 @@ namespace Mystic
     [Serializable]
     public struct SettingServicePath
     {
+        public static SettingServicePath Create(SettingsScope scope, string path)
+        {
+            return new SettingServicePath()
+            {
+                Scope = scope,
+                SettingPath = path,
+            };
+        }
+        public static SettingServicePath CreateProject(string path) => Create(SettingsScope.Project, path);
+        public static SettingServicePath CreateUser(string path) => Create(SettingsScope.User, path);
+
         public SettingsScope Scope;
         public string SettingPath;
 

@@ -1,10 +1,26 @@
 ﻿using System;
+using UnityEditor;
 
 namespace Mystic
 {
     [Serializable]
     public class SettingServiceElement : ActionElement<OpenSettingService>
     {
+        public static SettingServiceElement Create(string text, SettingsScope scope, string path, string tooltip = "", string icon = null)
+        {
+            return new SettingServiceElement()
+            {
+                Label = Label.Create(text, tooltip, icon),
+                _action = new OpenSettingService()
+                {
+                    Path = SettingServicePath.Create(scope, path)
+                }
+            };
+        }
+        public static SettingServiceElement CreateProject(string text, string path, string tooltip = "", string icon = null)
+            => Create(text, SettingsScope.Project, path, tooltip, icon);
+        public static SettingServiceElement CreateUser(string text, string path, string tooltip = "", string icon = null) 
+            => Create(text, SettingsScope.User, path, tooltip, icon);
         protected override string DefaultTooltip()
         {
             if (_action is null)

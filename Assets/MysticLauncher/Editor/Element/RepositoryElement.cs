@@ -9,6 +9,15 @@ namespace Mystic
     [Serializable]
     public class RepositoryElement : IElement
     {
+        public static RepositoryElement Create(string text, string localPath, string remotePath = "", string tooltip = "", string icon = null)
+        {
+            return new RepositoryElement()
+            {
+                Label = Label.Create(text, tooltip, icon),
+                LocalPath = localPath,
+                RemoteUrl = remotePath,
+            };
+        }
         public Label Label;
 
         [FolderSelect]

@@ -6,10 +6,27 @@ namespace Mystic
     [Serializable]
     public class ActionElement : IElement
     {
+        public static ActionElement CreateMenuItem(string labelText, string icon, string menuItem)
+        {
+            return new ActionElement()
+            {
+                Label = Label.Create(labelText, icon: icon),
+                Action = new MenuItemAction()
+                {
+                    ItemName = menuItem,
+                }
+            };
+        }
         public Label Label;
 
-        [SerializeReference, SubclassSelector]
-        public IToolAction _action;
+        [SerializeField, SerializeReference, SubclassSelector]
+        private IToolAction _action;
+
+        public IToolAction Action
+        {
+            get => _action;
+            set => _action = value;
+        }
 
         public void OnGUI()
         {
@@ -35,6 +52,11 @@ namespace Mystic
         [SerializeField, Flatten]
         protected T _action;
 
+        public T Action
+        {
+            get => _action;
+            set => _action = value;
+        }
         public void OnGUI()
         {
             var label = Label;
