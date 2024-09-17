@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
+using static Mystic.TreeElement;
 
 namespace Mystic
 {
@@ -34,6 +36,39 @@ namespace Mystic
                     }
                 };
                 portal.Add(tools);
+            }
+            {
+                var links = CategoryElement.Create("Links", icon: "d_Linked@2x");
+                links.Elements = new IElement[]
+                {
+                    new TreeElement()
+                    {
+                        Elements = new Elem[]
+                        {
+                            new Elem()
+                            {
+                                Group = "Unity",
+                                Element = URLElement.Create("Unity", "https://unity.com/")
+                            },
+                            new Elem()
+                            {
+                                Group = "Unity",
+                                Element = URLElement.Create("Unity Document", "https://docs.unity3d.com/")
+                            },
+                            new Elem()
+                            {
+                                Group = "Unity",
+                                Element = URLElement.Create("Unity Forum", "https://discussions.unity.com")
+                            },
+                            new Elem()
+                            {
+                                Group = "Mystic",
+                                Element = URLElement.Create("Unity-MysticLauncher", "https://github.com/tyanmahou/Unity-MysticLauncher")
+                            },
+                        },
+                    }
+                };
+                portal.Add(links);
             }
             return portal.ToArray();
         }
