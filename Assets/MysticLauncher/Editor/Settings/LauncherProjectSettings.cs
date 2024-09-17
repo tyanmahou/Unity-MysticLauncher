@@ -11,7 +11,7 @@ namespace Mystic
         public ProjectInfo ProjectInfo => _projectInfo;
 
         [NamedArrayElement, SerializeReference, SubclassSelector]
-        public IElement[] PortalLayout = new IElement[0];
+        public IElement[] PortalLayout = DefaultSetting.CreatePortal();
 
         [NamedArrayElement, SerializeReference, SubclassSelector]
         public ITabLayout[] ProjectTabs = new ITabLayout[0];
