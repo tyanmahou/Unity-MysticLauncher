@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
-    public class OpenUrlAction : IToolAction
+    public class OpenURLAction : IToolAction
     {
         public string URL;
 

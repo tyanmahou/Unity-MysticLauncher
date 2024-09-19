@@ -69,7 +69,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: 
         _action:
-          URL: 
+          URL: https://unity.com/
     - rid: 5674513782436266001
       type: {class: URLElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -80,7 +80,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: 
         _action:
-          URL: 
+          URL: https://docs.unity3d.com/
     - rid: 5674513782436266003
       type: {class: URLElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -91,7 +91,7 @@ MonoBehaviour:
             _icon: {fileID: 0}
             _unityIcon: 
         _action:
-          URL: 
+          URL: https://discussions.unity.com
     - rid: 5674513782436266004
       type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
