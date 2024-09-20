@@ -12,31 +12,98 @@ namespace Mystic
     /// <typeparam name="Elm"></typeparam>
     public class GroupTreeView<Elm>
     {
+        public delegate bool ToggleFunc(Node node);
+
+        public class Node
+        {
+            public Node(string name, string group)
+            {
+                Name = name;
+                Group = group;
+            }
+
+            public string Name { get; }
+            public string Group { get; }
+            public Dictionary<string, Node> Children { get; } = new();
+            public List<Elm> Entries { get; } = new();
+        }
+        
+
         public Func<Elm, string> GroupSelector { get; set; }
         public Action<Elm> DrawElementCallback {  get; set; }
-        public Func<string, bool> DefaultToggleCallback { get; set; }
+        public ToggleFunc DefaultToggleCallback { get; set; }
+        public ToggleFunc ForceOpenToggle { get; set; }
+        public Action<Node, Action<Node>> DrawGroupDecorater{ get; set; }
 
         public void OnGUI(IEnumerable<Elm> elements)
         {
-            var root = MakeTree(elements);
-            Draw(root);
+            _root = MakeTree(elements);
+
+            if (DrawGroupDecorater is null)
+            {
+                Draw(_root);
+            }
+            else
+            {
+                DrawGroupDecorater?.Invoke(_root, Draw);
+            }
         }
+
+        public void Toggle(string group, bool on)
+        {
+            _toggle[group] = on;
+        }
+        public void Toggle(bool on) => Toggle(_root, on);
+        public void ToggleOn() => Toggle(true);
+        public void ToggleOff() => Toggle(false);
+        void Toggle(Node node, bool on)
+        {
+            if (node is null)
+            {
+                return;
+            }
+            foreach (Node child in node.Children.Values)
+            {
+                _toggle[child.Group] = on;
+                Toggle(child, on);
+            }
+        }
+
         void Draw(Node node)
         {
-            foreach (Node child in node.Children.Values.OrderBy(n => n.Group))
+            void DrawChild(Node child)
             {
                 if (!_toggle.TryGetValue(child.Group, out bool toggleOn))
                 {
-                    toggleOn = DefaultToggleCallback?.Invoke(child.Group) ?? true;
+                    toggleOn = DefaultToggleCallback?.Invoke(child) ?? true;
                     _toggle.Add(child.Group, toggleOn);
                 }
                 GUIContent contnet = EditorGUIUtil.FolderTogleContent(toggleOn, child.Name);
                 toggleOn = EditorGUILayout.Foldout(toggleOn, contnet, true);
+                if (ForceOpenToggle != null && ForceOpenToggle(child))
+                {
+                    toggleOn = true;
+                }
                 _toggle[child.Group] = toggleOn;
                 if (toggleOn)
                 {
-                    using var indent = new EditorGUI.IndentLevelScope();
-                    Draw(child);
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        Draw(child);
+                    }
+                }
+            }
+
+            foreach (Node child in node.Children.Values.OrderBy(n => n.Group))
+            {
+
+                if (DrawGroupDecorater is null)
+                {
+                    DrawChild(child);
+                }
+                else
+                {
+                    DrawGroupDecorater?.Invoke(child, DrawChild);
                 }
             }
             using (new EditorGUI.IndentLevelScope())
@@ -89,19 +156,7 @@ namespace Mystic
             }
             return root;
         }
-        class Node
-        {
-            public Node(string name, string group)
-            {
-                Name = name;
-                Group = group;
-            }
-
-            public string Name { get; }
-            public string Group { get; }
-            public Dictionary<string, Node> Children { get; } = new();
-            public List<Elm> Entries { get; } = new();
-        }
         Dictionary<string, bool> _toggle = new();
+        Node _root;
     }
 }

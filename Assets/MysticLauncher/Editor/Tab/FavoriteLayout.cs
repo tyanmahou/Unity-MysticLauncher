@@ -65,9 +65,25 @@ namespace Mystic
 
                 _groupRange.Clear();
                 {
-                    using var registRect = ScopedRectRegist(string.Empty, true);
-                    var favList = entries.Where(SearchFilter);
-                    Draw(favList, dic, string.Empty, isChangedSearch);
+                    _treeView.GroupSelector = f => f.FavoriteGroup;
+                    _treeView.DrawElementCallback = DrawEntry;
+                    _treeView.ForceOpenToggle = (node) =>
+                    {
+                        if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
+                        {
+                            if (node.Entries.Count > 0 || node.Children.Count > 0)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    };
+                    _treeView.DrawGroupDecorater = (node, drawer) =>
+                    {
+                        using var registRect = ScopedRectRegist(node.Group, string.IsNullOrEmpty(node.Group));
+                        drawer(node);
+                    };
+                    _treeView.OnGUI(entries.Where(SearchFilter));
                 }
                 if (TryGetDragAndDrop(out var registObjs, out string group))
                 {
@@ -85,52 +101,6 @@ namespace Mystic
                 GUI.Box(dropArea, "<b>↑ Drag & Drop Here ↑</b>", skin);
             }
         }
-        void Draw(IEnumerable<FavoriteEntry> favList, Dictionary<string, List<FavoriteEntry>> dic, string path, bool isChangedSearch)
-        {
-            favList = GetNextPaths(favList, path);
-            foreach (string next in CalcNextPathNames(favList, path))
-            {
-                string nextFullPath = path;
-                if (string.IsNullOrEmpty(path))
-                {
-                    nextFullPath = next;
-                }
-                else
-                {
-                    nextFullPath += "/" + next;
-                }
-                if (!_toggle.ContainsKey(nextFullPath)) {
-                    _toggle[nextFullPath] = false;
-                }
-
-                {
-                    using var registRect = ScopedRectRegist(nextFullPath);
-                    GUIContent folderContent = EditorGUIUtil.FolderTogleContent(_toggle[nextFullPath], next);
-                    {
-                        _toggle[nextFullPath] = EditorGUILayout.Foldout(_toggle[nextFullPath], folderContent, true);
-                    }
-                    if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
-                    {
-                        if (favList.Where(SearchFilterAssetName).Count() > 0)
-                        {
-                            _toggle[nextFullPath] = true;
-                        }
-                    }
-                    if (_toggle[nextFullPath])
-                    {
-                        using var indent = new EditorGUI.IndentLevelScope();
-                        Draw(favList, dic, nextFullPath, isChangedSearch);
-                    }
-                }
-            }
-            if (dic.TryGetValue(path, out var list))
-            {
-                foreach (var entry in list.Where(SearchFilter))
-                {
-                    DrawEntry(entry);
-                }
-            }
-        }
         bool SearchFilter(FavoriteEntry f)
         {
             if (f.Asset != null)
@@ -146,21 +116,10 @@ namespace Mystic
             }
             return false;
         }
-        bool SearchFilterAssetName(FavoriteEntry f)
-        {
-            if (f.Asset != null)
-            {
-                if (f.Asset.name.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        void DrawEntry(in FavoriteEntry entry)
+        void DrawEntry(FavoriteEntry entry)
         {
             GUIStyle buttonStyle = new GUIStyle(EditorStyles.objectField);
-            buttonStyle.margin.left = EditorGUI.indentLevel * 15 + 15;
+            buttonStyle.margin.left = EditorGUI.indentLevel * 15;
 
             using var horizontal = new EditorGUILayout.HorizontalScope();
             var content = EditorGUIUtility.ObjectContent(entry.Asset, typeof(UnityEngine.Object));
@@ -214,66 +173,8 @@ namespace Mystic
         {
             return Title;
         }
-        IEnumerable<FavoriteEntry> GetNextPaths(IEnumerable<FavoriteEntry> list, string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                path += "/";
-            }
-            return list.Where(f => f.FavoriteGroup.StartsWith(path) && f.FavoriteGroup != path);
-        }
-        IEnumerable<string> CalcNextPathNames(IEnumerable<FavoriteEntry> list, string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                path += "/";
-            }
-            return list
-                .Select(f => f.FavoriteGroup)
-                .Select(s => s.Substring(path.Length).Split('/')[0])
-            .Distinct()
-                ;
-        }
-        void CloseToggleAll()
-        {
-            foreach (var path in GetAllFolderPath())
-            {
-                _toggle[path] = false;
-            }
-        }
-        void OpenToggleAll()
-        {
-            foreach (var path in GetAllFolderPath())
-            {
-                _toggle[path] = true;
-            }
-        }
-        IEnumerable<string> GetAllFolderPath()
-        {
-            return GetChildFolderPath(UserFavorite.instance.Entries, string.Empty);
-        }
-        IEnumerable<string> GetChildFolderPath(IEnumerable<FavoriteEntry> favList, string path)
-        {
-            favList = GetNextPaths(favList, path);
-            foreach (string next in CalcNextPathNames(favList, path))
-            {
-                string nextFullPath = path;
-                if (string.IsNullOrEmpty(path))
-                {
-                    nextFullPath = next;
-                }
-                else
-                {
-                    nextFullPath += "/" + next;
-                }
-                yield return nextFullPath;
-
-                foreach (var p in GetChildFolderPath(favList, nextFullPath))
-                {
-                    yield return p;
-                }
-            }
-        }
+        void CloseToggleAll() => _treeView.ToggleOff();
+        void OpenToggleAll() => _treeView.ToggleOn();
         bool TryGetDragAndDrop(out IReadOnlyList<UnityEngine.Object> objs, out string group)
         {
             objs = null;
@@ -311,7 +212,7 @@ namespace Mystic
 
             objs = DragAndDrop.objectReferences;
             group = target.Value.Item2;
-            _toggle[group] = true;
+            _treeView.Toggle(group, true);
             return true;
         }
         class ScopedRectRegister : IDisposable
@@ -345,8 +246,9 @@ namespace Mystic
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
-        Dictionary<string, bool> _toggle =new();
         List<(Rect, string)> _groupRange = new List<(Rect, string)> ();
         private DoubleClickCtrl _doubleClick = new();
+
+        GroupTreeView<FavoriteEntry> _treeView = new();
     }
 }
