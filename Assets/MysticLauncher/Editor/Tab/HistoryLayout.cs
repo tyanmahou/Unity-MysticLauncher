@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static PlasticGui.LaunchDiffParameters;
 
 namespace Mystic
 {
@@ -56,22 +57,24 @@ namespace Mystic
                 if (date != openDate)
                 {
                     openDate = date;
-                    if (!_toggle.ContainsKey(openDate))
+                    if (!_toggle.TryGetValue(openDate, out var toggleAnim))
                     {
-                        _toggle[openDate] = true;
+                        toggleAnim = new(true);
+                        _toggle.Add(openDate, toggleAnim);
                     }
                     if (isChangedSearch && !string.IsNullOrEmpty(_searchString))
                     {
-                        _toggle[openDate] = true;
+                        toggleAnim.IsOn = true;
                     }
-                    GUIContent folderContent = EditorGUIUtil.FolderTogleContent(_toggle[openDate], openDate);
-                    _toggle[openDate] = EditorGUILayout.Foldout(_toggle[openDate], folderContent, true);
+                    GUIContent folderContent = EditorGUIUtil.FolderTogleContent(toggleAnim.IsOn, openDate);
+                    toggleAnim.IsOn = EditorGUILayout.Foldout(toggleAnim.IsOn, folderContent, true);
                 }
-                if (_toggle[openDate])
+                if (EditorGUILayout.BeginFadeGroup(_toggle[openDate].Faded))
                 {
                     using var indent = new EditorGUI.IndentLevelScope();
                     DrawEntry(item);
                 }
+                EditorGUILayout.EndFadeGroup();
             }
             if (_removeEntry != null)
             {
@@ -132,18 +135,24 @@ namespace Mystic
             });
             menu.ShowAsContext();
         }
-        void CloseToggleAll()
+        void CloseToggleAll() => ToggleAll(false);
+        void OpenToggleAll() => ToggleAll(true);
+        void ToggleAll(bool isOn)
         {
             foreach (var path in GetAllFolderPath())
             {
-                _toggle[path] = false;
+                Toggle(path, isOn);
             }
         }
-        void OpenToggleAll()
+        void Toggle(string group, bool on)
         {
-            foreach (var path in GetAllFolderPath())
+            if (!_toggle.TryGetValue(group, out var toggleAnim))
             {
-                _toggle[path] = true;
+                _toggle.Add(group, new ToggleAnimBool(on));
+            }
+            else
+            {
+                toggleAnim.IsOn = on;
             }
         }
         bool SearchFilter(HistoryEntry entry)
@@ -170,7 +179,7 @@ namespace Mystic
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
-        Dictionary<string, bool> _toggle = new();
+        Dictionary<string, ToggleAnimBool> _toggle = new();
         private DoubleClickCtrl _doubleClick = new();
     }
 }

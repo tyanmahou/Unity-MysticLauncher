@@ -51,7 +51,14 @@ namespace Mystic
 
         public void Toggle(string group, bool on)
         {
-            _toggle[group] = on;
+            if (!_toggle.TryGetValue(group, out var toggleAnim))
+            {
+                _toggle.Add(group, new ToggleAnimBool(on));
+            }
+            else
+            {
+                toggleAnim.IsOn = on;
+            }
         }
         public void Toggle(bool on) => Toggle(_root, on);
         public void ToggleOn() => Toggle(true);
@@ -64,7 +71,7 @@ namespace Mystic
             }
             foreach (Node child in node.Children.Values)
             {
-                _toggle[child.Group] = on;
+                Toggle(child.Group, on);
                 Toggle(child, on);
             }
         }
@@ -73,28 +80,30 @@ namespace Mystic
         {
             void DrawChild(Node child)
             {
-                if (!_toggle.TryGetValue(child.Group, out bool toggleOn))
+                if (!_toggle.TryGetValue(child.Group, out var toggleAnim))
                 {
-                    toggleOn = DefaultToggleCallback?.Invoke(child) ?? true;
-                    _toggle.Add(child.Group, toggleOn);
+                    toggleAnim = new(DefaultToggleCallback?.Invoke(child) ?? true);
+                    _toggle.Add(child.Group, toggleAnim);
                 }
-                GUIContent contnet = EditorGUIUtil.FolderTogleContent(toggleOn, child.Name);
-                toggleOn = EditorGUILayout.Foldout(toggleOn, contnet, true);
+                bool prevToggle = toggleAnim.IsOn;
+                GUIContent contnet = EditorGUIUtil.FolderTogleContent(prevToggle, child.Name);
+                bool nextToggle = EditorGUILayout.Foldout(prevToggle, contnet, true);
                 if (ForceOpenToggle != null && ForceOpenToggle(child))
                 {
-                    toggleOn = true;
+                    nextToggle = true;
                 }
-                _toggle[child.Group] = toggleOn;
-                if (toggleOn)
+                toggleAnim.IsOn = nextToggle;
+                if (EditorGUILayout.BeginFadeGroup(toggleAnim.Faded))
                 {
                     using (new EditorGUI.IndentLevelScope())
                     {
                         Draw(child);
                     }
                 }
+                EditorGUILayout.EndFadeGroup();
             }
 
-            foreach (Node child in node.Children.Values.OrderBy(n => n.Group))
+            foreach (Node child in node.Children.Values)
             {
 
                 if (DrawGroupDecorater is null)
@@ -156,7 +165,7 @@ namespace Mystic
             }
             return root;
         }
-        Dictionary<string, bool> _toggle = new();
+        Dictionary<string, ToggleAnimBool> _toggle = new();
         Node _root;
     }
 }
