@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace Mystic
 {
@@ -20,5 +22,19 @@ namespace Mystic
         public string Text;
         public string Tooltip;
         public Icon Icon;
+
+        public GUIContent GetGUIContent()
+        {
+            if (Icon.TryGetGUIContent(out var content))
+            {
+                content.text = Text;
+                content.tooltip = Tooltip;
+                return content;
+            }
+            else
+            {
+                return new GUIContent(Text, Tooltip);
+            }
+        }
     }
 }

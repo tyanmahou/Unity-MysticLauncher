@@ -9,6 +9,8 @@ namespace Mystic
     [Serializable]
     public class FolderElement : IElement
     {
+        public Label Label;
+
         [FolderSelect]
         public string Path;
 
@@ -16,10 +18,25 @@ namespace Mystic
         {
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
-            var skin = new GUIStyle(EditorStyles.objectField);
-            skin.margin.left += EditorGUI.indentLevel * 15;
-            GUILayout.Label(Path, skin);
+
+            var skin = new GUIStyle(EditorStyles.textField);
+            skin.richText = true;
+            var content = Label.GetGUIContent();
+            if (string.IsNullOrEmpty(content.text))
+            {
+                content.text = Path;
+            }
+            else
+            {
+                content.text = $"{Label.Text} <color=grey>({Path})</color>";
+            }
+            if (!string.IsNullOrEmpty(content.tooltip))
+            {
+                content.tooltip += "\n";
+            }
             var path = PathUtil.FixedPath(Path);
+            content.tooltip += $"<color=grey>{path}</color>";
+            EditorGUILayout.LabelField(content, skin, GUILayout.MinWidth(0));
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             {

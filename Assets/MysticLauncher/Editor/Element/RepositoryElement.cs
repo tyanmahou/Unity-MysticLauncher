@@ -29,21 +29,25 @@ namespace Mystic
         {
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
-            var skin = new GUIStyle(EditorStyles.objectField);
+            var skin = new GUIStyle(EditorStyles.textField);
             skin.richText = true;
-            skin.margin.left += EditorGUI.indentLevel * 15;
-            var label = $"{Label.Text} <color=grey>({LocalPath})</color>";
-            if (Label.Icon.TryGetGUIContent(out var content))
+            var content = Label.GetGUIContent();
+            if (string.IsNullOrEmpty(content.text))
             {
-                content.text = label;
-                content.tooltip = Label.Tooltip;
-                GUILayout.Label(content, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                content.text = LocalPath;
             }
             else
             {
-                GUILayout.Label(new GUIContent(label, Label.Tooltip), skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                content.text = $"{Label.Text} <color=grey>({LocalPath})</color>";
+            }
+            if (!string.IsNullOrEmpty(content.tooltip))
+            {
+                content.tooltip += "\n";
             }
             var path = PathUtil.FixedPath(LocalPath);
+            content.tooltip += $"<color=grey>{path}</color>";
+            EditorGUILayout.LabelField(content, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
             GUI.enabled = old && System.IO.Directory.Exists(path);
             // フォルダを開く
             if (EditorGUIUtil.IconButton("d_FolderOpened Icon", "Open Explorer"))
