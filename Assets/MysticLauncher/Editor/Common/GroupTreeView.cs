@@ -16,6 +16,11 @@ namespace Mystic
         public Action<Elm> DrawElementCallback {  get; set; }
         public Func<string, bool> DefaultToggleCallback { get; set; }
 
+        public void OnGUI(IEnumerable<Elm> elements)
+        {
+            var root = MakeTree(elements);
+            Draw(root);
+        }
         void Draw(Node node)
         {
             foreach (Node child in node.Children.Values.OrderBy(n => n.Group))
@@ -34,9 +39,12 @@ namespace Mystic
                     Draw(child);
                 }
             }
-            foreach (var entry in node.Entries)
+            using (new EditorGUI.IndentLevelScope())
             {
-                DrawElementCallback?.Invoke(entry);
+                foreach (var entry in node.Entries)
+                {
+                    DrawElementCallback?.Invoke(entry);
+                }
             }
         }
         string GroupName(Elm entry)
@@ -53,6 +61,11 @@ namespace Mystic
                     return;
                 }
                 string name = splitGroup[0];
+                if (string.IsNullOrEmpty(name))
+                {
+                    current.Entries.Add(entry);
+                    return;
+                }
                 string nextGroup = group;
                 if (string.IsNullOrEmpty(group))
                 {
