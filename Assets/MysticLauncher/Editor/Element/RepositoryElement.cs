@@ -29,7 +29,7 @@ namespace Mystic
         {
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
-            var skin = new GUIStyle(EditorStyles.textField);
+            var skin = new GUIStyle(EditorStyles.objectField);
             skin.richText = true;
             var content = Label.GetGUIContent();
             if (string.IsNullOrEmpty(content.text))
