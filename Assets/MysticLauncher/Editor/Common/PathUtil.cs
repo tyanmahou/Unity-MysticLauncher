@@ -9,9 +9,19 @@ namespace Mystic
     public static class PathUtil
     {
         public static string ProjectPath => Application.dataPath + "/../";
+
+        /// <summary>
+        /// Fullパスを取得
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string FixedFullPath(string path)
+        {
+            return System.IO.Path.GetFullPath(RelativeOrFullPath(ReplaceEnv(path ?? string.Empty)));
+        }
         public static string FixedPath(string path)
         {
-            return RelativeOrFullPath(ReplaceEnv(path ?? string.Empty));
+            return System.IO.Path.GetFullPath(RelativeOrFullPath(ReplaceEnv(path ?? string.Empty)));
         }
         public static string RelativeOrFullPath(string path)
         {

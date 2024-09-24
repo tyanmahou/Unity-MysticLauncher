@@ -32,19 +32,20 @@ namespace Mystic
             var skin = new GUIStyle(EditorStyles.objectField);
             skin.richText = true;
             var content = Label.GetGUIContent();
+            string replacedLocalPath = PathUtil.ReplaceEnv(LocalPath);
             if (string.IsNullOrEmpty(content.text))
             {
-                content.text = LocalPath;
+                content.text = replacedLocalPath;
             }
             else
             {
-                content.text = $"{Label.Text} <color=grey>({LocalPath})</color>";
+                content.text = $"{Label.Text} <color=grey>({replacedLocalPath})</color>";
             }
             if (!string.IsNullOrEmpty(content.tooltip))
             {
                 content.tooltip += "\n";
             }
-            var path = PathUtil.FixedPath(LocalPath);
+            var path = PathUtil.FixedFullPath(LocalPath);
             content.tooltip += $"<color=grey>{path}</color>";
             EditorGUILayout.LabelField(content, skin, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight));
 

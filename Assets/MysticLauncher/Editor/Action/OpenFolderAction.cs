@@ -11,7 +11,7 @@ namespace Mystic
 
         public void Execute()
         {
-            var path = PathUtil.FixedPath(Path);
+            var path = PathUtil.FixedFullPath(Path);
             try
             {
                 using Process process = System.Diagnostics.Process.Start(path);
