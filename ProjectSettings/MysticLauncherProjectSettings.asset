@@ -39,6 +39,7 @@ MonoBehaviour:
         Elements:
         - rid: 5674513782436266006
         - rid: 5674513782436266007
+        - rid: 5674514121862938627
     - rid: 5674513782436265990
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -103,17 +104,6 @@ MonoBehaviour:
             _unityIcon: d_cs Script Icon
         _action:
           ItemName: Assets/Open C# Project
-    - rid: 5674513782436266005
-      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
-      data:
-        Label:
-          Text: Test Runner
-          Tooltip: 
-          Icon:
-            _icon: {fileID: 0}
-            _unityIcon: 
-        _action:
-          ItemName: Window/General/Test Runner
     - rid: 5674513782436266006
       type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -136,6 +126,17 @@ MonoBehaviour:
             _unityIcon: Debug_Frame_d
         _action:
           ItemName: Window/Analysis/Frame Debugger
+    - rid: 5674514121862938627
+      type: {class: MenuItemElement, ns: Mystic, asm: MysticLauncher.Editor}
+      data:
+        Label:
+          Text: Test Runner
+          Tooltip: 
+          Icon:
+            _icon: {fileID: 0}
+            _unityIcon: Installed
+        _action:
+          ItemName: Window/General/Test Runner
     - rid: 6547972820886093901
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
@@ -171,7 +172,6 @@ MonoBehaviour:
         Elements:
         - rid: 6547972820886093913
         - rid: 5674513757765369856
-        - rid: 5674513782436266005
     - rid: 6547972820886093908
       type: {class: CategoryElement, ns: Mystic, asm: MysticLauncher.Editor}
       data:
