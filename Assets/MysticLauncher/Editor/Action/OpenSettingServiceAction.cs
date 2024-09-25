@@ -3,7 +3,7 @@
 namespace Mystic
 {
     [Serializable]
-    public class OpenSettingService : IToolAction
+    public class OpenSettingServiceAction : IToolAction
     {
         public SettingServicePath Path;
 

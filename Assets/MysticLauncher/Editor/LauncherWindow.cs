@@ -34,35 +34,52 @@ namespace Mystic
             }
             DrawProjectHeader(projSettings);
 
-            // タブの表示
             List<ITabLayout> tabs = new(1 + projSettings.ProjectTabs.Length + userSettings.UserTabs.Length)
-            {
-                new PortalLayout(),
-            };
+                {
+                    new PortalLayout(),
+                };
             tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
 
-            _selectedTab = GUILayout.Toolbar(
-                _selectedTab,
-                tabs.Select(TabContent).ToArray(),
-                EditorStyles.toolbarButton,
-                GUI.ToolbarButtonSize.FitToContents
-                );
+            // タブの表示
+            using (var tabScroller = new GUILayout.ScrollViewScope(_tabScrollPosition, GUILayout.ExpandHeight(false)))
+            {
+                _selectedTab = GUILayout.Toolbar(
+                    _selectedTab,
+                    tabs.Select(TabContent).ToArray(),
+                    EditorStyles.toolbarButton,
+                    GUI.ToolbarButtonSize.FitToContents
+                    );
 
-            using var scrollView = new GUILayout.ScrollViewScope(_scrollPosition);
-            tabs[_selectedTab].OnGUI();
-            _scrollPosition = scrollView.scrollPosition;
+                _tabScrollPosition = tabScroller.scrollPosition;
+            }
 
+            // コンテンツの表示
+            using (var contentScroller = new GUILayout.ScrollViewScope(_contentScrollPosition))
+            {
+                if (_selectedTab < tabs.Count)
+                {
+                    tabs[_selectedTab].OnGUI();
+                }
+                _contentScrollPosition = contentScroller.scrollPosition;
+            }
         }
         GUIContent TabContent(ITabLayout layout)
         {
             if (layout.Icon.TryGetGUIContent(out var content))
             {
                 content.text = layout.Title;
+                if (!_iconTextures.TryGetValue(content.image, out Texture icon))
+                {
+                    icon = EditorGUIUtil.ResizeTexture(content.image, 16, 16);
+                    _iconTextures.Add(content.image, icon);
+                }
+                content.image = icon;
                 return content;
             }
             return new GUIContent(layout.Title);
         }
+       
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
             if (!string.IsNullOrEmpty(projSettings.ProjectInfo.HelpUrl))
@@ -107,8 +124,10 @@ namespace Mystic
             }
             EditorGUIUtil.DrawSeparator();
         }
-        Vector2 _scrollPosition;
+        Vector2 _tabScrollPosition;
+        Vector2 _contentScrollPosition;
         int _selectedTab;
-    }
 
+        static Dictionary<Texture, Texture> _iconTextures = new();
+    }
 }

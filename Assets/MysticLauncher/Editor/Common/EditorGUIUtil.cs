@@ -156,5 +156,48 @@ namespace Mystic
             var content = NewIconContent(iconName, text, tooltip);
             return GUILayout.Button(content, GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));
         }
+        public static Texture2D ResizeTexture(Texture texture, int width, int height)
+        {
+            RenderTexture renderTex = RenderTexture.GetTemporary(
+                texture.width,
+                texture.height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.sRGB
+                );
+
+            Graphics.Blit(texture, renderTex);
+            RenderTexture.active = renderTex;
+            Texture2D tempTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+            tempTexture.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            tempTexture.Apply();
+
+            RenderTexture.active = null;
+            RenderTexture.ReleaseTemporary(renderTex);
+
+            // 16x16にリサイズ
+            Texture2D resizedTexture = new Texture2D(width, height);
+
+            // 縮小処理
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    // リサンプリング: 元のテクスチャのピクセル位置を計算
+                    float u = x / (float)width;
+                    float v = y / (float)height;
+
+                    // 元のテクスチャから対応するピクセルの色を取得
+                    Color color = tempTexture.GetPixelBilinear(u, v);
+
+                    // 新しいテクスチャにピクセルをセット
+                    resizedTexture.SetPixel(x, y, color);
+                }
+            }
+            Object.DestroyImmediate(tempTexture);
+            resizedTexture.Apply();
+
+            return resizedTexture;
+        }
     }
 }

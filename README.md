@@ -38,6 +38,6 @@ https://github.com/tyanmahou/Unity-MysticLauncher.git?path=Assets/MysticLauncher
 
 #### ユーザー設定
 プロジェクト共通設定とは別に、ユーザー毎に個別の設定をサポートしています。  
-ユーザー設定は、`Preference > Mytic Launcher` からカスタマイズ可能です。   
+ユーザー設定は、`Preference > Mytic Launcher` から編集可能です。   
 
 詳細は [ユーザー設定](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E8%A8%AD%E5%AE%9A)
