@@ -1,6 +1,5 @@
 ﻿# Unity-MysticLauncher
 Unityエディタ ランチャーツール  
-[Documents](https://github.com/tyanmahou/Unity-MysticLauncher/wiki)
 
 <p align="center">
 <img src="https://github.com/user-attachments/assets/001e2d0b-39ca-44f5-9403-e29de9cba473"/>
@@ -23,7 +22,9 @@ https://github.com/tyanmahou/Unity-MysticLauncher.git?path=Assets/MysticLauncher
 
 ## 使用方法
 
-- [インストール](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+[Documents](https://github.com/tyanmahou/Unity-MysticLauncher/wiki)
+
+----
 - [ランチャーの表示](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%83%A9%E3%83%B3%E3%83%81%E3%83%A3%E3%83%BC%E3%81%AE%E8%A1%A8%E7%A4%BA)
 - [プロジェクト設定](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E8%A8%AD%E5%AE%9A)
 - [ユーザー設定](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E8%A8%AD%E5%AE%9A)
