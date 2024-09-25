@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 namespace Mystic
 {
@@ -146,10 +147,27 @@ namespace Mystic
             content.tooltip = tooltip;
             return content;
         }
+        public static Rect GetFixRect(float width, float height, GUIStyle style)
+        {
+            return GUILayoutUtility.GetRect(width, height, style, GUILayout.Width(width), GUILayout.Height(height));
+        }
+        public static Rect GetFixRect(float width, float height)
+        {
+            return GetFixRect(width, height, GUIStyle.none);
+        }
         public static bool IconButton(string iconName, string tooltip = "")
         {
-            var content = NewIconContent(iconName, string.Empty, tooltip);
-            return GUILayout.Button(content, GUILayout.Width(30), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+            var skin = new GUIStyle(GUI.skin.button);
+            skin.margin.left = skin.margin.right = 1;
+            var rect = GetFixRect(24f, EditorGUIUtility.singleLineHeight, skin);
+            bool ret = GUI.Button(rect, new GUIContent(string.Empty, tooltip));
+            var image = EditorGUIUtility.IconContent(iconName).image;
+            rect.x = rect.center.x - 8;
+            rect.width = 16;
+            rect.y = rect.center.y - 8;
+            rect.height = 16;
+            GUI.DrawTexture(rect, image, ScaleMode.ScaleToFit);
+            return ret;
         }
         public static bool IconTextButton(string iconName, string text, string tooltip = "")
         {

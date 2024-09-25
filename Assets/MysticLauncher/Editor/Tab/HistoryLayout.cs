@@ -37,6 +37,10 @@ namespace Mystic
                     histories.Clear();
                     histories.Save();
                 }
+                if (EditorGUIUtil.IconButton("d__Popup", "Settings"))
+                {
+                    SettingsService.OpenUserPreferences(UserHistoriesProvider.SettingPath);
+                }
             }
             GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();

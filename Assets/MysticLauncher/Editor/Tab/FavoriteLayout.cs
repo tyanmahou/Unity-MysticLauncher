@@ -40,6 +40,10 @@ namespace Mystic
                 {
                     FavoriteWindow.Show(null);
                 }
+                if (EditorGUIUtil.IconButton("d__Popup", "Edit"))
+                {
+                    SettingsService.OpenUserPreferences(UserFavoriteProvider.SettingPath);
+                }
             }
             GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();
