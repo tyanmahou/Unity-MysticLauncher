@@ -1,5 +1,7 @@
 ﻿# Unity-MysticLauncher
-Unity Launcher Tool
+Unityエディタ ランチャーツール
+
+![portal](https://raw.githubusercontent.com/tyanmahou/Unity-MysticLauncher/main/Docs/0.png)
 
 # 概要
 `Unity-MysticLauncher`は、Unityエディタ拡張のランチャーツールです。  
@@ -59,3 +61,12 @@ https://github.com/tyanmahou/Unity-MysticLauncher.git?path=Assets/MysticLauncher
 これにより、チーム開発では個々に自由にレイアウトを作成することが可能です。
 
 ユーザー設定は、`Preference > Mytic Launcher` からカスタマイズ可能です。 
+
+## Terminal Path
+`RepositoryElement`等でターミナル表示する際に使用する既定のシステムを指定できます。
+
+## Env
+環境変数の設定をできます。
+Mystic Launcherではパスの指定する際に、環境変数を利用することが可能です。  
+これは、`RepositoryElement`等を使用する際に、設定するパスがチーム全体で共通化できない場合に活用できます。
+環境変数は、こちらのインスペクタから登録したものだけではなく、個々のPCに設定されているものも対象となります。
