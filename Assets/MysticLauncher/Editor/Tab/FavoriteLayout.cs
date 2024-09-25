@@ -98,7 +98,7 @@ namespace Mystic
                 Rect dropArea = GUILayoutUtility.GetRect(0.0f, 20.0f, GUILayout.ExpandWidth(true));
                 var skin = new GUIStyle(GUI.skin.box);
                 skin.richText = true;
-                GUI.Box(dropArea, "<b>↑ Drag & Drop Here ↑</b>", skin);
+                GUI.Label(dropArea, "<b>↑ Drag & Drop Here ↑</b>", skin);
             }
         }
         bool SearchFilter(FavoriteEntry f)
