@@ -71,7 +71,7 @@ namespace Mystic
                 content.text = layout.Title;
                 if (!_iconTextures.TryGetValue(content.image, out Texture icon))
                 {
-                    icon = EditorGUIUtil.ResizeTexture(content.image, 16, 16);
+                    EditorGUIUtil.TryResizeTexture(content.image, 16, 16, out icon);
                     _iconTextures.Add(content.image, icon);
                 }
                 content.image = icon;

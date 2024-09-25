@@ -156,6 +156,16 @@ namespace Mystic
             var content = NewIconContent(iconName, text, tooltip);
             return GUILayout.Button(content, GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));
         }
+        public static bool TryResizeTexture(Texture texture, int width, int height, out Texture result)
+        {
+            if (texture.width == width && texture.height == height)
+            {
+                result = texture as Texture2D;
+                return false;
+            }
+            result = ResizeTexture(texture, width, height);
+            return true;
+        }
         public static Texture2D ResizeTexture(Texture texture, int width, int height)
         {
             RenderTexture renderTex = RenderTexture.GetTemporary(
