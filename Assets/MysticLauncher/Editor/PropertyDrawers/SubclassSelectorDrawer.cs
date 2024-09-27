@@ -28,6 +28,16 @@ namespace Mystic
                 });
                 dropdown.Show(buttonPosition);
             }
+            // ラベルのテキスト幅を計算
+            GUIStyle labelStyle = EditorStyles.label;
+            Vector2 labelSize = labelStyle.CalcSize(new GUIContent(label.text));
+
+            // テキストがボタンと重なる場合は、テキストを短縮
+            if (labelSize.x + position.x > buttonPosition.x - 12)
+            {
+                label.tooltip = label.text;
+                label.text = TruncateTextToFit(label.text, buttonPosition.x - 12 - position.x, labelStyle);
+            }
             EditorGUI.PropertyField(position, property, label, true);
         }
 
@@ -88,6 +98,23 @@ namespace Mystic
             popupPosition.x += EditorGUIUtility.labelWidth;
             popupPosition.height = EditorGUIUtility.singleLineHeight;
             return popupPosition;
+        }
+        // テキストを短縮して、指定された幅に収まるようにする
+        private string TruncateTextToFit(string text, float maxWidth, GUIStyle style)
+        {
+            string truncatedText = text;
+            while (style.CalcSize(new GUIContent(truncatedText + "...")).x > maxWidth)
+            {
+                if (truncatedText.Length > 1)
+                {
+                    truncatedText = truncatedText.Substring(0, truncatedText.Length - 1);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return truncatedText + "...";
         }
         bool _initialized = false;
         Type[] _inheritedTypes;
