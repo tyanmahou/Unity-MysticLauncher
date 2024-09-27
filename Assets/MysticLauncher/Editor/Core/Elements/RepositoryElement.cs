@@ -27,19 +27,36 @@ namespace Mystic
 
         public void OnGUI()
         {
+            var rect = GUILayoutUtility.GetRect(0, 0);
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
-            var skin = new GUIStyle(EditorStyles.objectField);
+            var skin = new GUIStyle(EditorStyles.textField);
             skin.richText = true;
+            skin.imagePosition = ImagePosition.ImageLeft;
             var content = Label.GetGUIContent();
             string replacedLocalPath = PathUtil.ReplaceEnv(LocalPath);
             if (string.IsNullOrEmpty(content.text))
             {
                 content.text = replacedLocalPath;
+                if (EditorGUIUtil.TruncateFit(content, rect.width - 28 * 3, skin))
+                {
+
+                }
             }
             else
             {
-                content.text = $"{Label.Text} <color=grey>({replacedLocalPath})</color>";
+                content.text = $"{Label.Text} ({replacedLocalPath})";
+                if (EditorGUIUtil.TruncateFit(content, rect.width - 28 * 3, skin))
+                {
+                    if (content.text.Length > Label.Text.Length + 4)
+                    {
+                        content.text = $"{Label.Text} <color=grey>({content.text[(Label.Text.Length + 4)..]})</color>";
+                    }
+                }
+                else
+                {
+                    content.text = $"{Label.Text} <color=grey>({replacedLocalPath})</color>";
+                }
             }
             if (!string.IsNullOrEmpty(content.tooltip))
             {

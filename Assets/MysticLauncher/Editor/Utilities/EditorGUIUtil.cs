@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Mystic
 {
@@ -168,7 +169,10 @@ namespace Mystic
             rect.width = size;
             rect.y = rect.center.y - size / 2;
             rect.height = size;
+            var old = GUI.color;
+            GUI.color = GUI.enabled ? Color.white : new Color(1,1,1,0.5f);
             GUI.DrawTexture(rect, image, ScaleMode.ScaleToFit);
+            GUI.color = old;
             return ret;
         }
         public static bool IconTextButton(string iconName, string text, string tooltip = "")
@@ -228,6 +232,32 @@ namespace Mystic
             resizedTexture.Apply();
 
             return resizedTexture;
+        }
+
+        public static bool TruncateFit(GUIContent label, float width, GUIStyle style)
+        {
+            Vector2 labelSize = style.CalcSize(label);
+
+            // テキストがボタンと重なる場合は、テキストを短縮
+            if (labelSize.x > width)
+            {
+                string src = label.text;
+                label.text += "...";
+                while (style.CalcSize(label).x > width)
+                {
+                    if (src.Length > 1)
+                    {
+                        src = src.Substring(0, src.Length - 1);
+                        label.text = src + "...";
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
     }
 }
