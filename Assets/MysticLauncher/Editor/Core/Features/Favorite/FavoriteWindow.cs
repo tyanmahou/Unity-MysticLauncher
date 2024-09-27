@@ -120,8 +120,6 @@ namespace Mystic
             var rect = GUILayoutUtility.GetRect(0f, 0f);
             if (_group == nextFullPath)
             {
-                rect.xMin = 0;
-                rect.width += 4f;
                 rect.height = EditorGUIUtility.singleLineHeight;
                 EditorGUI.DrawRect(rect, new Color(0.274f, 0.376f, 0.486f, 1.0f));
             }
@@ -144,8 +142,6 @@ namespace Mystic
             else
             {
                 var buttonRect = GUILayoutUtility.GetRect(0f, 0f);
-                buttonRect.xMin = 0;
-                buttonRect.width += 4f;
                 buttonRect.height = EditorGUIUtility.singleLineHeight;
                 if (GUI.Button(buttonRect, GUIContent.none, GUI.skin.label))
                 {

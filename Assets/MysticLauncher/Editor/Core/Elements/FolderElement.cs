@@ -16,7 +16,8 @@ namespace Mystic
 
         public void OnGUI()
         {
-            var rect = GUILayoutUtility.GetRect(0, 0);
+            var width = EditorGUIUtil.GetIndentedWidth() - 28 * 2;
+
             bool old = GUI.enabled;
             using var horizontal = new EditorGUILayout.HorizontalScope();
 
@@ -28,7 +29,7 @@ namespace Mystic
             if (string.IsNullOrEmpty(content.text))
             {
                 content.text = replacedPath;
-                if (EditorGUIUtil.TruncateFit(content, rect.width - 28 * 2, skin))
+                if (EditorGUIUtil.TruncateFit(content, width, skin))
                 {
 
                 }
@@ -36,7 +37,7 @@ namespace Mystic
             else
             {
                 content.text = $"{Label.Text} ({replacedPath})";
-                if (EditorGUIUtil.TruncateFit(content, rect.width - 28 * 2, skin))
+                if (EditorGUIUtil.TruncateFit(content, width, skin))
                 {
                     if (content.text.Length > Label.Text.Length + 4)
                     {
