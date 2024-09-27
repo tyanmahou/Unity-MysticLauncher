@@ -89,7 +89,7 @@ namespace Mystic
         // ターミナル開く
         void OpenTerminal(string path)
         {
-            var terminalPath = LauncherUserSettings.instance.TerminalPath;
+            var terminalPath = UserEnv.instance.TerminalPath;
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 FileName = terminalPath,

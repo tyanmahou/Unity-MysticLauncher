@@ -66,7 +66,7 @@ namespace Mystic
         /// <returns></returns>
         public static string ReplaceEnv(string value)
         {
-            return LauncherUserSettings.instance.Env.Replace(value);
+            return UserEnv.instance.Replace(value);
         }
     }
 }

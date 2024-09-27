@@ -1,23 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
 {
-    /// <summary>
-    /// 環境変数設定
-    /// </summary>
-    [Serializable]
-    public class EnvSettings
+    [FilePath("UserSettings/MysticUserEnv.asset", FilePathAttribute.Location.ProjectFolder)]
+    public class UserEnv : ScriptableSingleton<UserEnv>
     {
-        [Serializable]
-        struct VariableType
-        {
-            public string Variable;
-            public string Value;
-        }
+        [SerializeField, FileSelect]
+        private string _terminalPath = string.Empty;
+        public string TerminalPath => _terminalPath;
+
         [SerializeField]
-        private VariableType[] _variables = new VariableType[0];
+        private EnvVariable[] _variables = new EnvVariable[0];
 
         public string GetVariable(string variable)
         {
@@ -47,6 +44,18 @@ namespace Mystic
                 string value = GetVariable(variableName);
                 return !string.IsNullOrEmpty(value) ? value : match.Value;
             });
+        }
+
+        public void Save()
+        {
+            Save(true);
+        }
+        private void OnValidate()
+        {
+            if (!EditorUtility.IsPersistent(this))
+            {
+                Save(true);
+            }
         }
     }
 }
