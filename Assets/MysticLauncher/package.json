@@ -8,5 +8,12 @@
     },
     "author": {
       "name": "Tyanmahou"
-    }
+    },
+    "samples": [
+        {
+            "displayName": "Examples",
+            "description": "Custom Layout Examples",
+            "path": "Samples~/Examples"
+        }
+    ]
 }
