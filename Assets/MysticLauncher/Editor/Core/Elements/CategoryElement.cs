@@ -25,6 +25,7 @@ namespace Mystic
 
         public void OnGUI()
         {
+            using var vertical = new EditorGUILayout.VerticalScope();
             GUILayout.Space(4);
             DrawHeader();
 
