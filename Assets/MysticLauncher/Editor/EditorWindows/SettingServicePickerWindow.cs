@@ -99,7 +99,7 @@ namespace Mystic
             }
             else
             {
-                return Items.Where(c => c.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                return Items.Where(c => c.IsSearched(search)).ToArray();
             }
         }
         private string[] Items => _selectedTab == 0 ? _itemsUser : _itemsProject;

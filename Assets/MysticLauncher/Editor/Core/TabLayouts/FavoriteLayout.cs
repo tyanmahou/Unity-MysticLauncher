@@ -109,12 +109,12 @@ namespace Mystic
         {
             if (f.Asset != null)
             {
-                if (f.Asset.name.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                if (f.Asset.name.IsSearched(_searchString))
                 {
                     return true;
                 }
             }
-            if (f.FavoriteGroup.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
+            if (f.FavoriteGroup.IsSearched(_searchString))
             {
                 return true;
             }

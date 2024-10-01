@@ -162,7 +162,7 @@ namespace Mystic
         {
             if (entry.Asset != null)
             {
-                if (entry.Asset.name.IndexOf(_searchString, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                if (entry.Asset.name.IsSearched(_searchString))
                 {
                     return true;
                 }

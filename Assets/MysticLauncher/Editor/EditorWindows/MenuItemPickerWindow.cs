@@ -90,7 +90,7 @@ namespace Mystic
             }
             else
             {
-                return _items.Where(c => c.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                return _items.Where(c => c.IsSearched(search)).ToArray();
             }
         }
         static string[] FindMenuItems()

@@ -283,7 +283,7 @@ namespace Mystic
             }
             else
             {
-                return _iconNames.Where(icon => icon.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                return _iconNames.Where(icon => icon.IsSearched(search)).ToArray();
             }
         }
         private Texture[] GetFilteredTextures(string search)
@@ -295,7 +295,7 @@ namespace Mystic
             }
             else
             {
-                return _textures.Where(t => t.name.IndexOf(search, System.StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                return _textures.Where(t => t.name.IsSearched(search)).ToArray();
             }
         }
         private SerializedProperty _textureProperty;
