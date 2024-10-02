@@ -34,7 +34,7 @@ namespace Mystic
             var skin = new GUIStyle(EditorStyles.textField);
             skin.richText = true;
             skin.imagePosition = ImagePosition.ImageLeft;
-            var content = Label.GetGUIContent();
+            var content = EditorGUIUtil.GetIconContent16x16(Label);
             string replacedLocalPath = PathUtil.ReplaceEnv(LocalPath);
             if (string.IsNullOrEmpty(content.text))
             {

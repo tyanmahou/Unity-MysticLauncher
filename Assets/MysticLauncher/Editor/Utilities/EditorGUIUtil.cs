@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
@@ -179,6 +180,85 @@ namespace Mystic
             var content = NewIconContent(iconName, text, tooltip);
             return GUILayout.Button(content, GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));
         }
+
+        public static bool TruncateFit(GUIContent label, float width, GUIStyle style)
+        {
+            Vector2 labelSize = style.CalcSize(label);
+
+            // テキストがボタンと重なる場合は、テキストを短縮
+            if (labelSize.x > width)
+            {
+                string src = label.text;
+                label.text += "...";
+                while (style.CalcSize(label).x > width)
+                {
+                    if (src.Length > 1)
+                    {
+                        src = src.Substring(0, src.Length - 1);
+                        label.text = src + "...";
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        public static float GetWidth()
+        {
+            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
+            return rect.width;
+        }
+        public static Rect GetIndentedRect()
+        {
+            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
+            rect.x += EditorGUI.indentLevel * 15;
+            rect.width -= EditorGUI.indentLevel * 15;
+            return rect;
+        }
+        public static float GetIndentedWidth()
+        {
+            return GetWidth() - EditorGUI.indentLevel * 15;
+        }
+        public static GUIContent GetIconContent16x16(in Label label)
+        {
+            return GetIconContent16x16(label.Text, label.Tooltip, label.Icon);
+        }
+        public static GUIContent GetIconContent16x16(in Icon icon)
+        {
+            return GetIconContent16x16(string.Empty, string.Empty, icon);
+        }
+        public static GUIContent GetIconContent16x16(string text, in Icon icon)
+        {
+            return GetIconContent16x16(text, string.Empty, icon);
+        }
+        public static GUIContent GetIconContent16x16(string text, string tooltip, in Icon icon)
+        {
+            if (icon.TryGetGUIContent(out var content))
+            {
+                if (content.image != null)
+                {
+                    if (!_iconTextures16x16.TryGetValue(content.image, out Texture tex))
+                    {
+                        TryResizeTexture(content.image, 16, 16, out tex);
+                        _iconTextures16x16.Add(content.image, tex);
+                    }
+                    if (tex == null)
+                    {
+                        TryResizeTexture(content.image, 16, 16, out tex);
+                        _iconTextures16x16[content.image] = tex;
+                    }
+                    content.image = tex;
+                }
+                content.text = text;
+                content.tooltip = tooltip;
+                return content;
+            }
+            return new GUIContent(text, tooltip);
+        }
+
         public static bool TryResizeTexture(Texture texture, int width, int height, out Texture result)
         {
             if (texture.width == width && texture.height == height)
@@ -232,47 +312,6 @@ namespace Mystic
 
             return resizedTexture;
         }
-
-        public static bool TruncateFit(GUIContent label, float width, GUIStyle style)
-        {
-            Vector2 labelSize = style.CalcSize(label);
-
-            // テキストがボタンと重なる場合は、テキストを短縮
-            if (labelSize.x > width)
-            {
-                string src = label.text;
-                label.text += "...";
-                while (style.CalcSize(label).x > width)
-                {
-                    if (src.Length > 1)
-                    {
-                        src = src.Substring(0, src.Length - 1);
-                        label.text = src + "...";
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-        public static float GetWidth()
-        {
-            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
-            return rect.width;
-        }
-        public static Rect GetIndentedRect()
-        {
-            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
-            rect.x += EditorGUI.indentLevel * 15;
-            rect.width -= EditorGUI.indentLevel * 15;
-            return rect;
-        }
-        public static float GetIndentedWidth()
-        {
-            return GetWidth() - EditorGUI.indentLevel * 15;
-        }
+        static Dictionary<Texture, Texture> _iconTextures16x16 = new();
     }
 }

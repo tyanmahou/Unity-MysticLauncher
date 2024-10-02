@@ -65,21 +65,8 @@ namespace Mystic
             }
         }
         GUIContent TabContent(ITabLayout layout)
-        {
-            if (layout.Icon.TryGetGUIContent(out var content))
-            {
-                content.text = layout.Title;
-                if (!_iconTextures.TryGetValue(content.image, out Texture icon))
-                {
-                    EditorGUIUtil.TryResizeTexture(content.image, 16, 16, out icon);
-                    _iconTextures.Add(content.image, icon);
-                }
-                content.image = icon;
-                return content;
-            }
-            return new GUIContent(layout.Title);
-        }
-       
+            => EditorGUIUtil.GetIconContent16x16(layout.Title, layout.Icon);
+
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
             if (!string.IsNullOrEmpty(projSettings.ProjectInfo.HelpUrl))
@@ -127,7 +114,5 @@ namespace Mystic
         Vector2 _tabScrollPosition;
         Vector2 _contentScrollPosition;
         int _selectedTab;
-
-        static Dictionary<Texture, Texture> _iconTextures = new();
     }
 }
