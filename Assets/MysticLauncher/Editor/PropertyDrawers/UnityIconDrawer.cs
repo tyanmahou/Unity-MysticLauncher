@@ -24,7 +24,7 @@ namespace Mystic
                 : GUI.Button(position, EditorGUIUtility.IconContent(property.stringValue));
             if (onShowPicker)
             {
-                UnityIconPickerWindow.Show(property);
+                IconPickerWindow.Show(property);
             }
 
             EditorGUI.EndProperty();

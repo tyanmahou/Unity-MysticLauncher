@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine.TextCore.Text;
+using UnityEditor.Rendering;
 
 namespace Mystic
 {
@@ -33,35 +34,16 @@ namespace Mystic
             {
                 return;
             }
+            // ヘッダー
             DrawProjectHeader(projSettings);
-
-            List<ITabLayout> tabs = new(1 + projSettings.ProjectTabs.Length + userSettings.UserTabs.Length)
-                {
-                    new PortalLayout(),
-                };
-            tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
-            tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
-
-            // タブの表示
-            using (var tabScroller = new GUILayout.ScrollViewScope(_tabScrollPosition, GUILayout.ExpandHeight(false)))
-            {
-                _selectedTab = GUILayout.Toolbar(
-                    _selectedTab,
-                    tabs.Select(TabContent).ToArray(),
-                    EditorStyles.toolbarButton,
-                    GUI.ToolbarButtonSize.FitToContents
-                    );
-
-                _tabScrollPosition = tabScroller.scrollPosition;
-            }
+            // タブ表示
+            var tabLayout = DrawTabNavi(projSettings, userSettings);
 
             // コンテンツの表示
             using (var contentScroller = new GUILayout.ScrollViewScope(_contentScrollPosition))
             {
-                if (_selectedTab < tabs.Count)
-                {
-                    tabs[_selectedTab].OnGUI();
-                }
+                tabLayout?.OnGUI();
+
                 _contentScrollPosition = contentScroller.scrollPosition;
             }
         }
@@ -111,6 +93,36 @@ namespace Mystic
                 }
             }
             EditorGUIUtil.DrawSeparator();
+        }
+        ITabLayout DrawTabNavi(LauncherProjectSettings projSettings, LauncherUserSettings userSettings)
+        {
+            List<ITabLayout> tabs = new(1 + projSettings.ProjectTabs.Length + userSettings.UserTabs.Length)
+                {
+                    new PortalLayout(),
+                };
+            tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
+            tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
+
+            // タブの表示
+            using (var tabScroller = new GUILayout.ScrollViewScope(_tabScrollPosition, GUILayout.ExpandHeight(false)))
+            {
+                _selectedTab = GUILayout.Toolbar(
+                    _selectedTab,
+                    tabs.Select(TabContent).ToArray(),
+                    EditorStyles.toolbarButton,
+                    GUI.ToolbarButtonSize.FitToContents
+                    );
+
+                _tabScrollPosition = tabScroller.scrollPosition;
+            }
+            if (_selectedTab < tabs.Count)
+            {
+                return tabs[_selectedTab];
+            }
+            else
+            {
+                return null;
+            }
         }
         Vector2 _tabScrollPosition;
         Vector2 _contentScrollPosition;

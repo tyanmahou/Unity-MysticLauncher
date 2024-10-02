@@ -2,17 +2,16 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using System;
 
 namespace Mystic
 {
-    public class UnityIconPickerWindow : EditorWindow
+    public class IconPickerWindow : EditorWindow
     {
         private const int IconSize = 32;  // アイコンのサイズ
 
         public static void Show(SerializedProperty iconProp, SerializedProperty emojiProp = null, SerializedProperty textureProp = null)
         {
-            UnityIconPickerWindow window = GetWindow<UnityIconPickerWindow>("Icon Picker");
+            IconPickerWindow window = GetWindow<IconPickerWindow>("Icon Picker");
             window.Init(iconProp, emojiProp, textureProp);
             window.Show();
         }
@@ -102,14 +101,7 @@ namespace Mystic
 
             void OnClick(int index) => SetIcon(icons[index]);
             void OnContext(int index) => ShowContextMenu(icons[index]);
-            bool Selected(int index)
-            {
-                if (index < 0)
-                {
-                    return string.IsNullOrEmpty(_iconProp.stringValue);
-                }
-                return icons[index] == _iconProp.stringValue;
-            }
+            bool Selected(int index) => icons[index] == _iconProp.stringValue;
 
             DrawTextures(contents, OnClick, OnContext, Selected);
         }
@@ -119,14 +111,7 @@ namespace Mystic
             string[] names = EmojiUtil.GetNames().Where(s => s.IsSearched(_searchString)).ToArray();
             GUIContent[] contents = names.Select(n => new GUIContent((EmojiUtil.FromName(n)))).ToArray();
             void OnClick(int index) => SetEmoji(names[index]);
-            bool Selected(int index)
-            {
-                if (index < 0)
-                {
-                    return string.IsNullOrEmpty(_emojiProp.stringValue);
-                }
-                return names[index] == _emojiProp.stringValue;
-            }
+            bool Selected(int index) => names[index] == _emojiProp.stringValue;
 
             DrawTextures(contents, OnClick, null, Selected);
         }
@@ -149,14 +134,7 @@ namespace Mystic
             GUIContent[] contents = texs.Select(t => new GUIContent(t)).ToArray();
 
             void OnClick(int index) => SetTexture(texs[index]);
-            bool Selected(int index)
-            {
-                if (index < 0)
-                {
-                    return _textureProp.objectReferenceValue == null;
-                }
-                return texs[index] == _textureProp.objectReferenceValue;
-            }
+            bool Selected(int index) => texs[index] == _textureProp.objectReferenceValue;
 
             DrawTextures(contents, OnClick, null, Selected);
         }
@@ -191,7 +169,7 @@ namespace Mystic
                                 }
                             }
                         }
-                        if (selected?.Invoke(-1) ?? false)
+                        if (IsEmptyProp())
                         {
                             EditorGUI.DrawRect(iconRect, _selectedColor);
                         }
@@ -221,6 +199,31 @@ namespace Mystic
                     }
                 }
             }
+        }
+        bool IsEmptyProp()
+        {
+            if (_iconProp != null)
+            {
+                if (!string.IsNullOrEmpty(_iconProp.stringValue))
+                {
+                    return false;
+                }
+            }
+            if (_emojiProp != null)
+            {
+                if (!string.IsNullOrEmpty(_emojiProp.stringValue))
+                {
+                    return false;
+                }
+            }
+            if (_textureProp != null)
+            {
+                if (_textureProp.objectReferenceValue != null)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         void ResetProp() => SetProp(string.Empty, string.Empty, null);
         void SetIcon(string icon) => SetProp(icon, string.Empty, null);

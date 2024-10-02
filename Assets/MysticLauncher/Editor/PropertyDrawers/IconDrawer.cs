@@ -35,7 +35,7 @@ namespace Mystic
             }
             if (GUI.Button(position, content))
             {
-                UnityIconPickerWindow.Show(unityIcon, emoji, icon);
+                IconPickerWindow.Show(unityIcon, emoji, icon);
             }
             EditorGUI.EndProperty();
             EditorGUI.indentLevel = i;
