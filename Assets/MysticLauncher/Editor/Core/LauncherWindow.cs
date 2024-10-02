@@ -3,6 +3,8 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using TMPro;
+using UnityEngine.TextCore.Text;
 
 namespace Mystic
 {
@@ -19,7 +21,6 @@ namespace Mystic
             icon.text = "Launcher";
             window.titleContent = icon;
         }
-
         void OnGUI()
         {
             var projSettings = LauncherProjectSettings.instance;

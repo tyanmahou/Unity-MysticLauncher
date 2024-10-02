@@ -19,12 +19,13 @@ namespace Mystic
         }
         [SerializeField] Texture _icon;
         [SerializeField] string _unityIcon;
+        [SerializeField] string _emoji;
 
         public bool IsValid
         {
             get
             {
-                return _icon != null || !string.IsNullOrEmpty(_unityIcon);
+                return _icon != null || !string.IsNullOrEmpty(_unityIcon) || !string.IsNullOrEmpty(_emoji);
             }
         }
 
@@ -41,6 +42,11 @@ namespace Mystic
             if (!string.IsNullOrEmpty(_unityIcon))
             {
                 icon = new GUIContent(EditorGUIUtility.IconContent(_unityIcon));
+                return true;
+            }
+            if (!string.IsNullOrEmpty(_emoji))
+            {
+                icon = new GUIContent(EmojiUtil.FromName(_emoji));
                 return true;
             }
             icon = null;

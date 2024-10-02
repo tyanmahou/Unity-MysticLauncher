@@ -19,6 +19,7 @@ MonoBehaviour:
       Icon:
         _icon: {fileID: 0}
         _unityIcon: d_Profiler.UIDetails@2x
+        _emoji: 
     HelpUrl: https://github.com/tyanmahou/Unity-MysticLauncher
     CustomHeader:
       rid: -2
@@ -49,6 +50,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: UnityLogo
+            _emoji: 
         Elements:
         - rid: 5674513782436265993
         - rid: 5674513782436265994
@@ -69,6 +71,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+            _emoji: 
         _action:
           URL: https://unity.com/
     - rid: 5674513782436266001
@@ -80,6 +83,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+            _emoji: 
         _action:
           URL: https://docs.unity3d.com/
     - rid: 5674513782436266003
@@ -91,6 +95,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+            _emoji: 
         _action:
           URL: https://discussions.unity.com
     - rid: 5674513782436266004
@@ -102,6 +107,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_cs Script Icon
+            _emoji: 
         _action:
           ItemName: Assets/Open C# Project
     - rid: 5674513782436266006
@@ -113,6 +119,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_UnityEditor.ProfilerWindow@2x
+            _emoji: 
         _action:
           ItemName: Window/Analysis/Profiler %7
     - rid: 5674513782436266007
@@ -124,6 +131,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Debug_Frame_d
+            _emoji: 
         _action:
           ItemName: Window/Analysis/Frame Debugger
     - rid: 5674514121862938627
@@ -135,6 +143,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Installed
+            _emoji: 
         _action:
           ItemName: Window/General/Test Runner
     - rid: 6547972820886093901
@@ -146,6 +155,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_CacheServerConnected@2x
+            _emoji: 
         Elements:
         - rid: 6547972820886093903
         - rid: 5674513782436266004
@@ -158,6 +168,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: 
+            _emoji: 
         LocalPath: ./
         RemoteUrl: https://github.com/tyanmahou/Unity-MysticLauncher
     - rid: 6547972820886093907
@@ -169,6 +180,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: d_CustomTool@2x
+            _emoji: 
         Elements:
         - rid: 6547972820886093913
         - rid: 5674513757765369856
@@ -181,6 +193,7 @@ MonoBehaviour:
           Icon:
             _icon: {fileID: 0}
             _unityIcon: Link@2x
+            _emoji: 
         Elements:
         - rid: 6547972846834417671
     - rid: 6547972820886093913
@@ -193,6 +206,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: UnityEditor.AnimationWindow@2x
+              _emoji: 
           _action:
             rid: 6547972820886093918
         - Label:
@@ -201,6 +215,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: d_Animator Icon
+              _emoji: 
           _action:
             rid: 6547972820886093914
         - Label:
@@ -209,6 +224,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: UnityEditor.Timeline.TimelineWindow@2x
+              _emoji: 
           _action:
             rid: 6547972820886093916
         - Label:
@@ -217,6 +233,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: d_Audio Mixer@2x
+              _emoji: 
           _action:
             rid: 6547972820886093917
         - Label:
@@ -225,6 +242,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: Package Manager@2x
+              _emoji: 
           _action:
             rid: 6547972820886093915
         - Label:
@@ -233,6 +251,7 @@ MonoBehaviour:
             Icon:
               _icon: {fileID: 0}
               _unityIcon: SearchDatabase Icon
+              _emoji: 
           _action:
             rid: 6547972820886093919
     - rid: 6547972820886093914

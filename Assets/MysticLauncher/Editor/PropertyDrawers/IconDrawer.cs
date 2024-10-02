@@ -18,6 +18,8 @@ namespace Mystic
             position.height = 32;
             var icon = property.FindPropertyRelative("_icon");
             var unityIcon = property.FindPropertyRelative("_unityIcon");
+            var emoji = property.FindPropertyRelative("_emoji");
+
             GUIContent content = GUIContent.none;
             if (icon.objectReferenceValue != null)
             {
@@ -27,9 +29,13 @@ namespace Mystic
             {
                 content = EditorGUIUtility.IconContent(unityIcon.stringValue);
             }
+            else if (!string.IsNullOrEmpty(emoji.stringValue))
+            {
+                content = new GUIContent(EmojiUtil.FromName(emoji.stringValue));
+            }
             if (GUI.Button(position, content))
             {
-                UnityIconPickerWindow.Show(icon, unityIcon);
+                UnityIconPickerWindow.Show(unityIcon, emoji, icon);
             }
             EditorGUI.EndProperty();
             EditorGUI.indentLevel = i;

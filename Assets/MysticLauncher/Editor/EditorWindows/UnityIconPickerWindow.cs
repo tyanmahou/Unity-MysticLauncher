@@ -1,6 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Mystic
 {
@@ -8,28 +10,17 @@ namespace Mystic
     {
         private const int IconSize = 32;  // アイコンのサイズ
 
-        public static void Show(SerializedProperty textureProperty, SerializedProperty property)
+        public static void Show(SerializedProperty iconProp, SerializedProperty emojiProp = null, SerializedProperty textureProp = null)
         {
             UnityIconPickerWindow window = GetWindow<UnityIconPickerWindow>("Icon Picker");
-            window.Init(textureProperty, property);
+            window.Init(iconProp, emojiProp, textureProp);
             window.Show();
         }
-
-        public static void Show(SerializedProperty property)
+        public void Init(SerializedProperty iconProp, SerializedProperty emojiProp, SerializedProperty textureProp)
         {
-            UnityIconPickerWindow window = GetWindow<UnityIconPickerWindow>("Icon Picker");
-            window.Init(property);
-            window.Show();
-        }
-        public void Init(SerializedProperty textureProperty, SerializedProperty property)
-        {
-            _textureProperty = textureProperty;
-
-            Init(property);
-        }
-        public void Init(SerializedProperty property)
-        {
-            _property = property;
+            _iconProp = iconProp;
+            _emojiProp = emojiProp;
+            _textureProp = textureProp;
 
             // アイコン名のリストを取得
             _iconNames = new string[]
@@ -43,19 +34,40 @@ namespace Mystic
             };
             _normalStyle = new GUIStyle(GUI.skin.button);
         }
-
+        
+        private void OnLostFocus()
+        {
+            Close();
+        }
+        private void OnDestroy()
+        {
+        }
         void OnGUI()
         {
-            // Texture設定
-            if (_textureProperty != null)
+            List<string> tabList = new(3)
             {
-                _selectedTab = GUILayout.Toolbar(
-                    _selectedTab,
-                    new string[] {"Icon", "Assets"},
-                    EditorStyles.toolbarButton,
-                    GUI.ToolbarButtonSize.FitToContents
-                    );
+            };
+            // Icon設定
+            if (_iconProp != null)
+            {
+                tabList.Add("Icon");
             }
+            // Emoji設定
+            if (_emojiProp != null)
+            {
+                tabList.Add("Emoji");
+            }
+            // Texture設定
+            if (_textureProp != null)
+            {
+                tabList.Add("Assets");
+            }
+            _selectedTab = GUILayout.Toolbar(
+                _selectedTab,
+                tabList.ToArray(),
+                EditorStyles.toolbarButton,
+                GUI.ToolbarButtonSize.FitToContents
+                );
 
             // 検索バーの描画
             {
@@ -68,6 +80,10 @@ namespace Mystic
             if (_selectedTab == 0)
             {
                 DrawBuildIn();
+            }
+            else if (_selectedTab == 1)
+            {
+                DrawEmoji();
             }
             else
             {
@@ -82,77 +98,37 @@ namespace Mystic
         {
             // アイコン一覧の取得
             string[] icons = GetFilteredIcons(_searchString);
+            GUIContent[] contents = icons.Select(EditorGUIUtility.IconContent).ToArray();
 
-            float w = this.position.width;
-            int columns = Mathf.FloorToInt(w / IconSize);
-            int rows = System.Math.Max(1, Mathf.CeilToInt(icons.Length / (float)columns));
-
-            for (int row = 0; row < rows; row++)
+            void OnClick(int index) => SetIcon(icons[index]);
+            void OnContext(int index) => ShowContextMenu(icons[index]);
+            bool Selected(int index)
             {
-                using var horizontal = new EditorGUILayout.HorizontalScope();
-                for (int col = 0; col < columns; col++)
+                if (index < 0)
                 {
-                    int index = row * columns + col;
-                    if (index > icons.Length)
-                        break;
-                    if (index == 0)
-                    {
-                        Rect iconRect = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-
-                        if (GUI.Button(iconRect, "", _normalStyle))
-                        {
-                            if (Event.current.button == 0)
-                            {
-                                _property.stringValue = string.Empty;
-                                _property.serializedObject.ApplyModifiedProperties();
-                                if (_textureProperty != null)
-                                {
-                                    _textureProperty.Reset();
-                                    _textureProperty.serializedObject.ApplyModifiedProperties();
-                                }
-                                if (_doubleClick.DoubleClick())
-                                {
-                                    Close();
-                                }
-                            }
-                        }
-                        if (string.IsNullOrEmpty(_property.stringValue))
-                        {
-                            EditorGUI.DrawRect(iconRect, _selectedColor);
-                        }
-                        continue;
-                    }
-                    --index;
-
-                    Rect iconRect2 = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-                    GUIContent iconContent = EditorGUIUtility.IconContent(icons[index]);                    
-                    if (GUI.Button(iconRect2, iconContent, _normalStyle))
-                    {
-                        if (Event.current.button == 0)
-                        {
-                            _property.stringValue = icons[index];
-                            _property.serializedObject.ApplyModifiedProperties();
-                            if (_textureProperty != null)
-                            {
-                                _textureProperty.objectReferenceValue = null;
-                                _textureProperty.serializedObject.ApplyModifiedProperties();
-                            }
-                            if (_doubleClick.DoubleClick())
-                            {
-                                Close();
-                            }
-                        }
-                        else
-                        {
-                            ShowContextMenu(icons[index]);
-                        }
-                    }
-                    if (_property.stringValue == icons[index])
-                    {
-                        EditorGUI.DrawRect(iconRect2, _selectedColor);
-                    }
+                    return string.IsNullOrEmpty(_iconProp.stringValue);
                 }
+                return icons[index] == _iconProp.stringValue;
             }
+
+            DrawTextures(contents, OnClick, OnContext, Selected);
+        }
+        void DrawEmoji()
+        {
+            // アイコン一覧の取得
+            string[] names = EmojiUtil.GetNames().Where(s => s.IsSearched(_searchString)).ToArray();
+            GUIContent[] contents = names.Select(n => new GUIContent((EmojiUtil.FromName(n)))).ToArray();
+            void OnClick(int index) => SetEmoji(names[index]);
+            bool Selected(int index)
+            {
+                if (index < 0)
+                {
+                    return string.IsNullOrEmpty(_emojiProp.stringValue);
+                }
+                return names[index] == _emojiProp.stringValue;
+            }
+
+            DrawTextures(contents, OnClick, null, Selected);
         }
         void DrawAssets()
         {
@@ -169,11 +145,28 @@ namespace Mystic
                 }
             }
             // アイコン一覧の取得
-            Texture[] icons = GetFilteredTextures(_searchString);
+            Texture[] texs = GetFilteredTextures(_searchString);
+            GUIContent[] contents = texs.Select(t => new GUIContent(t)).ToArray();
+
+            void OnClick(int index) => SetTexture(texs[index]);
+            bool Selected(int index)
+            {
+                if (index < 0)
+                {
+                    return _textureProp.objectReferenceValue == null;
+                }
+                return texs[index] == _textureProp.objectReferenceValue;
+            }
+
+            DrawTextures(contents, OnClick, null, Selected);
+        }
+        void DrawTextures(IReadOnlyList<GUIContent> iconContents, System.Action<int> onLeftClick, System.Action<int> onRightClick, System.Func<int, bool> selected)
+        {
+            int count = iconContents.Count;
 
             float w = this.position.width;
             int columns = Mathf.FloorToInt(w / IconSize);
-            int rows = System.Math.Max(1, Mathf.CeilToInt(icons.Length / (float)columns));
+            int rows = System.Math.Max(1, Mathf.CeilToInt(count / (float)columns));
 
             for (int row = 0; row < rows; row++)
             {
@@ -181,7 +174,7 @@ namespace Mystic
                 for (int col = 0; col < columns; col++)
                 {
                     int index = row * columns + col;
-                    if (index > icons.Length)
+                    if (index > count)
                         break;
                     if (index == 0)
                     {
@@ -191,20 +184,14 @@ namespace Mystic
                         {
                             if (Event.current.button == 0)
                             {
-                                _property.stringValue = string.Empty;
-                                _property.serializedObject.ApplyModifiedProperties();
-                                if (_textureProperty != null)
-                                {
-                                    _textureProperty.Reset();
-                                    _textureProperty.serializedObject.ApplyModifiedProperties();
-                                }
+                                ResetProp();
                                 if (_doubleClick.DoubleClick())
                                 {
                                     Close();
                                 }
                             }
                         }
-                        if (string.IsNullOrEmpty(_property.stringValue))
+                        if (selected?.Invoke(-1) ?? false)
                         {
                             EditorGUI.DrawRect(iconRect, _selectedColor);
                         }
@@ -213,56 +200,76 @@ namespace Mystic
                     --index;
 
                     Rect iconRect2 = GUILayoutUtility.GetRect(IconSize, IconSize, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-                    GUIContent iconContent = new GUIContent(icons[index]);
-                    if (GUI.Button(iconRect2, iconContent, _normalStyle))
+                    if (GUI.Button(iconRect2, iconContents[index], _normalStyle))
                     {
                         if (Event.current.button == 0)
                         {
-                            _textureProperty.objectReferenceValue = icons[index];
-                            _textureProperty.serializedObject.ApplyModifiedProperties();
-
-                            _property.stringValue = string.Empty;
-                            _property.serializedObject.ApplyModifiedProperties();
-
+                            onLeftClick?.Invoke(index);
                             if (_doubleClick.DoubleClick())
                             {
                                 Close();
                             }
                         }
+                        else
+                        {
+                            onRightClick?.Invoke(index);
+                        }
                     }
-                    if (_textureProperty.objectReferenceValue == icons[index])
+                    if (selected?.Invoke(index) ?? false)
                     {
                         EditorGUI.DrawRect(iconRect2, _selectedColor);
                     }
                 }
             }
         }
+        void ResetProp() => SetProp(string.Empty, string.Empty, null);
+        void SetIcon(string icon) => SetProp(icon, string.Empty, null);
+        void SetEmoji(string name) => SetProp(string.Empty, name, null);
+        void SetTexture(Texture texture) => SetProp(string.Empty, string.Empty, texture);
+        void SetProp(string icon, string emoji, Texture tex)
+        {
+            if (_iconProp != null)
+            {
+                _iconProp.stringValue = icon;
+                _iconProp.serializedObject.ApplyModifiedProperties();
+            }
+            if (_emojiProp != null)
+            {
+                _emojiProp.stringValue = emoji;
+                _emojiProp.serializedObject.ApplyModifiedProperties();
+            }
+            if (_textureProp != null)
+            {
+                _textureProp.objectReferenceValue = tex;
+                _textureProp.serializedObject.ApplyModifiedProperties();
+            }
+        }
+
         void DrawFooter()
         {
-            if (_textureProperty != null && _textureProperty.propertyType == SerializedPropertyType.ObjectReference && _textureProperty.objectReferenceValue != null)
+            if (_textureProp != null && _textureProp.propertyType == SerializedPropertyType.ObjectReference && _textureProp.objectReferenceValue != null)
             {
-                var tex = _textureProperty.objectReferenceValue as Texture;
+                var tex = _textureProp.objectReferenceValue as Texture;
                 GUIContent iconContent = new GUIContent(tex);
                 iconContent.text = tex.name;
                 GUILayout.Label(iconContent, GUILayout.Height(IconSize));
             }
-            else if (!string.IsNullOrEmpty(_property.stringValue))
+            else if (_iconProp != null && !string.IsNullOrEmpty(_iconProp.stringValue))
             {
-                GUIContent iconContent = new GUIContent(EditorGUIUtility.IconContent(_property.stringValue));
-                iconContent.text = _property.stringValue;
+                GUIContent iconContent = new GUIContent(EditorGUIUtility.IconContent(_iconProp.stringValue));
+                iconContent.text = _iconProp.stringValue;
+                GUILayout.Label(iconContent, GUILayout.Height(IconSize));
+            }
+            else if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
+            {
+                GUIContent iconContent = new GUIContent(EmojiUtil.FromName(_emojiProp.stringValue));
+                iconContent.text = _emojiProp.stringValue;
                 GUILayout.Label(iconContent, GUILayout.Height(IconSize));
             }
             else
             {
                 GUILayout.Label("None", GUILayout.Height(IconSize));
             }
-        }
-        private void OnLostFocus()
-        {
-            Close();
-        }
-        private void OnDestroy()
-        {
         }
         private void ShowContextMenu(string iconName)
         {
@@ -298,8 +305,10 @@ namespace Mystic
                 return _textures.Where(t => t.name.IsSearched(search)).ToArray();
             }
         }
-        private SerializedProperty _textureProperty;
-        private SerializedProperty _property;
+        private SerializedProperty _iconProp;
+        private SerializedProperty _emojiProp;
+        private SerializedProperty _textureProp;
+
         private string _searchString = "";
         private Vector2 _scrollPosition;
         private string[] _iconNames;
@@ -310,6 +319,5 @@ namespace Mystic
         private Color _selectedColor = new Color(0, 1, 1, 0.3f);
         int _selectedTab;
         private Texture[] _textures;
-
     }
 }
