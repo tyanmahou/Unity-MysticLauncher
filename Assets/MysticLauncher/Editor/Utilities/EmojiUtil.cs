@@ -58,6 +58,19 @@ namespace Mystic
             }
             return keys.Where(k => emoji.IsSearched(k, search)).ToArray();
         }
+        public static string GetRaw(string unicodeKey)
+        {
+            string[] codePoints = unicodeKey.Split('-');
+
+            string emoji = string.Empty;
+            foreach (string codePoint in codePoints)
+            {
+                int unicode = int.Parse(codePoint, System.Globalization.NumberStyles.HexNumber);
+                emoji += char.ConvertFromUtf32(unicode);
+            }
+
+            return emoji;
+        }
         static Texture2D CreateTexture(string unicodeKey)
         {
             var emoji = EmojiSprite();

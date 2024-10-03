@@ -9,6 +9,23 @@ namespace Mystic
     /// </summary>
     public static class EditorGUIUtil
     {
+        static GUIStyle RichStyle
+        {
+            get
+            {
+                if (_richStyle == null)
+                {
+                    _richStyle = new GUIStyle(GUI.skin.label);
+                    _richStyle.richText = true;
+                }
+                return _richStyle;
+            }
+        }
+        static GUIStyle _richStyle;
+        public static void RichLabel(GUIContent content, params GUILayoutOption[] options)
+        {
+            GUILayout.Label(content, RichStyle, options);
+        }
         public static GUIContent FolderTogleContent(bool open, string text)
         {
             GUIContent content = open ? FolderOpenedContent : FolderContent;

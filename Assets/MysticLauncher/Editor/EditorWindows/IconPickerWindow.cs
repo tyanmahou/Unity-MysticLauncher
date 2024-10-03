@@ -32,6 +32,20 @@ namespace Mystic
                 "TestNormal","TestPassed","TestStopwatch","Texture2DArray On","Texture2DArray On@2x","Texture2DArray","Texture2DArray@2x","toggle_searcher_preview_off","toggle_searcher_preview_off@2x","toggle_searcher_preview_on","toggle_searcher_preview_on@2x","ToggleUVOverlay","ToggleUVOverlay@2x","Toolbar Minus","Toolbar Minus@2x","Toolbar Plus More","Toolbar Plus More@2x","Toolbar Plus","Toolbar Plus@2x","d_debug","d_debug@2x","d_ObjectMode","d_ObjectMode@2x","d_SceneViewTools On","d_SceneViewTools On@2x","d_Shaded","d_Shaded@2x","d_ShadedWireframe","d_ShadedWireframe@2x","d_wireframe","d_wireframe@2x","debug On","debug On@2x","debug","debug@2x","ObjectMode","ObjectMode@2x","Shaded","Shaded@2x","ShadedWireframe","ShadedWireframe@2x","wireframe","wireframe@2x","ToolHandleCenter","ToolHandleCenter@2x","ToolHandleGlobal","ToolHandleGlobal@2x","ToolHandleLocal","ToolHandleLocal@2x","ToolHandlePivot","ToolHandlePivot@2x","ToolsIcon","tranp","TransformTool On","TransformTool On@2x","TransformTool","TransformTool@2x","tree_icon","tree_icon_branch","tree_icon_branch_frond","tree_icon_frond","tree_icon_leaf","TreeEditor.AddBranches","TreeEditor.AddLeaves","TreeEditor.Branch On","TreeEditor.Branch","TreeEditor.BranchFreeHand On","TreeEditor.BranchFreeHand","TreeEditor.BranchRotate On","TreeEditor.BranchRotate","TreeEditor.BranchScale On","TreeEditor.BranchScale","TreeEditor.BranchTranslate On","TreeEditor.BranchTranslate","TreeEditor.Distribution On","TreeEditor.Distribution","TreeEditor.Duplicate","TreeEditor.Geometry On","TreeEditor.Geometry","TreeEditor.Leaf On","TreeEditor.Leaf","TreeEditor.LeafFreeHand On","TreeEditor.LeafFreeHand","TreeEditor.LeafRotate On","TreeEditor.LeafRotate","TreeEditor.LeafScale On","TreeEditor.LeafScale","TreeEditor.LeafTranslate On","TreeEditor.LeafTranslate","TreeEditor.Material On","TreeEditor.Material","TreeEditor.Refresh","TreeEditor.Trash","TreeEditor.Wind On","TreeEditor.Wind","UndoHistory","UndoHistory@2x","UnityEditor.AnimationWindow","UnityEditor.AnimationWindow@2x","UnityEditor.ConsoleWindow","UnityEditor.ConsoleWindow@2x","UnityEditor.DebugInspectorWindow","UnityEditor.DeviceSimulation.SimulatorWindow","UnityEditor.DeviceSimulation.SimulatorWindow@2x","UnityEditor.FindDependencies","UnityEditor.GameView","UnityEditor.GameView@2x","UnityEditor.Graphs.AnimatorControllerTool","UnityEditor.Graphs.AnimatorControllerTool@2x","UnityEditor.HierarchyWindow","UnityEditor.HierarchyWindow@2x","UnityEditor.HistoryWindow","UnityEditor.HistoryWindow@2x","UnityEditor.InspectorWindow","UnityEditor.InspectorWindow@2x","UnityEditor.ProfilerWindow","UnityEditor.ProfilerWindow@2x","UnityEditor.SceneHierarchyWindow","UnityEditor.SceneHierarchyWindow@2x","UnityEditor.SceneView","UnityEditor.SceneView@2x","UnityEditor.Timeline.TimelineWindow","UnityEditor.Timeline.TimelineWindow@2x","UnityEditor.VersionControl","UnityEditor.VersionControl@2x","UnityLogo","UnityLogoLarge","UnLinked","UnLinked@2x","UpArrow","Valid","Valid@2x","d_File","d_File@2x","d_Incoming Icon","d_Incoming Icon@2x","d_Outgoing Icon@","d_Outgoing Icon@2x","d_P4_AddedLocal","d_P4_AddedLocal@2x","d_P4_AddedRemote","d_P4_AddedRemote@2x","d_P4_BlueLeftParenthesis","d_P4_BlueLeftParenthesis@2x","d_P4_BlueRightParenthesis","d_P4_BlueRightParenthesis@2x","d_P4_CheckOutLocal","d_P4_CheckOutLocal@2x","d_P4_CheckOutRemote","d_P4_CheckOutRemote@2x","d_P4_Conflicted","d_P4_Conflicted@2x","d_P4_DeletedLocal","d_P4_DeletedLocal@2x","d_P4_DeletedRemote","d_P4_DeletedRemote@2x","d_P4_Local","d_P4_Local@2x","d_P4_LockedLocal","d_P4_LockedLocal@2x","d_P4_LockedRemote","d_P4_LockedRemote@2x","d_P4_Offline","d_P4_Offline@2x","d_P4_OutOfSync","d_P4_OutOfSync@2x","d_P4_RedLeftParenthesis","d_P4_RedLeftParenthesis@2x","d_P4_RedRightParenthesis","d_P4_RedRightParenthesis@2x","d_P4_Updating","d_P4_Updating@2x","File","File@2x","Incoming Icon","Incoming Icon@2x","Incoming On Icon","Incoming On Icon@2x","Outgoing Icon","Outgoing Icon@2x","P4_AddedLocal","P4_AddedLocal@2x","P4_AddedRemote","P4_AddedRemote@2x","P4_BlueLeftParenthesis","P4_BlueLeftParenthesis@2x","P4_BlueRightParenthesis","P4_BlueRightParenthesis@2x","P4_CheckOutLocal","P4_CheckOutLocal@2x","P4_CheckOutRemote","P4_CheckOutRemote@2x","P4_Conflicted","P4_Conflicted@2x","P4_DeletedLocal","P4_DeletedLocal@2x","P4_DeletedRemote","P4_DeletedRemote@2x","P4_Local","P4_Local@2x","P4_LockedLocal","P4_LockedLocal@2x","P4_LockedRemote","P4_LockedRemote@2x","P4_Offline","P4_Offline@2x","P4_OutOfSync","P4_OutOfSync@2x","P4_RedLeftParenthesis","P4_RedLeftParenthesis@2x","P4_RedRightParenthesis","P4_RedRightParenthesis@2x","P4_Updating","P4_Updating@2x","VerticalSplit","ViewToolMove On","ViewToolMove On@2x","ViewToolMove","ViewToolMove@2x","ViewToolOrbit On","ViewToolOrbit On@2x","ViewToolOrbit","ViewToolOrbit@2x","ViewToolZoom On","ViewToolZoom On@2x","ViewToolZoom","ViewToolZoom@2x","VisibilityOff","VisibilityOn","VisualQueryBuilder","VisualQueryBuilder@2x","VUMeterTextureHorizontal","VUMeterTextureVertical","WaitSpin00","WaitSpin01","WaitSpin02","WaitSpin03","WaitSpin04","WaitSpin05","WaitSpin06","WaitSpin07","WaitSpin08","WaitSpin09","WaitSpin10","WaitSpin11","WelcomeScreen.AssetStoreLogo","winbtn_graph","winbtn_graph_close_h","winbtn_graph_max_h","winbtn_graph_min_h","winbtn_mac_close","winbtn_mac_close@2x","winbtn_mac_close_a","winbtn_mac_close_a@2x","winbtn_mac_close_h","winbtn_mac_close_h@2x","winbtn_mac_inact","winbtn_mac_inact@2x","winbtn_mac_max","winbtn_mac_max@2x","winbtn_mac_max_a","winbtn_mac_max_a@2x","winbtn_mac_max_h","winbtn_mac_max_h@2x","winbtn_mac_min","winbtn_mac_min@2x","winbtn_mac_min_a","winbtn_mac_min_a@2x","winbtn_mac_min_h","winbtn_mac_min_h@2x","winbtn_win_close","winbtn_win_close@2x","winbtn_win_close_a","winbtn_win_close_a@2x","winbtn_win_close_h","winbtn_win_close_h@2x","winbtn_win_max","winbtn_win_max@2x","winbtn_win_max_a","winbtn_win_max_a@2x","winbtn_win_max_h","winbtn_win_max_h@2x","winbtn_win_min","winbtn_win_min_a","winbtn_win_min_h","winbtn_win_rest","winbtn_win_rest_a","winbtn_win_rest_h","winbtn_win_restore","winbtn_win_restore@2x","winbtn_win_restore_a","winbtn_win_restore_a@2x","winbtn_win_restore_h","winbtn_win_restore_h@2x",
             };
             _normalStyle = new GUIStyle(GUI.skin.button);
+
+            if (_iconProp != null && !string.IsNullOrEmpty(_iconProp.stringValue))
+            {
+                _selectedTab = 0;
+            }
+            if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
+            {
+                _selectedTab = 1;
+            }
+            if (_textureProp != null && _textureProp.objectReferenceValue != null)
+            {
+                _selectedTab = 2;
+            }
+            _isSkip = false;
         }
         
         private void OnLostFocus()
@@ -100,7 +114,7 @@ namespace Mystic
             GUIContent[] contents = icons.Select(EditorGUIUtility.IconContent).ToArray();
 
             void OnClick(int index) => SetIcon(icons[index]);
-            void OnContext(int index) => ShowContextMenu(icons[index]);
+            void OnContext(int index) => ShowContextIcon(icons[index]);
             bool Selected(int index) => icons[index] == _iconProp.stringValue;
 
             DrawTextures(contents, OnClick, OnContext, Selected);
@@ -108,12 +122,13 @@ namespace Mystic
         void DrawEmoji()
         {
             // アイコン一覧の取得
-            string[] names = EmojiUtil.GetUnicodeKeys(_searchString);
-            GUIContent[] contents = names.Select(n => new GUIContent((EmojiUtil.FromUnicodeKey(n)))).ToArray();
-            void OnClick(int index) => SetEmoji(names[index]);
-            bool Selected(int index) => names[index] == _emojiProp.stringValue;
+            string[] unicodes = EmojiUtil.GetUnicodeKeys(_searchString);
+            GUIContent[] contents = unicodes.Select(u => new GUIContent((EmojiUtil.FromUnicodeKey(u)))).ToArray();
+            void OnClick(int index) => SetEmoji(unicodes[index]);
+            void OnContext(int index) => ShowContextEmoji(unicodes[index]);
+            bool Selected(int index) => unicodes[index] == _emojiProp.stringValue;
 
-            DrawTextures(contents, OnClick, null, Selected);
+            DrawTextures(contents, OnClick, OnContext, Selected);
         }
         void DrawAssets()
         {
@@ -196,6 +211,11 @@ namespace Mystic
                     if (selected?.Invoke(index) ?? false)
                     {
                         EditorGUI.DrawRect(iconRect2, _selectedColor);
+                        if (!_isSkip && Event.current.type == EventType.Repaint)
+                        {
+                            _isSkip = true;
+                            _scrollPosition.y = iconRect2.y - IconSize * 3;
+                        }
                     }
                 }
             }
@@ -266,15 +286,15 @@ namespace Mystic
             else if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
             {
                 GUIContent iconContent = new GUIContent(EmojiUtil.FromUnicodeKey(_emojiProp.stringValue));
-                iconContent.text = EmojiUtil.GetShortName(_emojiProp.stringValue);
-                GUILayout.Label(iconContent, GUILayout.Height(IconSize));
+                iconContent.text = EmojiUtil.GetShortName(_emojiProp.stringValue) + $" <color=grey>({_emojiProp.stringValue})</color>";
+                EditorGUIUtil.RichLabel(iconContent, GUILayout.Height(IconSize));
             }
             else
             {
                 GUILayout.Label("None", GUILayout.Height(IconSize));
             }
         }
-        private void ShowContextMenu(string iconName)
+        private void ShowContextIcon(string iconName)
         {
             GenericMenu menu = new GenericMenu();
 
@@ -283,6 +303,24 @@ namespace Mystic
                 EditorGUIUtility.systemCopyBuffer = iconName;
             });
 
+            menu.ShowAsContext();
+        }
+        private void ShowContextEmoji(string unicodeKey)
+        {
+            GenericMenu menu = new GenericMenu();
+
+            menu.AddItem(new GUIContent("Copy"), false, () =>
+            {
+                EditorGUIUtility.systemCopyBuffer = EmojiUtil.GetRaw(unicodeKey);
+            });
+            menu.AddItem(new GUIContent("Copy Unicode"), false, () =>
+            {
+                EditorGUIUtility.systemCopyBuffer = unicodeKey;
+            });
+            menu.AddItem(new GUIContent("Copy ShortName"), false, () =>
+            {
+                EditorGUIUtility.systemCopyBuffer = EmojiUtil.GetShortName(unicodeKey);
+            });
             menu.ShowAsContext();
         }
         private string[] GetFilteredIcons(string search)
@@ -322,5 +360,6 @@ namespace Mystic
         private Color _selectedColor = new Color(0, 1, 1, 0.3f);
         int _selectedTab;
         private Texture[] _textures;
+        private bool _isSkip = false;
     }
 }
