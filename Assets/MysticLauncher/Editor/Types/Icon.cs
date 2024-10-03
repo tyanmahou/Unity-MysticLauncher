@@ -46,7 +46,7 @@ namespace Mystic
             }
             if (!string.IsNullOrEmpty(_emoji))
             {
-                icon = new GUIContent(EmojiUtil.FromName(_emoji));
+                icon = new GUIContent(EmojiUtil.FromUnicodeKey(_emoji));
                 return true;
             }
             icon = null;

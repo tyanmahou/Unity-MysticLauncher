@@ -31,7 +31,7 @@ namespace Mystic
             }
             else if (!string.IsNullOrEmpty(emoji.stringValue))
             {
-                content = new GUIContent(EmojiUtil.FromName(emoji.stringValue));
+                content = new GUIContent(EmojiUtil.FromUnicodeKey(emoji.stringValue));
             }
             if (GUI.Button(position, content))
             {

@@ -108,8 +108,8 @@ namespace Mystic
         void DrawEmoji()
         {
             // アイコン一覧の取得
-            string[] names = EmojiUtil.GetNames().Where(s => s.IsSearched(_searchString)).ToArray();
-            GUIContent[] contents = names.Select(n => new GUIContent((EmojiUtil.FromName(n)))).ToArray();
+            string[] names = EmojiUtil.GetUnicodeKeys(_searchString);
+            GUIContent[] contents = names.Select(n => new GUIContent((EmojiUtil.FromUnicodeKey(n)))).ToArray();
             void OnClick(int index) => SetEmoji(names[index]);
             bool Selected(int index) => names[index] == _emojiProp.stringValue;
 
@@ -265,8 +265,8 @@ namespace Mystic
             }
             else if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
             {
-                GUIContent iconContent = new GUIContent(EmojiUtil.FromName(_emojiProp.stringValue));
-                iconContent.text = _emojiProp.stringValue;
+                GUIContent iconContent = new GUIContent(EmojiUtil.FromUnicodeKey(_emojiProp.stringValue));
+                iconContent.text = EmojiUtil.GetShortName(_emojiProp.stringValue);
                 GUILayout.Label(iconContent, GUILayout.Height(IconSize));
             }
             else

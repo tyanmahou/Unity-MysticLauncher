@@ -9,7 +9,7 @@ namespace Mystic
     {
         TMPro.TMP_SpriteAsset _asset;
 
-        [MenuItem("Window/FontSpriteConverter")]
+        [MenuItem("Tools/FontSpriteConverter")]
         public static void ShowWindow()
         {
             GetWindow<FontSpriteConverter>("FontSpriteConverter");
@@ -18,18 +18,21 @@ namespace Mystic
         {
             _asset = EditorGUILayout.ObjectField(_asset, typeof(TMPro.TMP_SpriteAsset), false) as TMPro.TMP_SpriteAsset;
 
-            if (GUILayout.Button("Save"))
+            using (new EditorGUI.DisabledScope(_asset is null))
             {
-                string path = EditorUtility.SaveFilePanel("Save Emoji Data", "Assets", "NewEmojiData.asset", "asset");
-                if (!string.IsNullOrEmpty(path))
+                if (GUILayout.Button("Save"))
                 {
-                    path = FileUtil.GetProjectRelativePath(path);
-                    // アセットを保存
-                    var newAsset = ScriptableObject.CreateInstance<TMP_SpriteAsset>();
-                    Copy(_asset, newAsset);
-                    AssetDatabase.CreateAsset(newAsset, path);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
+                    string path = EditorUtility.SaveFilePanel("Save Emoji Sprite Asset", "Assets/MysticLauncher/Resources", "EmojiSprite.asset", "asset");
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        path = FileUtil.GetProjectRelativePath(path);
+                        // アセットを保存
+                        var newAsset = ScriptableObject.CreateInstance<TMP_SpriteAsset>();
+                        Copy(_asset, newAsset);
+                        AssetDatabase.CreateAsset(newAsset, path);
+                        AssetDatabase.SaveAssets();
+                        AssetDatabase.Refresh();
+                    }
                 }
             }
         }

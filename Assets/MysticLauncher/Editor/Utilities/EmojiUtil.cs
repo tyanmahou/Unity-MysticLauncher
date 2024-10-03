@@ -9,7 +9,7 @@ namespace Mystic
 {
     public static class EmojiUtil
     {
-        public static Texture FromString(string emoji)
+        public static Texture FromRaw(string emoji)
         {
             return FromUnicode(ToUnicodes(emoji));
         }
@@ -19,60 +19,48 @@ namespace Mystic
             {
                 return null;
             }
-            var emoji = Emoji();
-            if (emoji is null)
-            {
-                return null;
-            }
-            string name = string.Join("-", Array.ConvertAll(unicodes, v => v.ToString("x4")));
-            Debug.Log(name);
-            return FromName(name);
+            return FromUnicodeKey(ToUnicodeKey(unicodes));
         }
-        public static Texture FromName(string name)
+        public static Texture FromUnicodeKey(string unicodeKey)
         {
-            if (!_emojiTextures.TryGetValue(name, out var texture))
+            if (!_emojiTextures.TryGetValue(unicodeKey, out var texture))
             {
-                texture = CreateTexture(name);
-                _emojiTextures.Add(name, texture);
+                texture = CreateTexture(unicodeKey);
+                _emojiTextures.Add(unicodeKey, texture);
             }
             return texture;
         }
-        public static string GetAlias(uint unicode)
+        public static string GetShortName(string unicodeKey)
         {
-            var emoji = Emoji();
+            var emoji = EmojiData();
             if (emoji is null)
             {
                 return string.Empty;
             }
-            var index = emoji.GetSpriteIndexFromUnicode(unicode);
-            if (index < 0 || emoji.spriteGlyphTable.Count <= 0)
-            {
-                return string.Empty;
-            }
-            var c = emoji.spriteCharacterTable[index];
-            return c.name;
+            return emoji.GetShortName(unicodeKey);
         }
-        public static uint[] GetUnicodes()
+        public static string[] GetUnicodeKeys()
         {
-            var emoji = Emoji();
-            if (emoji is null)
-            {
-                return new uint[0];
-            }
-            return emoji.spriteCharacterTable.Select(c => c.unicode).ToArray();
-        }
-        public static string[] GetNames()
-        {
-            var emoji = Emoji();
+            var emoji = EmojiSprite();
             if (emoji is null)
             {
                 return new string[0];
             }
             return emoji.spriteCharacterTable.Select(c => c.name).ToArray();
         }
-        static Texture2D CreateTexture(string name)
+        public static string[] GetUnicodeKeys(string search)
         {
-            var emoji = Emoji();
+            var keys = GetUnicodeKeys();
+            var emoji = EmojiData();
+            if (emoji is null)
+            {
+                return keys;
+            }
+            return keys.Where(k => emoji.IsSearched(k, search)).ToArray();
+        }
+        static Texture2D CreateTexture(string unicodeKey)
+        {
+            var emoji = EmojiSprite();
             if (emoji is null)
             {
                 return null;
@@ -82,7 +70,7 @@ namespace Mystic
             {
                 return null;
             }
-            var index = emoji.GetSpriteIndexFromName(name);
+            var index = emoji.GetSpriteIndexFromName(unicodeKey);
             if (index < 0)
             {
                 return null;
@@ -97,6 +85,10 @@ namespace Mystic
             newTexture.Apply();
 
             return newTexture;
+        }
+        static string ToUnicodeKey(params uint[] unicodes)
+        {
+            return string.Join("-", Array.ConvertAll(unicodes, v => v.ToString("x4")));
         }
         static uint[] ToUnicodes(string characters)
         {
@@ -113,13 +105,13 @@ namespace Mystic
             }
             return list.ToArray();
         }
-        static TMP_SpriteAsset Emoji()
+        static EmojiDataList EmojiData()
         {
-            return _emojiAsset ??= LoadEmojiAsset();
+            return _emojiData ??= LoadPackageAsset<EmojiDataList>("Resources/Emoji/EmojiData.asset");
         }
-        static TMPro.TMP_SpriteAsset LoadEmojiAsset()
+        static TMP_SpriteAsset EmojiSprite()
         {
-            return LoadPackageAsset<TMPro.TMP_SpriteAsset>("Resources/Emoji/EmojiData.asset");
+            return _emojiSprite ??= LoadPackageAsset<TMPro.TMP_SpriteAsset>("Resources/Emoji/EmojiSprite.asset");
         }
         static T LoadPackageAsset<T>(string path)
             where T : UnityEngine.Object
@@ -131,7 +123,8 @@ namespace Mystic
             }
             return ret;
         }
-        static TMP_SpriteAsset _emojiAsset;
+        static EmojiDataList _emojiData;
+        static TMP_SpriteAsset _emojiSprite;
         static Dictionary<string, Texture> _emojiTextures = new();
     }
 }
