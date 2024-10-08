@@ -74,10 +74,6 @@ namespace Mystic
             }
             EditorGUILayout.EndScrollView();
         }
-        private void OnLostFocus()
-        {
-            Close();
-        }
         private void OnDestroy()
         {
         }

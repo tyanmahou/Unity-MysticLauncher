@@ -14,7 +14,7 @@ namespace Mystic
         }
         TextInputPopup(Rect position, SerializedProperty prop)
         {
-            _position = position;
+            _position = GUIUtility.GUIToScreenRect(position);
             _prop = prop;
         }
 
@@ -24,6 +24,7 @@ namespace Mystic
         }
         public override void OnGUI(Rect rect)
         {
+            this.editorWindow.position = _position;
             GUILayout.Label(_prop.name, EditorStyles.boldLabel);
             var prev = _prop.stringValue;
             _prop.stringValue = EditorGUILayout.TextField(_prop.stringValue);            
