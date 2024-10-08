@@ -11,9 +11,10 @@ namespace Mystic
 
         public static void Show(SerializedProperty iconProp, SerializedProperty emojiProp = null, SerializedProperty textureProp = null)
         {
-            IconPickerWindow window = GetWindow<IconPickerWindow>("Icon Picker");
+            IconPickerWindow window = CreateInstance<IconPickerWindow>();
+            window.titleContent = new GUIContent("Icon Picker");
             window.Init(iconProp, emojiProp, textureProp);
-            window.Show();
+            window.ShowAuxWindow();
         }
         public void Init(SerializedProperty iconProp, SerializedProperty emojiProp, SerializedProperty textureProp)
         {
@@ -41,23 +42,14 @@ namespace Mystic
             {
                 _selectedTab = 1;
             }
-            if (_textureProp != null && _textureProp.objectReferenceValue != null)
-            {
-                _selectedTab = 2;
-            }
             _isSkip = false;
-        }
-        
-        private void OnLostFocus()
-        {
-            Close();
         }
         private void OnDestroy()
         {
         }
         void OnGUI()
         {
-            List<string> tabList = new(3)
+            List<string> tabList = new(2)
             {
             };
             // Icon設定
@@ -69,11 +61,6 @@ namespace Mystic
             if (_emojiProp != null)
             {
                 tabList.Add("Emoji");
-            }
-            // Texture設定
-            if (_textureProp != null)
-            {
-                tabList.Add("Assets");
             }
             _selectedTab = GUILayout.Toolbar(
                 _selectedTab,
@@ -94,13 +81,9 @@ namespace Mystic
             {
                 DrawBuildIn();
             }
-            else if (_selectedTab == 1)
-            {
-                DrawEmoji();
-            }
             else
             {
-                DrawAssets();
+                DrawEmoji();
             }
 
             EditorGUILayout.EndScrollView();
@@ -129,29 +112,6 @@ namespace Mystic
             bool Selected(int index) => unicodes[index] == _emojiProp.stringValue;
 
             DrawTextures(contents, OnClick, OnContext, Selected);
-        }
-        void DrawAssets()
-        {
-            if (_textures == null)
-            {
-                // Assets以下のTexture を取得
-                string[] guids = AssetDatabase.FindAssets("t:Texture", new[] { "Assets" });
-                _textures = new Texture[guids.Length];
-
-                for (int i = 0; i < guids.Length; i++)
-                {
-                    string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-                    _textures[i] = AssetDatabase.LoadAssetAtPath<Texture>(path);
-                }
-            }
-            // アイコン一覧の取得
-            Texture[] texs = GetFilteredTextures(_searchString);
-            GUIContent[] contents = texs.Select(t => new GUIContent(t)).ToArray();
-
-            void OnClick(int index) => SetTexture(texs[index]);
-            bool Selected(int index) => texs[index] == _textureProp.objectReferenceValue;
-
-            DrawTextures(contents, OnClick, null, Selected);
         }
         void DrawTextures(IReadOnlyList<GUIContent> iconContents, System.Action<int> onLeftClick, System.Action<int> onRightClick, System.Func<int, bool> selected)
         {
@@ -270,6 +230,16 @@ namespace Mystic
 
         void DrawFooter()
         {
+            // Texture設定
+            if (_textureProp != null)
+            {
+                var nextObj = EditorGUILayout.ObjectField(_textureProp.objectReferenceValue, typeof(Texture), false);
+                if (nextObj != _textureProp.objectReferenceValue)
+                {
+                    SetTexture(nextObj as Texture);
+                }
+            }
+
             if (_textureProp != null && _textureProp.propertyType == SerializedPropertyType.ObjectReference && _textureProp.objectReferenceValue != null)
             {
                 var tex = _textureProp.objectReferenceValue as Texture;
@@ -334,18 +304,6 @@ namespace Mystic
                 return _iconNames.Where(icon => icon.IsSearched(search)).ToArray();
             }
         }
-        private Texture[] GetFilteredTextures(string search)
-        {
-            // アイコンのフィルタリング
-            if (string.IsNullOrEmpty(search))
-            {
-                return _textures;
-            }
-            else
-            {
-                return _textures.Where(t => t.name.IsSearched(search)).ToArray();
-            }
-        }
         private SerializedProperty _iconProp;
         private SerializedProperty _emojiProp;
         private SerializedProperty _textureProp;
@@ -359,7 +317,6 @@ namespace Mystic
         private GUIStyle _normalStyle;
         private Color _selectedColor = new Color(0, 1, 1, 0.3f);
         int _selectedTab;
-        private Texture[] _textures;
         private bool _isSkip = false;
     }
 }
