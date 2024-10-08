@@ -3,9 +3,6 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using TMPro;
-using UnityEngine.TextCore.Text;
-using UnityEditor.Rendering;
 
 namespace Mystic
 {
@@ -42,7 +39,7 @@ namespace Mystic
             // コンテンツの表示
             using (var contentScroller = new GUILayout.ScrollViewScope(_contentScrollPosition))
             {
-                tabLayout?.OnGUI();
+                tabLayout.OnGUI();
 
                 _contentScrollPosition = contentScroller.scrollPosition;
             }
@@ -64,7 +61,8 @@ namespace Mystic
             }
 
             // タイトル
-            if (projSettings.ProjectInfo.CustomHeader == null) {
+            if (projSettings.ProjectInfo.CustomHeader == null)
+            {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
                 {
@@ -103,18 +101,12 @@ namespace Mystic
             tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
 
-            // タブの表示
-            using (var tabScroller = new GUILayout.ScrollViewScope(_tabScrollPosition, GUILayout.ExpandHeight(false)))
-            {
-                _selectedTab = GUILayout.Toolbar(
-                    _selectedTab,
-                    tabs.Select(TabContent).ToArray(),
-                    EditorStyles.toolbarButton,
-                    GUI.ToolbarButtonSize.FitToContents
-                    );
+            //タブの表示
+            _selectedTab = EditorGUIUtil.MultiLineToolBar(
+               _selectedTab,
+               tabs.Select(TabContent)
+               );
 
-                _tabScrollPosition = tabScroller.scrollPosition;
-            }
             if (_selectedTab < tabs.Count)
             {
                 return tabs[_selectedTab];
@@ -124,7 +116,6 @@ namespace Mystic
                 return null;
             }
         }
-        Vector2 _tabScrollPosition;
         Vector2 _contentScrollPosition;
         int _selectedTab;
     }

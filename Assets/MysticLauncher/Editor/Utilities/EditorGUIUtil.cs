@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -223,13 +224,58 @@ namespace Mystic
             }
             return false;
         }
+        public static int MultiLineToolBar(int selected, IEnumerable<GUIContent> contents)
+        {
+            return MultiLineToolBar(selected, contents, EditorStyles.toolbarButton);
+        }
+        public static int MultiLineToolBar(int selected, IEnumerable<GUIContent> contents, GUIStyle style)
+        {
+            float width = EditorGUIUtility.currentViewWidth;
+            float height = style.fixedHeight;
+            float totalW = 0;
+            float totalH = height;
+            foreach (var (content, i) in contents.Select((content, index) => (content, index)))
+            {
+                var size = style.CalcSize(content);
+                totalW += size.x;
+                if (totalW > width)
+                {
+                    totalW = 0;
+                    totalH += height;
+                }
+            }
+            var rect = GUILayoutUtility.GetRect(width, totalH);
+            rect.height = height;
+            totalW = 0;
+            var c = rect;
+            var x = rect.x;
+            foreach (var (content, i) in contents.Select((content, index) => (content, index)))
+            {
+                var size = style.CalcSize(content);
+                totalW += size.x;
+                if (totalW > width)
+                {
+                    totalW = 0;
+                    rect.x = x;
+                    rect.y += height;
+                }
+                var cs = rect;
+                cs.width = size.x;
+                rect.x += size.x;
+                if (GUI.Toggle(cs, i == selected, content, style))
+                {
+                    selected = i;
+                }
+            }
+            return selected;
+        }
         public static Rect GetNoVericalSpaceRect()
         {
             return GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
         }
         public static float GetWidth()
         {
-            return GetNoVericalSpaceRect().width;
+            return EditorGUIUtility.currentViewWidth;
         }
         public static Rect GetIndentedRect()
         {
