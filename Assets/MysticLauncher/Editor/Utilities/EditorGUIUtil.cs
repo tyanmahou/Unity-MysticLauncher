@@ -223,14 +223,17 @@ namespace Mystic
             }
             return false;
         }
+        public static Rect GetNoVericalSpaceRect()
+        {
+            return GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
+        }
         public static float GetWidth()
         {
-            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
-            return rect.width;
+            return GetNoVericalSpaceRect().width;
         }
         public static Rect GetIndentedRect()
         {
-            var rect = GUILayoutUtility.GetRect(0, -EditorGUIUtility.standardVerticalSpacing);
+            var rect = GetNoVericalSpaceRect();
             rect.x += EditorGUI.indentLevel * 15;
             rect.width -= EditorGUI.indentLevel * 15;
             return rect;
