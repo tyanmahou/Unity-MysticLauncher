@@ -18,9 +18,10 @@ namespace Mystic
         }
         public static void Show(SerializedProperty property)
         {
-            MenuItemPickerWindow window = GetWindow<MenuItemPickerWindow>("Menu Item Picker");
+            MenuItemPickerWindow window = CreateInstance<MenuItemPickerWindow>();
+            window.titleContent = new GUIContent("Menu Item Picker");
             window.Init(property);
-            window.Show();
+            window.ShowAuxWindow();
         }
         public void Init(SerializedProperty property)
         {
@@ -63,10 +64,6 @@ namespace Mystic
                 }
             }
             EditorGUILayout.EndScrollView();
-        }
-        private void OnLostFocus()
-        {
-            Close();
         }
         private void OnDestroy()
         {

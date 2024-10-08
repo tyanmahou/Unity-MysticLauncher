@@ -18,9 +18,10 @@ namespace Mystic
         }
         public static void Show(SerializedProperty property)
         {
-            SettingServicePickerWindow window = GetWindow<SettingServicePickerWindow>("SettingService Picker");
+            SettingServicePickerWindow window = CreateInstance<SettingServicePickerWindow>();
+            window.titleContent = new GUIContent("SettingService Picker");
             window.Init(property);
-            window.Show();
+            window.ShowAuxWindow();
         }
         public void Init(SerializedProperty property)
         {
