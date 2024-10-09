@@ -21,5 +21,14 @@ namespace Mystic
                 UnityEngine.Debug.LogError(e.Message);
             }
         }
+        public string Tooltip()
+        {
+            if (string.IsNullOrEmpty(Path))
+            {
+                return string.Empty;
+            }
+            var path = PathUtil.FixedFullPath(Path);
+            return $"Open Folder\n<color=grey>{path}</color>";
+        }
     }
 }

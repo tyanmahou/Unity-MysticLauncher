@@ -28,9 +28,21 @@ namespace Mystic
             set => _action = value;
         }
 
+        public Label LabelOverridedTooltip
+        {
+            get
+            {
+                var label = Label;
+                if (string.IsNullOrEmpty(label.Tooltip))
+                {
+                    label.Tooltip = Action?.Tooltip() ?? string.Empty;
+                }
+                return label;
+            }
+        }
         public void OnGUI()
         {
-            if (EditorGUIUtil.Button(Label))
+            if (EditorGUIUtil.Button(LabelOverridedTooltip))
             {
                 Execute();
             }
@@ -75,7 +87,7 @@ namespace Mystic
         }
         protected virtual string DefaultTooltip()
         {
-            return string.Empty;
+            return _action?.Tooltip() ?? string.Empty;
         }
         public override string ToString()
         {

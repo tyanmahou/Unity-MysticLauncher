@@ -12,6 +12,8 @@ namespace Mystic
         [FolderSelect]
         public string WorkingDirectory;
 
+        public string Arguments;
+
         public void Execute()
         {
             try
@@ -21,14 +23,23 @@ namespace Mystic
                 ProcessStartInfo processInfo = new ProcessStartInfo
                 {
                     FileName = fileName,
-                    WorkingDirectory = workingDir
+                    WorkingDirectory = workingDir,
+                    Arguments = Arguments
                 };
                 using Process process = System.Diagnostics.Process.Start(processInfo);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 UnityEngine.Debug.LogError(e.Message);
             }
+        }
+        public string Tooltip()
+        {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                return string.Empty;
+            }
+            return $"Execute {FileName}";
         }
     }
 }

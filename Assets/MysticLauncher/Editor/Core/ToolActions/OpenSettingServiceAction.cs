@@ -11,5 +11,13 @@ namespace Mystic
         {
             Path.Open();
         }
+        public string Tooltip()
+        {
+            if (string.IsNullOrEmpty(Path.SettingPath))
+            {
+                return string.Empty;
+            }
+            return $"Open {Path.SettingPath}";
+        }
     }
 }

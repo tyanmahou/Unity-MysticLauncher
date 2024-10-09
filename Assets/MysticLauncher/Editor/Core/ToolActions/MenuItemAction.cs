@@ -13,5 +13,9 @@ namespace Mystic
         {
             EditorApplication.ExecuteMenuItem(ItemName);
         }
+        public string Tooltip()
+        {
+            return ItemName ?? string.Empty;
+        }
     }
 }

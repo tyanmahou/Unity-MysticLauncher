@@ -12,5 +12,13 @@ namespace Mystic
         {
             Application.OpenURL(URL);
         }
+        public string Tooltip()
+        {
+            if (string.IsNullOrEmpty(URL))
+            {
+                return string.Empty;
+            }
+            return $"Open URL\n<color=grey>{URL}</color>";
+        }
     }
 }

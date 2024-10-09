@@ -21,13 +21,5 @@ namespace Mystic
             => Create(text, SettingsScope.Project, path, tooltip, icon);
         public static SettingServiceElement CreateUser(string text, string path, string tooltip = "", string icon = null) 
             => Create(text, SettingsScope.User, path, tooltip, icon);
-        protected override string DefaultTooltip()
-        {
-            if (_action is null)
-            {
-                return string.Empty;
-            }
-            return $"Open {_action.Path.SettingPath}";
-        }
     }
 }
