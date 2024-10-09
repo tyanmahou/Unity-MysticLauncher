@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.IMGUI.Controls;
 
 namespace Mystic
 {
@@ -23,15 +24,14 @@ namespace Mystic
             }
         }
         static GUIStyle _richStyle;
+        /// <summary>
+        /// リッチテキスト許容のラベルフィールド
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="options"></param>
         public static void RichLabel(GUIContent content, params GUILayoutOption[] options)
         {
             GUILayout.Label(content, RichStyle, options);
-        }
-        public static GUIContent FolderTogleContent(bool open, string text)
-        {
-            GUIContent content = open ? FolderOpenedContent : FolderContent;
-            content.text = text;
-            return content;
         }
         static GUIContent FolderContent
         {
@@ -57,6 +57,41 @@ namespace Mystic
         }
         static GUIContent _folderContent;
         static GUIContent _folderOpendContent;
+        /// <summary>
+        /// フォルダアイコンのトグル
+        /// </summary>
+        /// <param name="open"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static GUIContent FolderTogleContent(bool open, string text)
+        {
+            GUIContent content = open ? FolderOpenedContent : FolderContent;
+            content.text = text;
+            return content;
+        }
+
+        static SearchField SearchFieldCtrl
+        {
+            get
+            {
+                return _searchFieldCtrl ??= new SearchField();
+            }
+        }
+        static SearchField _searchFieldCtrl;
+        /// <summary>
+        /// 検索フィールド
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static string ToolbarSearchField(string text, params GUILayoutOption[] options)
+        {
+            return SearchFieldCtrl.OnToolbarGUI(text, options);
+        }
+        public static string ToolbarSearchField(string text)
+        {
+            return ToolbarSearchField(text, GUILayout.MinWidth(0));
+        }
         public static bool Button(in Label label)
         {
             return Button(label.Icon, label.Text ?? string.Empty, label.Tooltip ?? string.Empty, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));

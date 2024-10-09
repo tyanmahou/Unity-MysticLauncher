@@ -25,7 +25,7 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 string prevSearch = _searchString;
-                _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField, GUILayout.MinWidth(0));
+                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
                 isChangedSearch = _searchString != prevSearch;
                 if (EditorGUIUtil.IconButton("d_FolderEmpty On Icon", "Close Toggle All"))
                 {

@@ -33,7 +33,7 @@ namespace Mystic
         {
             // 検索バーの描画
             {
-                _searchString = EditorGUILayout.TextField(GUIContent.none, _searchString, EditorStyles.toolbarSearchField);
+                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
             }
             EditorGUIUtil.DrawSeparator();
 
