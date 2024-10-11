@@ -53,13 +53,12 @@ namespace Mystic
                     _hoverRight = true;
                 }
             }
-            _scrollView = new GUILayout.ScrollViewScope(scrollPosition, GUIStyle.none, GUIStyle.none, GUILayout.MinHeight(height), GUILayout.ExpandHeight(false));
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none, GUILayout.MinHeight(height), GUILayout.ExpandHeight(false));
         }
 
         public void Dispose() 
         {
-            scrollPosition = _scrollView.scrollPosition;
-            _scrollView.Dispose();
+            GUILayout.EndScrollView();
             Color colorDefault = new Color(0.2196f, 0.2196f, 0.2196f, 1.0f);
             Color colorHover = new Color(0.2196f, 0.2196f, 0.2196f, 0.8f);
             if (_useLeftScroll)
@@ -75,7 +74,6 @@ namespace Mystic
         }
         public Vector2 scrollPosition;
 
-        GUILayout.ScrollViewScope _scrollView;
         GUIStyle _scrollStyle;
         Rect _leftScroll;
         Rect _rightScroll;
