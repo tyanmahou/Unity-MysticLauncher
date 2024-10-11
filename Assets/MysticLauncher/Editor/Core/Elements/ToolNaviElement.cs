@@ -17,7 +17,7 @@ namespace Mystic
 
             float minWidth = Elements.Length * 60 + (Elements.Length + 1) * 3;
 
-            using (var scrollView = new SimpleHorizontalScrollScope(_scrollPosition, minWidth, height: 64, deltaTime, scrollSpeed: 60 * 20))
+            using (var scrollView = new SimpleHorizontalScrollScope(_scrollX, minWidth, height: 64, deltaTime, scrollSpeed: 60 * 20))
             {
                 using (new GUILayout.HorizontalScope())
                 {
@@ -29,14 +29,14 @@ namespace Mystic
                         }
                     }
                 }
-                _scrollPosition = scrollView.scrollPosition;
+                _scrollX = scrollView.scrollX;
             }
         }
         public override string ToString()
         {
             return "Tool Navi";
         }
-        Vector2 _scrollPosition;
+        float _scrollX;
         float _prevTime = 0;
     }
 }

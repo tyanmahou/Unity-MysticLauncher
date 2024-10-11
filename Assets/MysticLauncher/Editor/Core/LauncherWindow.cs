@@ -39,13 +39,11 @@ namespace Mystic
             // コンテンツの表示
             using (var contentScroller = new GUILayout.ScrollViewScope(_contentScrollPosition))
             {
-                tabLayout.OnGUI();
+                tabLayout?.OnGUI();
 
                 _contentScrollPosition = contentScroller.scrollPosition;
             }
         }
-        GUIContent TabContent(ITabLayout layout)
-            => EditorGUIUtil.GetIconContent16x16(layout.Title, layout.Icon);
 
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
@@ -100,23 +98,9 @@ namespace Mystic
                 };
             tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
-
-            //タブの表示
-            _selectedTab = EditorGUIUtil.MultiLineToolBar(
-               _selectedTab,
-               tabs.Select(TabContent)
-               );
-
-            if (_selectedTab < tabs.Count)
-            {
-                return tabs[_selectedTab];
-            }
-            else
-            {
-                return null;
-            }
+            return _tabToolBar.OnGUI(tabs);
         }
         Vector2 _contentScrollPosition;
-        int _selectedTab;
+        TabToolBar _tabToolBar = new();
     }
 }

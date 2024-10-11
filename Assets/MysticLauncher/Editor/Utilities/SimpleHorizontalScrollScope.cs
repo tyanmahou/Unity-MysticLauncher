@@ -6,11 +6,13 @@ namespace Mystic
 {
     public class SimpleHorizontalScrollScope : IDisposable
     {
-        public SimpleHorizontalScrollScope(in Vector2 scrollPos, float contentWidth, float height, float deltaTime, float scrollSpeed = 1200) 
+        public SimpleHorizontalScrollScope(float scrollX, float contentWidth, float height, float deltaTime, float scrollSpeed = 1200)
+            :this(scrollX, EditorGUIUtility.currentViewWidth - 1f, contentWidth, height, deltaTime, scrollSpeed)
+        { 
+        }
+        public SimpleHorizontalScrollScope(float scrollX, float viewWidth, float contentWidth, float height, float deltaTime, float scrollSpeed = 1200) 
         {
-            this.scrollPosition = scrollPos;
-
-            float viewWidth = EditorGUIUtility.currentViewWidth;
+            this.scrollX = scrollX;
             bool isScroll = contentWidth > viewWidth;
 
             if (_scrollStyle is null)
@@ -23,8 +25,8 @@ namespace Mystic
             var y = GUILayoutUtility.GetRect(0, 0).y;
             _leftScroll = new Rect(0, y, 20, height);
             _rightScroll = new Rect(viewWidth - 20, y, 20, height);
-            _useLeftScroll = isScroll && scrollPosition.x > 0;
-            _useRightScroll = isScroll && scrollPosition.x < contentWidth - viewWidth;
+            _useLeftScroll = isScroll && this.scrollX > 0;
+            _useRightScroll = isScroll && this.scrollX < contentWidth - viewWidth;
 
             _hoverLeft = false;
             _hoverRight = false;
@@ -32,8 +34,8 @@ namespace Mystic
             {
                 if (GUI.RepeatButton(_leftScroll, GUIContent.none, EditorStyles.iconButton))
                 {
-                    scrollPosition.x -= scrollSpeed * deltaTime;
-                    scrollPosition.x = Mathf.Max(0, scrollPosition.x);
+                    this.scrollX -= scrollSpeed * deltaTime;
+                    this.scrollX = Mathf.Max(0, this.scrollX);
                     EditorWindow.focusedWindow.Repaint();
                     _hoverLeft = true;
                 }
@@ -46,8 +48,8 @@ namespace Mystic
             {
                 if (GUI.RepeatButton(_rightScroll, GUIContent.none, EditorStyles.iconButton))
                 {
-                    scrollPosition.x += scrollSpeed * deltaTime;
-                    scrollPosition.x = Mathf.Min(contentWidth - viewWidth, scrollPosition.x);
+                    this.scrollX += scrollSpeed * deltaTime;
+                    this.scrollX = Mathf.Min(contentWidth - viewWidth, this.scrollX);
                     EditorWindow.focusedWindow.Repaint();
                     _hoverRight = true;
                 }
@@ -56,7 +58,8 @@ namespace Mystic
                     _hoverRight = true;
                 }
             }
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none, GUILayout.MinHeight(height), GUILayout.ExpandHeight(false));
+            var scrollPosition = GUILayout.BeginScrollView(this.scrollX * Vector2.right, GUIStyle.none, GUIStyle.none, GUILayout.Width(viewWidth), GUILayout.MinHeight(height), GUILayout.ExpandHeight(false));
+            this.scrollX = scrollPosition.x;
         }
 
         public void Dispose() 
@@ -75,7 +78,7 @@ namespace Mystic
                 GUI.Label(_rightScroll, EditorGUIUtility.IconContent("d_forward"), _scrollStyle);
             }
         }
-        public Vector2 scrollPosition;
+        public float scrollX;
 
         static GUIStyle _scrollStyle;
         Rect _leftScroll;

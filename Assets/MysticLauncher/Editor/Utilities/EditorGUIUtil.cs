@@ -269,7 +269,7 @@ namespace Mystic
             float height = style.fixedHeight;
             float totalW = 0;
             float totalH = height;
-            foreach (var (content, i) in contents.Select((content, index) => (content, index)))
+            foreach (var content in contents)
             {
                 var size = style.CalcSize(content);
                 totalW += size.x;
@@ -301,6 +301,67 @@ namespace Mystic
                 {
                     selected = i;
                 }
+            }
+            return selected;
+        }
+        public static int ScrollToolBar(int selected, ref float scrollX, float deltaTime, IEnumerable<GUIContent> contents, System.Action<int> onContext = null)
+        {
+            GUIStyle style = EditorStyles.toolbarButton;
+            float height = style.fixedHeight;
+            float totalW = 0;
+            foreach (var content in contents)
+            {
+                var size = style.CalcSize(content);
+                totalW += size.x;
+            }
+            float viewWidth = EditorGUIUtility.currentViewWidth;
+            if (onContext != null)
+            {
+                viewWidth -= 20;
+            }
+            var contentsWithIndex = contents.Select((content, index) => (content, index));
+            using (new GUILayout.HorizontalScope())
+            {
+                using (var scrollView = new SimpleHorizontalScrollScope(scrollX, viewWidth: viewWidth, totalW, height, deltaTime))
+                {
+                    Rect rect = GUILayoutUtility.GetRect(totalW, height);
+                    foreach (var (content, i) in contentsWithIndex)
+                    {
+                        var size = style.CalcSize(content);
+                        rect.width = size.x;
+                        if (GUI.Toggle(rect, i == selected, content, style))
+                        {
+                            selected = i;
+                        }
+                        rect.x += rect.width;
+                    }
+                    scrollX = scrollView.scrollX;
+                }
+                if (onContext != null)
+                {
+                    // Menu
+                    var menuStyle = new GUIStyle(EditorStyles.iconButton);
+                    menuStyle.alignment = TextAnchor.MiddleCenter;
+                    menuStyle.fixedHeight = height;
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("_Menu"), menuStyle, GUILayout.Width(20)))
+                    {
+                        GenericMenu menu = new GenericMenu();
+                        menu.allowDuplicateNames = true;
+                        foreach (var (content, i) in contentsWithIndex)
+                        {
+                            int copy = i;
+                            menu.AddItem(content, i == selected, () =>
+                            {
+                                onContext?.Invoke(copy);
+                            });
+                        }
+                        menu.ShowAsContext();
+                    }
+                }
+            }
+            if (selected >= contents.Count())
+            {
+                selected = 0;
             }
             return selected;
         }
