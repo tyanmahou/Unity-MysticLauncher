@@ -13,9 +13,12 @@ namespace Mystic
             float viewWidth = EditorGUIUtility.currentViewWidth;
             bool isScroll = contentWidth > viewWidth;
 
-            _scrollStyle = new GUIStyle(GUIStyle.none);
-            _scrollStyle.alignment = TextAnchor.MiddleCenter;
-            _scrollStyle.normal.textColor = Color.white;
+            if (_scrollStyle is null)
+            {
+                _scrollStyle = new GUIStyle(GUIStyle.none);
+                _scrollStyle.alignment = TextAnchor.MiddleCenter;
+                _scrollStyle.normal.textColor = Color.white;
+            }
 
             var y = GUILayoutUtility.GetRect(0, 0).y;
             _leftScroll = new Rect(0, y, 20, height);
@@ -74,7 +77,7 @@ namespace Mystic
         }
         public Vector2 scrollPosition;
 
-        GUIStyle _scrollStyle;
+        static GUIStyle _scrollStyle;
         Rect _leftScroll;
         Rect _rightScroll;
         bool _hoverLeft = false;
