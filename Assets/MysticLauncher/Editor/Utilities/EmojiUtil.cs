@@ -120,21 +120,11 @@ namespace Mystic
         }
         static EmojiDataList EmojiData()
         {
-            return _emojiData ??= LoadPackageAsset<EmojiDataList>("Resources/Emoji/EmojiData.asset");
+            return _emojiData ??= MysticResource.LoadPackageAsset<EmojiDataList>("Emoji/EmojiData.asset");
         }
         static TMP_SpriteAsset EmojiSprite()
         {
-            return _emojiSprite ??= LoadPackageAsset<TMPro.TMP_SpriteAsset>("Resources/Emoji/EmojiSprite.asset");
-        }
-        static T LoadPackageAsset<T>(string path)
-            where T : UnityEngine.Object
-        {
-            var ret = AssetDatabase.LoadAssetAtPath<T>("Packages/com.tyanmahou.mystic-launcher/" + path);
-            if (ret is null)
-            {
-                ret = AssetDatabase.LoadAssetAtPath<T>("Assets/MysticLauncher/" + path);
-            }
-            return ret;
+            return _emojiSprite ??= MysticResource.LoadPackageAsset<TMPro.TMP_SpriteAsset>("Emoji/EmojiSprite.asset");
         }
         static EmojiDataList _emojiData;
         static TMP_SpriteAsset _emojiSprite;

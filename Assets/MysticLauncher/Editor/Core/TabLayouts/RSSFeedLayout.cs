@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
 {
-    public class RSSFeedEntry
-    {
-        public string Channel;
-        public string ChannelLink;
-        public string Title;
-        public string Link;
-        public DateTime PublishDate;
-    }
     [Serializable]
     public class RSSFeedLayout : ITabLayout
     {
@@ -23,7 +13,17 @@ namespace Mystic
         private string[] _urls = new string[0];
 
         public string Title => "RSS";
-        public Icon Icon => default;
+        public Icon Icon
+        {
+            get
+            {
+                if (!_icon.IsValid)
+                {
+                    _icon = Icon.Create(MysticResource.LoadPackageAsset<Texture>("Icon/rss16.png"));
+                }
+                return _icon;
+            }
+        }
 
         public RSSFeedLayout() { }
         public RSSFeedLayout(IEnumerable<string> urls)
@@ -99,94 +99,8 @@ namespace Mystic
         }
         private void FetchRSS()
         {
-            _entries = new List<RSSFeedEntry>();
+            _entries = RSSFeed.Fetch(_urls);
             _reloadTime = DateTime.Now;
-
-            foreach (var url in _urls)
-            {
-                FetchRSS(url);
-            }
-            _entries = _entries.OrderByDescending(x => x.PublishDate).ToList();
-        }
-        private void FetchRSS(string url)
-        {
-            try
-            {
-                // RSS読み込み
-                XElement rssXmlDoc = XElement.Load(url);
-                string rootName = rssXmlDoc.Name.LocalName;
-                if (rootName == "rss")
-                {
-                    string channel = (string)rssXmlDoc.Element("channel")?.Element("title")?.Value;
-                    string channelLink = (string)rssXmlDoc.Element("channel")?.Element("link")?.Value;
-                    // RSS 2.0 フィードの処理
-                    foreach (var item in rssXmlDoc.Descendants("item"))
-                    {
-                        var rssEntry = new RSSFeedEntry()
-                        {
-                            Channel = channel,
-                            ChannelLink = channelLink,
-                            Title = (string)item.Element("title"),
-                            Link = (string)item.Element("link"),
-                            PublishDate = DateTime.Parse((string)item.Element("pubDate")),
-                        };
-                        _entries.Add(rssEntry);
-                    }
-                }
-                else if (rootName == "feed")
-                {
-                    string ns = "http://www.w3.org/2005/Atom";
-                    string channel = (string)rssXmlDoc.Element(XName.Get("title", ns));
-                    string channellLink = GetChannelLink(rssXmlDoc, ns);
-                    // Atom フィードの処理
-                    foreach (var entry in rssXmlDoc.Descendants(XName.Get("entry", ns)))
-                    {
-                        var feedEntry = new RSSFeedEntry()
-                        {
-                            Channel = channel,
-                            ChannelLink= channellLink,
-                            Title = (string)entry.Element(XName.Get("title", ns)),
-                            Link = (string)entry.Element(XName.Get("link", "http://www.w3.org/2005/Atom"))?.Attribute("href"),
-                            PublishDate = DateTime.Parse((string)entry.Element(XName.Get("published", ns))),
-                        };
-                        _entries.Add(feedEntry);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                UnityEngine.Debug.LogWarning($"Fetch RSSFeed error ({url})\n{e.Message}");
-            }
-        }
-        public string GetChannelLink(XElement rssXmlDoc, string ns)
-        {
-            // <link>要素をすべて取得
-            var links = rssXmlDoc.Descendants(XName.Get("link", ns));
-
-            // 1. 要素の中身があるもの
-            var linkWithValue = links.FirstOrDefault(link => !string.IsNullOrWhiteSpace(link.Value));
-
-            // 2. rel="alternate"のものを取得
-            var alternateLink = links.FirstOrDefault(link => (string)link.Attribute("rel") == "alternate");
-
-            // 3. rel="self"のものを取得
-            var selfLink = links.FirstOrDefault(link => (string)link.Attribute("rel") == "self");
-
-            // 優先度に従ってリンクを選択
-            if (linkWithValue != null)
-            {
-                return linkWithValue.Value; // 最優先: 値が設定されているリンク
-            }
-            else if (alternateLink != null)
-            {
-                return (string)alternateLink.Attribute("href"); // 次に優先: rel="alternate"
-            }
-            else if (selfLink != null)
-            {
-                return (string)selfLink.Attribute("href"); // 最後に優先: rel="self"
-            }
-
-            return (string)links.FirstOrDefault();
         }
         bool NeedReload()
         {
@@ -232,15 +146,16 @@ namespace Mystic
                 _titleStyle.active.textColor = new Color(0.0f, 0.7f, 1.0f, 1.0f);
             }
         }
-        private List<RSSFeedEntry> _entries;
+        Icon _icon;
+        List<RSSFeedEntry> _entries;
 
-        private string _searchString = string.Empty;
-        private Vector2 _scrollPosition;
+        string _searchString = string.Empty;
+        Vector2 _scrollPosition;
 
-        private static GUIStyle _boxStyle;
-        private static GUIStyle _dateStyle;
-        private static GUIStyle _channelStyle;
-        private static GUIStyle _titleStyle;
-        private static DateTime _reloadTime;
+        static GUIStyle _boxStyle;
+        static GUIStyle _dateStyle;
+        static GUIStyle _channelStyle;
+        static GUIStyle _titleStyle;
+        static DateTime _reloadTime;
     }
 }

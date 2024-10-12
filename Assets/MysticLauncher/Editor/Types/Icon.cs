@@ -10,6 +10,14 @@ namespace Mystic
     [Serializable]
     public struct Icon
     {
+        public static Icon Create(Texture texture)
+        {
+            return new Icon()
+            {
+                _icon = texture,
+            };
+        }
+
         public static Icon CreateUnityIcon(string name)
         {
             return new Icon()
@@ -17,6 +25,14 @@ namespace Mystic
                 _unityIcon = name,
             };
         }
+        public static Icon CreateEmoji(string emoji)
+        {
+            return new Icon()
+            {
+                _emoji = emoji,
+            };
+        }
+
         [SerializeField] Texture _icon;
         [SerializeField] string _unityIcon;
         [SerializeField] string _emoji;
