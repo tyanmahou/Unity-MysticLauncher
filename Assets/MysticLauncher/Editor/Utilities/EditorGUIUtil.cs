@@ -474,6 +474,30 @@ namespace Mystic
 
             return resizedTexture;
         }
+        public static Texture2D ListBackGroundTexture(int index)
+        {
+            if (index % 2 == 0)
+            {
+                return ColorTexture(new Color32(56, 56, 56, 255));
+            }
+            else
+            {
+                return ColorTexture(new Color32(63, 63, 63, 255));
+            }
+        }
+        public static Texture2D ColorTexture(in Color color)
+        {
+            if (_colorTextures.TryGetValue(color, out Texture2D texture))
+            {
+                return texture;
+            }
+            texture = new Texture2D(1, 1);
+            texture.SetPixel(0, 0, color);
+            texture.Apply();
+            _colorTextures.TryAdd(color, texture);
+            return texture;
+        }
         static Dictionary<Texture, Texture> _iconTextures16x16 = new();
+        static Dictionary<Color, Texture2D> _colorTextures = new();
     }
 }

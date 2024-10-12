@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using UnityEditor.PackageManager.UI;
 
 namespace Mystic
 {
@@ -19,8 +20,11 @@ namespace Mystic
             icon.text = "Launcher";
             window.titleContent = icon;
         }
+        public static LauncherWindow Instance { get; private set; }
+
         void OnGUI()
         {
+            Instance = this;
             var projSettings = LauncherProjectSettings.instance;
             if (projSettings == null)
             {
@@ -92,14 +96,28 @@ namespace Mystic
         }
         ITabLayout DrawTabNavi(LauncherProjectSettings projSettings, LauncherUserSettings userSettings)
         {
+            GUIContent TabContent(ITabLayout layout)
+                => EditorGUIUtil.GetIconContent16x16(layout.Title, layout.Icon);
+
             List<ITabLayout> tabs = new(1 + projSettings.ProjectTabs.Length + userSettings.UserTabs.Length)
                 {
                     new PortalLayout(),
                 };
+
             tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
-            return _tabToolBar.OnGUI(tabs);
+            _selectedTab = _tabToolBar.OnGUI(_selectedTab, tabs.Select(TabContent), i => _selectedTab = i);
+
+            if (_selectedTab < tabs.Count)
+            {
+                return tabs[_selectedTab];
+            }
+            else
+            {
+                return null;
+            }
         }
+        int _selectedTab = 0;
         Vector2 _contentScrollPosition;
         TabToolBar _tabToolBar = new();
     }

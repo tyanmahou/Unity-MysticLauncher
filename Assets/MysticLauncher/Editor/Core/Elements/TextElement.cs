@@ -14,6 +14,7 @@ namespace Mystic
         {
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
             labelStyle.wordWrap = true;
+            labelStyle.richText = true;
             EditorGUILayout.LabelField(Text, labelStyle);
         }
         public override string ToString()
