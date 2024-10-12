@@ -33,14 +33,29 @@ namespace Mystic
 
         public void OnGUI()
         {
-            LauncherWindow.Instance.Repaint();
-            _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
-            var reloadContent = EditorGUIUtil.NewIconContent("d_Refresh", "Reload", "Reload RSSFeed from URLs");
-            if (GUILayout.Button(reloadContent) || NeedReload())
+            GUILayout.Space(5);
+            using (new EditorGUILayout.HorizontalScope())
             {
-                FetchRSS();
+                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+
+                using (new EditorGUI.DisabledScope(_urls.Length <= 0))
+                {
+                    if (EditorGUIUtil.IconButton("d_Refresh", "Reload RSSFeed from URLs") || NeedReload())
+                    {
+                        FetchRSS();
+                    }
+                }
             }
+            GUILayout.Space(5);
             EditorGUIUtil.DrawSeparator();
+            if (_urls.Length <= 0)
+            {
+                EditorGUILayout.HelpBox("Please add RssFeed url. and Reload.", MessageType.Info);
+                return;
+            }
+
+            LauncherWindow.Instance.Repaint();
+
             using(var scroller = new EditorGUILayout.ScrollViewScope(_scrollPosition))
             {
                 _scrollPosition = scroller.scrollPosition;
@@ -104,6 +119,10 @@ namespace Mystic
         }
         bool NeedReload()
         {
+            if (_urls.Length <= 0)
+            {
+                return false;
+            }
             if (_entries is null)
             {
                 return true;
@@ -151,11 +170,11 @@ namespace Mystic
 
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
+        DateTime _reloadTime;
 
         static GUIStyle _boxStyle;
         static GUIStyle _dateStyle;
         static GUIStyle _channelStyle;
         static GUIStyle _titleStyle;
-        static DateTime _reloadTime;
     }
 }
