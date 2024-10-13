@@ -25,7 +25,7 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 string prevSearch = _searchString;
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
                 isChangedSearch = _searchString != prevSearch;
                 if (EditorGUIUtil.IconButton("d_FolderEmpty On Icon", "Close Toggle All"))
                 {
@@ -248,6 +248,7 @@ namespace Mystic
             _groupRange.Add((r, group));
         }
 
+        SearchField _searchField = new();
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
         List<(Rect, string)> _groupRange = new List<(Rect, string)> ();

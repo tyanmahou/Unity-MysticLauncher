@@ -36,7 +36,7 @@ namespace Mystic
             GUILayout.Space(5);
             using (new EditorGUILayout.HorizontalScope())
             {
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
 
                 using (new EditorGUI.DisabledScope(_urls.Length <= 0))
                 {
@@ -168,6 +168,7 @@ namespace Mystic
         Icon _icon;
         List<RSSFeedEntry> _entries;
 
+        SearchField _searchField = new();
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
         DateTime _reloadTime;

@@ -71,7 +71,7 @@ namespace Mystic
 
             // 検索バーの描画
             {
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
             }
 
             // スクロールビュー開始
@@ -308,6 +308,7 @@ namespace Mystic
         private SerializedProperty _emojiProp;
         private SerializedProperty _textureProp;
 
+        SearchField _searchField = new();
         private string _searchString = "";
         private Vector2 _scrollPosition;
         private string[] _iconNames;

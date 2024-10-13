@@ -21,7 +21,7 @@ namespace Mystic
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
                 string prevSearch = _searchString;
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
                 isChangedSearch = _searchString != prevSearch;
 
                 if (EditorGUIUtil.IconButton("d_FolderEmpty On Icon", "Close Toggle All"))
@@ -180,6 +180,7 @@ namespace Mystic
         HistoryEntry _openEntry;
         HistoryEntry _removeEntry;
 
+        SearchField _searchField = new();
         string _searchString = string.Empty;
         Vector2 _scrollPosition;
         Dictionary<string, ToggleAnimBool> _toggle = new();

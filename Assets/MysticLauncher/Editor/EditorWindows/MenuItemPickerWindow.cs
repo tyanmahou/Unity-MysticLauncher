@@ -33,7 +33,7 @@ namespace Mystic
         {
             // 検索バーの描画
             {
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
             }
             EditorGUIUtil.DrawSeparator();
 
@@ -111,10 +111,31 @@ namespace Mystic
                     }
                 }
             }
-            return items.Distinct().OrderBy(s => s).ToArray();
+            bool IsValid(string itemName)
+            {
+                if (itemName.StartsWith("internal:"))
+                {
+                    return false;
+                }
+                if (itemName.StartsWith("CONTEXT/"))
+                {
+                    return false;
+                }
+                return true;
+            }
+            items.Add("File/Open Scene");
+            items.Add("File/Save");
+            items.Add("File/Save As...");
+            items.Add("File/Open Project...");
+            items.Add("File/Save Project");
+            items.Add("File/Build Settings...");
+            items.Add("File/Build And Run");
+            items.Add("File/Exit");
+            return items.Distinct().Where(IsValid).OrderBy(s => s).ToArray();
         }
         private SerializedProperty _property;
-        private string _searchString = "";
+        SearchField _searchField = new();
+        private string _searchString = string.Empty;
         private Vector2 _scrollPosition;
 
         private DoubleClickCtrl _doubleClick = new();

@@ -69,29 +69,6 @@ namespace Mystic
             content.text = text;
             return content;
         }
-
-        static SearchField SearchFieldCtrl
-        {
-            get
-            {
-                return _searchFieldCtrl ??= new SearchField();
-            }
-        }
-        static SearchField _searchFieldCtrl;
-        /// <summary>
-        /// 検索フィールド
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public static string ToolbarSearchField(string text, params GUILayoutOption[] options)
-        {
-            return SearchFieldCtrl.OnToolbarGUI(text, options);
-        }
-        public static string ToolbarSearchField(string text)
-        {
-            return ToolbarSearchField(text, GUILayout.MinWidth(0));
-        }
         public static bool Button(in Label label)
         {
             return Button(label.Icon, label.Text ?? string.Empty, label.Tooltip ?? string.Empty, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));

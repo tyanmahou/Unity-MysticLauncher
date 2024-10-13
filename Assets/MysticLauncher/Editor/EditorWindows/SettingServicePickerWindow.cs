@@ -41,7 +41,7 @@ namespace Mystic
                 );
             // 検索バーの描画
             {
-                _searchString = EditorGUIUtil.ToolbarSearchField(_searchString);
+                _searchString = _searchField.OnGUI(_searchString);
             }
             EditorGUIUtil.DrawSeparator();
             // スクロールビュー開始
@@ -124,8 +124,8 @@ namespace Mystic
         private SerializedProperty _property;
         private SerializedProperty _scope;
         private SerializedProperty _path;
-
-        private string _searchString = "";
+        SearchField _searchField = new();
+        private string _searchString = string.Empty;
         private Vector2 _scrollPosition;
 
         private DoubleClickCtrl _doubleClick = new();
