@@ -92,7 +92,38 @@ namespace Mystic
         }
         static string[] FindMenuItems()
         {
-            List<string> items = new List<string>();
+            List<string> items = new()
+            {
+                // File
+                "File/Open Scene",
+                "File/Save",
+                "File/Save As...",
+                "File/Open Project...",
+                "File/Save Project",
+                "File/Build Settings...",
+                "File/Build And Run",
+                "File/Exit",
+                // Edit
+                //"Edit/Select All",
+                //"Edit/Cut",
+                //"Edit/Copy",
+                //"Edit/Paste",
+                //"Edit/Duplicate",
+                //"Edit/Rename",
+                //"Edit/Delete",
+                "Edit/Frame Selected in Scene",
+                //"Edit/Frame Selected in Window under Cursor",
+                //"Edit/Lock View to Selected",
+                //"Edit/Find",
+                "Edit/Play",
+                "Edit/Pause",
+                //"Edit/Step",
+                "Edit/Sign in...",
+                "Edit/Sign out",
+                "Edit/Preferences...",
+                "Edit/Shortcuts...",
+            };
+
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             // 全てのstaticメソッドを取得
@@ -123,21 +154,6 @@ namespace Mystic
                 }
                 return true;
             }
-            items.Add("File/Open Scene");
-            items.Add("File/Save");
-            items.Add("File/Save As...");
-            items.Add("File/Open Project...");
-            items.Add("File/Save Project");
-            items.Add("File/Build Settings...");
-            items.Add("File/Build And Run");
-            items.Add("File/Exit");
-            items.Add("Edit/Select All");
-            items.Add("Edit/Cut");
-            items.Add("Edit/Copy");
-            items.Add("Edit/Paste");
-            items.Add("Edit/Duplicate");
-            items.Add("Edit/Rename");
-            items.Add("Edit/Delete");
 
             return items.Distinct().Where(IsValid).OrderBy(s => s).ToArray();
         }
