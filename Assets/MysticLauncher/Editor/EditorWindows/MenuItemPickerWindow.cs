@@ -131,6 +131,14 @@ namespace Mystic
             items.Add("File/Build Settings...");
             items.Add("File/Build And Run");
             items.Add("File/Exit");
+            items.Add("Edit/Select All");
+            items.Add("Edit/Cut");
+            items.Add("Edit/Copy");
+            items.Add("Edit/Paste");
+            items.Add("Edit/Duplicate");
+            items.Add("Edit/Rename");
+            items.Add("Edit/Delete");
+
             return items.Distinct().Where(IsValid).OrderBy(s => s).ToArray();
         }
         private SerializedProperty _property;
