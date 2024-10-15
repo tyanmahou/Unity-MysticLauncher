@@ -15,7 +15,8 @@ namespace Mystic
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
             labelStyle.wordWrap = true;
             labelStyle.richText = true;
-            EditorGUILayout.LabelField(Text, labelStyle);
+            var height = labelStyle.CalcHeight(new GUIContent(Text), EditorGUIUtility.currentViewWidth);
+            EditorGUILayout.SelectableLabel(Text, labelStyle, GUILayout.Height(height));
         }
         public override string ToString()
         {
