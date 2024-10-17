@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
@@ -12,12 +11,9 @@ namespace Mystic
 
         public void OnGUI()
         {
-            float deltaTime = (float)EditorApplication.timeSinceStartup - _prevTime;
-            _prevTime = (float)EditorApplication.timeSinceStartup;
-
             float minWidth = Elements.Length * 60 + (Elements.Length + 1) * 3;
 
-            using (var scrollView = new SimpleHorizontalScrollScope(_scrollX, minWidth, height: 64, deltaTime, scrollSpeed: 60 * 20))
+            using (var scrollView = _scroller.OnGUI(minWidth, height: 64))
             {
                 using (new GUILayout.HorizontalScope())
                 {
@@ -29,14 +25,12 @@ namespace Mystic
                         }
                     }
                 }
-                _scrollX = scrollView.scrollX;
             }
         }
         public override string ToString()
         {
             return "Tool Navi";
         }
-        float _scrollX;
-        float _prevTime = 0;
+        SimpleHorizontalScroller _scroller;
     }
 }

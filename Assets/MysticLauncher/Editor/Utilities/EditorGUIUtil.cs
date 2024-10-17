@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static Codice.Client.Common.Servers.RecentlyUsedServers;
 
 namespace Mystic
 {
@@ -280,7 +281,7 @@ namespace Mystic
             }
             return selected;
         }
-        public static int ScrollToolBar(int selected, ref float scrollX, float deltaTime, IEnumerable<GUIContent> contents, System.Action<int> onContext = null)
+        public static int ScrollToolBar(in Rect position, int selected, ref float scrollX, float deltaTime, IEnumerable<GUIContent> contents, System.Action<int> onContext = null)
         {
             GUIStyle style = EditorStyles.toolbarButton;
             float height = style.fixedHeight;
@@ -290,15 +291,16 @@ namespace Mystic
                 var size = style.CalcSize(content);
                 totalW += size.x;
             }
-            float viewWidth = EditorGUIUtility.currentViewWidth - 5;
+            Rect scrollRect = position;
             if (onContext != null)
             {
-                viewWidth -= 20;
+                scrollRect.width -= 20;
             }
+            scrollRect.height = height;
             var contentsWithIndex = contents.Select((content, index) => (content, index));
             using (new GUILayout.HorizontalScope())
             {
-                using (var scrollView = new SimpleHorizontalScrollScope(scrollX, viewWidth: viewWidth, totalW, height, deltaTime))
+                using (var scrollView = new SimpleHorizontalScrollScope(scrollRect, scrollX, totalW, deltaTime))
                 {
                     Rect rect = GUILayoutUtility.GetRect(totalW, height);
                     foreach (var (content, i) in contentsWithIndex)

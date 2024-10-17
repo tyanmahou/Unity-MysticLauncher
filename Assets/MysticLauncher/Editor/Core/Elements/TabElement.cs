@@ -19,7 +19,7 @@ namespace Mystic
         public Tab[] Tabs = new Tab[0];
         public void OnGUI()
         {
-            //using (new EditorGUILayout.VerticalScope(GUI.skin.box))
+            using (new EditorGUILayout.VerticalScope(GUI.skin.box))
             {
                 var currentTab = DrawTabNavi();
                 if (currentTab != null)

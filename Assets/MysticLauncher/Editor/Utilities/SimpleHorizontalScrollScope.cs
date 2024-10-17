@@ -6,13 +6,11 @@ namespace Mystic
 {
     public class SimpleHorizontalScrollScope : IDisposable
     {
-        public SimpleHorizontalScrollScope(float scrollX, float contentWidth, float height, float deltaTime, float scrollSpeed = 1200)
-            :this(scrollX, EditorGUIUtility.currentViewWidth - 1f, contentWidth, height, deltaTime, scrollSpeed)
-        { 
-        }
-        public SimpleHorizontalScrollScope(float scrollX, float viewWidth, float contentWidth, float height, float deltaTime, float scrollSpeed = 1200) 
+        public SimpleHorizontalScrollScope(in Rect position, float scrollX, float contentWidth, float deltaTime, float scrollSpeed = 1200) 
         {
+            _position = position;
             this.scrollX = scrollX;
+            float viewWidth = position.width;
             bool isScroll = contentWidth > viewWidth;
 
             if (_scrollStyle is null)
@@ -21,10 +19,8 @@ namespace Mystic
                 _scrollStyle.alignment = TextAnchor.MiddleCenter;
                 _scrollStyle.normal.textColor = Color.white;
             }
-
-            var y = GUILayoutUtility.GetRect(0, 0).y;
-            _leftScroll = new Rect(0, y, 20, height);
-            _rightScroll = new Rect(viewWidth - 20, y, 20, height);
+            _leftScroll = new Rect(_position.x, _position.y, 20, _position.height);
+            _rightScroll = new Rect(_position.x + viewWidth - 20, _position.y, 20, _position.height);
             _useLeftScroll = isScroll && this.scrollX > 0;
             _useRightScroll = isScroll && this.scrollX < contentWidth - viewWidth;
 
@@ -58,13 +54,14 @@ namespace Mystic
                     _hoverRight = true;
                 }
             }
-            var scrollPosition = GUILayout.BeginScrollView(this.scrollX * Vector2.right, GUIStyle.none, GUIStyle.none, GUILayout.Width(viewWidth), GUILayout.MinHeight(height), GUILayout.ExpandHeight(false));
+            var scrollPosition = GUILayout.BeginScrollView(this.scrollX * Vector2.right, GUIStyle.none, GUIStyle.none, GUILayout.MinHeight(_position.height), GUILayout.ExpandHeight(false));
             this.scrollX = scrollPosition.x;
         }
 
         public void Dispose() 
         {
             GUILayout.EndScrollView();
+
             Color colorDefault = new Color(0.2196f, 0.2196f, 0.2196f, 1.0f);
             Color colorHover = new Color(0.2196f, 0.2196f, 0.2196f, 0.8f);
             if (_useLeftScroll)
@@ -78,8 +75,8 @@ namespace Mystic
                 GUI.Label(_rightScroll, EditorGUIUtility.IconContent("d_forward"), _scrollStyle);
             }
         }
+        Rect _position;
         public float scrollX;
-
         static GUIStyle _scrollStyle;
         Rect _leftScroll;
         Rect _rightScroll;
