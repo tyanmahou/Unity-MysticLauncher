@@ -290,7 +290,7 @@ namespace Mystic
                 var size = style.CalcSize(content);
                 totalW += size.x;
             }
-            float viewWidth = EditorGUIUtility.currentViewWidth;
+            float viewWidth = EditorGUIUtility.currentViewWidth - 5;
             if (onContext != null)
             {
                 viewWidth -= 20;
