@@ -60,20 +60,23 @@ namespace Mystic
                 }
                 GUILayout.Space(4);
             }
-
             // タイトル
             if (projSettings.ProjectInfo.CustomHeader == null)
             {
-                using var horizontal = new EditorGUILayout.HorizontalScope();
-                if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
+                GUILayout.Space(-8);
+                using (new EditorGUILayout.HorizontalScope())
                 {
-                    Rect iconRect = GUILayoutUtility.GetRect(45, 45);
-                    GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);
+                    if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
+                    {
+                        Rect iconRect = GUILayoutUtility.GetRect(45, 45);
+                        GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);
+                    }
+                    GUIStyle customStyle = new GUIStyle(GUI.skin.label);
+                    customStyle.fontSize = 30;
+                    customStyle.alignment = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
+                    GUILayout.Label(projSettings.ProjectInfo.ProjectName.Text, customStyle);
                 }
-                GUIStyle customStyle = new GUIStyle(GUI.skin.label);
-                customStyle.fontSize = 30;
-                customStyle.alignment = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
-                GUILayout.Label(projSettings.ProjectInfo.ProjectName.Text, customStyle);
+                GUILayout.Space(-8);
             }
             else
             {
