@@ -49,6 +49,6 @@ namespace Mystic
             }
         }
         int _selectedTab = 0;
-        TabToolBar _tabToolBar = new();
+        TabToolBar _tabToolBar;
     }
 }

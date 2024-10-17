@@ -118,6 +118,6 @@ namespace Mystic
         }
         int _selectedTab = 0;
         Vector2 _contentScrollPosition;
-        TabToolBar _tabToolBar = new();
+        TabToolBar _tabToolBar;
     }
 }

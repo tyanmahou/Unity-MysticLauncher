@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static Codice.Client.Common.Servers.RecentlyUsedServers;
 
 namespace Mystic
 {
