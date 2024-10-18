@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
+    [SubclassGroup("Layout")]
     public class TabElement : IElement
     {
         [Serializable]

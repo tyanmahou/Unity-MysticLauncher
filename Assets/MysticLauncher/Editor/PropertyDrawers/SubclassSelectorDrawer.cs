@@ -65,10 +65,22 @@ namespace Mystic
 
         private void GetInheritedTypeNameArrays()
         {
-            _typePopupNameArray = _inheritedTypes.Select(type => type == null ? "Null" : type.ToString()).ToArray();
+            _typePopupNameArray = _inheritedTypes.Select(PopupName).ToArray();
             _typeFullNameArray = _inheritedTypes.Select(type => type == null ? "" : string.Format("{0} {1}", type.Assembly.ToString().Split(',')[0], type.FullName)).ToArray();
         }
-
+        private static string PopupName(Type type)
+        {
+            if (type == null)
+            {
+                return "Null";
+            }
+            var group = (SubclassGroupAttribute)type.GetCustomAttribute(typeof(SubclassGroupAttribute));
+            if (group == null)
+            {
+                return type.ToString();
+            }
+            return $"{group.Group}/{type}";
+        }
         public static Type GetFieldType(SerializedProperty property)
         {
             string[] fieldTypename = property.managedReferenceFieldTypename.Split(' ');

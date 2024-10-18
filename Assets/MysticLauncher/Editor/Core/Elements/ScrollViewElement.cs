@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
+    [SubclassGroup("Layout")]
     public class ScrollViewElement : IElement
     {
         public float Height = 0;

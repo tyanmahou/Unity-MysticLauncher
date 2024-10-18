@@ -6,6 +6,7 @@ using UnityEditor.AnimatedValues;
 namespace Mystic
 {
     [Serializable]
+    [SubclassGroup("Layout")]
     public class CategoryElement : IElement
     {
         public static CategoryElement Create(string text, string tooltip = "", string icon = null)

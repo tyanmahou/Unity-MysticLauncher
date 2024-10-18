@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
+    [SubclassGroup("Layout")]
     public class BoxElement : IElement
     {
         public Label Label;

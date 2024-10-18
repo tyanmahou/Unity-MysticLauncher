@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Mystic
 {
     [Serializable]
+    [SubclassGroup("Layout")]
     public class ToolNaviElement : IElement
     {
         [NamedArrayElement]
