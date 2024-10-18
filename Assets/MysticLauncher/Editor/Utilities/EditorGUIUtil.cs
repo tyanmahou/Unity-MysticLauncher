@@ -374,20 +374,36 @@ namespace Mystic
             return GetIconContent16x16(text, string.Empty, icon);
         }
         public static GUIContent GetIconContent16x16(string text, string tooltip, in Icon icon)
+            => GetIconContent(_iconTextures16x16, text, tooltip, icon, 16, 16);
+        public static GUIContent GetIconContent32x32(in Label label)
+        {
+            return GetIconContent32x32(label.Text, label.Tooltip, label.Icon);
+        }
+        public static GUIContent GetIconContent32x32(in Icon icon)
+        {
+            return GetIconContent32x32(string.Empty, string.Empty, icon);
+        }
+        public static GUIContent GetIconContent32x32(string text, in Icon icon)
+        {
+            return GetIconContent32x32(text, string.Empty, icon);
+        }
+        public static GUIContent GetIconContent32x32(string text, string tooltip, in Icon icon)
+            => GetIconContent(_iconTextures32x32, text, tooltip, icon, 32, 32);
+        static GUIContent GetIconContent(Dictionary<Texture, Texture> cache, string text, string tooltip, in Icon icon, int w, int h)
         {
             if (icon.TryGetGUIContent(out var content))
             {
                 if (content.image != null)
                 {
-                    if (!_iconTextures16x16.TryGetValue(content.image, out Texture tex))
+                    if (!cache.TryGetValue(content.image, out Texture tex))
                     {
-                        TryResizeTexture(content.image, 16, 16, out tex);
-                        _iconTextures16x16.Add(content.image, tex);
+                        TryResizeTexture(content.image, w, h, out tex);
+                        cache.Add(content.image, tex);
                     }
                     if (tex == null)
                     {
-                        TryResizeTexture(content.image, 16, 16, out tex);
-                        _iconTextures16x16[content.image] = tex;
+                        TryResizeTexture(content.image, w, h, out tex);
+                        cache[content.image] = tex;
                     }
                     content.image = tex;
                 }
@@ -397,7 +413,6 @@ namespace Mystic
             }
             return new GUIContent(text, tooltip);
         }
-
         public static bool TryResizeTexture(Texture texture, int width, int height, out Texture result)
         {
             if (texture.width == width && texture.height == height)
@@ -475,6 +490,7 @@ namespace Mystic
             return texture;
         }
         static Dictionary<Texture, Texture> _iconTextures16x16 = new();
+        static Dictionary<Texture, Texture> _iconTextures32x32 = new();
         static Dictionary<Color, Texture2D> _colorTextures = new();
     }
 }
