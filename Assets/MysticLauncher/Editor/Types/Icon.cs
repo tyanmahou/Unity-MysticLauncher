@@ -41,9 +41,15 @@ namespace Mystic
         {
             get
             {
-                return _icon != null || !string.IsNullOrEmpty(_unityIcon) || !string.IsNullOrEmpty(_emoji);
+                return HasUnityIcon || HasEmoji || HasTextureReference;
             }
         }
+        public bool HasUnityIcon => !string.IsNullOrEmpty(_unityIcon);
+        public string UnityIcon => _unityIcon;
+        public bool HasEmoji => !string.IsNullOrEmpty(_emoji);
+        public string Emoji => _emoji;
+        public bool HasTextureReference => _icon != null;
+        public Texture TextureReference => _icon;
 
         public bool TryGetGUIContent(out GUIContent icon)
         {
@@ -67,6 +73,14 @@ namespace Mystic
             }
             icon = null;
             return false;
+        }
+        public GUIContent GetGUIContent()
+        {
+            if (TryGetGUIContent(out GUIContent icon))
+            {
+                return icon;
+            }
+            return GUIContent.none;
         }
     }
 }

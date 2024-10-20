@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Mystic
 {
@@ -16,11 +17,24 @@ namespace Mystic
             window.Init(iconProp, emojiProp, textureProp);
             window.ShowAuxWindow();
         }
-        public void Init(SerializedProperty iconProp, SerializedProperty emojiProp, SerializedProperty textureProp)
+        public static void Show(Action<Icon> callback, Icon icon = default)
         {
-            _iconProp = iconProp;
-            _emojiProp = emojiProp;
-            _textureProp = textureProp;
+            IconPickerWindow window = CreateInstance<IconPickerWindow>();
+            window.titleContent = new GUIContent("Icon Picker");
+            window.Init(callback, icon);
+            window.ShowAuxWindow();
+        }
+        void Init(SerializedProperty iconProp, SerializedProperty emojiProp, SerializedProperty textureProp)
+        {
+            Init(new SerializedReceiver(iconProp, emojiProp, textureProp));
+        }
+        void Init(Action<Icon> callback, Icon icon)
+        {
+            Init(new CallbackReceiver(callback, icon));
+        }
+        void Init(IIconReceiver receiver)
+        {
+            _iconReceiver = receiver;
 
             // アイコン名のリストを取得
             _iconNames = new string[]
@@ -34,11 +48,11 @@ namespace Mystic
             };
             _normalStyle = new GUIStyle(GUI.skin.button);
 
-            if (_iconProp != null && !string.IsNullOrEmpty(_iconProp.stringValue))
+            if (_iconReceiver.HasUnityIcon)
             {
                 _selectedTab = 0;
             }
-            if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
+            if (_iconReceiver.HasEmoji)
             {
                 _selectedTab = 1;
             }
@@ -53,12 +67,12 @@ namespace Mystic
             {
             };
             // Icon設定
-            if (_iconProp != null)
+            if (_iconReceiver.EditableUnityIcon)
             {
                 tabList.Add("Icon");
             }
             // Emoji設定
-            if (_emojiProp != null)
+            if (_iconReceiver.EditableEmoji)
             {
                 tabList.Add("Emoji");
             }
@@ -98,7 +112,7 @@ namespace Mystic
 
             void OnClick(int index) => SetIcon(icons[index]);
             void OnContext(int index) => ShowContextIcon(icons[index]);
-            bool Selected(int index) => icons[index] == _iconProp.stringValue;
+            bool Selected(int index) => icons[index] == _iconReceiver.UnityIcon;
 
             DrawTextures(contents, OnClick, OnContext, Selected);
         }
@@ -109,7 +123,7 @@ namespace Mystic
             GUIContent[] contents = unicodes.Select(u => new GUIContent((EmojiUtil.FromUnicodeKey(u)))).ToArray();
             void OnClick(int index) => SetEmoji(unicodes[index]);
             void OnContext(int index) => ShowContextEmoji(unicodes[index]);
-            bool Selected(int index) => unicodes[index] == _emojiProp.stringValue;
+            bool Selected(int index) => unicodes[index] == _iconReceiver.Emoji;
 
             DrawTextures(contents, OnClick, OnContext, Selected);
         }
@@ -182,26 +196,17 @@ namespace Mystic
         }
         bool IsEmptyProp()
         {
-            if (_iconProp != null)
+            if (_iconReceiver.HasUnityIcon)
             {
-                if (!string.IsNullOrEmpty(_iconProp.stringValue))
-                {
-                    return false;
-                }
+                return false;
             }
-            if (_emojiProp != null)
+            if (_iconReceiver.HasEmoji)
             {
-                if (!string.IsNullOrEmpty(_emojiProp.stringValue))
-                {
-                    return false;
-                }
+                return false;
             }
-            if (_textureProp != null)
+            if (_iconReceiver.HasTexture)
             {
-                if (_textureProp.objectReferenceValue != null)
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }
@@ -209,54 +214,36 @@ namespace Mystic
         void SetIcon(string icon) => SetProp(icon, string.Empty, null);
         void SetEmoji(string name) => SetProp(string.Empty, name, null);
         void SetTexture(Texture texture) => SetProp(string.Empty, string.Empty, texture);
-        void SetProp(string icon, string emoji, Texture tex)
-        {
-            if (_iconProp != null)
-            {
-                _iconProp.stringValue = icon;
-                _iconProp.serializedObject.ApplyModifiedProperties();
-            }
-            if (_emojiProp != null)
-            {
-                _emojiProp.stringValue = emoji;
-                _emojiProp.serializedObject.ApplyModifiedProperties();
-            }
-            if (_textureProp != null)
-            {
-                _textureProp.objectReferenceValue = tex;
-                _textureProp.serializedObject.ApplyModifiedProperties();
-            }
-        }
-
+        void SetProp(string icon, string emoji, Texture tex) => _iconReceiver.Set(icon, emoji, tex);
         void DrawFooter()
         {
             // Texture設定
-            if (_textureProp != null)
+            if (_iconReceiver.EditableTexture)
             {
-                var nextObj = EditorGUILayout.ObjectField(_textureProp.objectReferenceValue, typeof(Texture), false);
-                if (nextObj != _textureProp.objectReferenceValue)
+                var nextObj = EditorGUILayout.ObjectField(_iconReceiver.Texture, typeof(Texture), false);
+                if (nextObj != _iconReceiver.Texture)
                 {
                     SetTexture(nextObj as Texture);
                 }
             }
 
-            if (_textureProp != null && _textureProp.propertyType == SerializedPropertyType.ObjectReference && _textureProp.objectReferenceValue != null)
+            if (_iconReceiver.HasTexture)
             {
-                var tex = _textureProp.objectReferenceValue as Texture;
+                var tex = _iconReceiver.Texture;
                 GUIContent iconContent = new GUIContent(tex);
                 iconContent.text = tex.name;
                 GUILayout.Label(iconContent, GUILayout.Height(IconSize));
             }
-            else if (_iconProp != null && !string.IsNullOrEmpty(_iconProp.stringValue))
+            else if (_iconReceiver.HasUnityIcon)
             {
-                GUIContent iconContent = new GUIContent(EditorGUIUtility.IconContent(_iconProp.stringValue));
-                iconContent.text = _iconProp.stringValue;
+                GUIContent iconContent = new GUIContent(EditorGUIUtility.IconContent(_iconReceiver.UnityIcon));
+                iconContent.text = _iconReceiver.UnityIcon;
                 GUILayout.Label(iconContent, GUILayout.Height(IconSize));
             }
-            else if (_emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue))
+            else if (_iconReceiver.HasEmoji)
             {
-                GUIContent iconContent = new GUIContent(EmojiUtil.FromUnicodeKey(_emojiProp.stringValue));
-                iconContent.text = EmojiUtil.GetShortName(_emojiProp.stringValue) + $" <color=grey>({_emojiProp.stringValue})</color>";
+                GUIContent iconContent = new GUIContent(EmojiUtil.FromUnicodeKey(_iconReceiver.Emoji));
+                iconContent.text = EmojiUtil.GetShortName(_iconReceiver.Emoji) + $" <color=grey>({_iconReceiver.Emoji})</color>";
                 EditorGUIUtil.RichLabel(iconContent, GUILayout.Height(IconSize));
             }
             else
@@ -304,10 +291,102 @@ namespace Mystic
                 return _iconNames.Where(icon => icon.IsSearched(search)).ToArray();
             }
         }
-        private SerializedProperty _iconProp;
-        private SerializedProperty _emojiProp;
-        private SerializedProperty _textureProp;
+        interface IIconReceiver
+        {
+            bool HasUnityIcon { get; }
+            bool EditableUnityIcon { get; }
+            string UnityIcon {get;}
+            bool HasEmoji { get; }
+            bool EditableEmoji { get; }
+            string Emoji { get; }
+            bool HasTexture { get; }
+            bool EditableTexture { get; }
+            Texture Texture { get; }
 
+            void Set(string icon, string emoji, Texture tex);
+        }
+        class SerializedReceiver : IIconReceiver
+        {
+            public SerializedReceiver(SerializedProperty icon, SerializedProperty emoji, SerializedProperty texture)
+            {
+                _iconProp = icon;
+                _emojiProp = emoji;
+                _textureProp = texture;
+            }
+            public bool HasUnityIcon => _iconProp != null && !string.IsNullOrEmpty(_iconProp.stringValue);
+            public bool EditableUnityIcon => _iconProp != null;
+            public string UnityIcon => _iconProp.stringValue;
+            public bool HasEmoji => _emojiProp != null && !string.IsNullOrEmpty(_emojiProp.stringValue);
+            public bool EditableEmoji => _emojiProp != null;
+            public string Emoji => _emojiProp.stringValue;
+            public bool HasTexture => _textureProp != null &&
+                _textureProp.propertyType == SerializedPropertyType.ObjectReference &&
+                _textureProp.objectReferenceValue != null;
+            public bool EditableTexture => _textureProp != null;
+            public Texture Texture => _textureProp.objectReferenceValue as Texture;
+            public void Set(string unityIcon, string emoji, Texture tex)
+            {
+                if (_iconProp != null)
+                {
+                    _iconProp.stringValue = unityIcon;
+                    _iconProp.serializedObject.ApplyModifiedProperties();
+                }
+                if (_emojiProp != null)
+                {
+                    _emojiProp.stringValue = emoji;
+                    _emojiProp.serializedObject.ApplyModifiedProperties();
+                }
+                if (_textureProp != null)
+                {
+                    _textureProp.objectReferenceValue = tex;
+                    _textureProp.serializedObject.ApplyModifiedProperties();
+                }
+            }
+
+            private SerializedProperty _iconProp;
+            private SerializedProperty _emojiProp;
+            private SerializedProperty _textureProp;
+        }
+        class CallbackReceiver : IIconReceiver
+        {
+            public CallbackReceiver(Action<Icon> callback, Icon init)
+            {
+                _callback = callback;
+                _icon = init;
+            }
+            public bool HasUnityIcon => _icon.HasUnityIcon;
+            public bool EditableUnityIcon => true;
+            public string UnityIcon => _icon.UnityIcon;
+            public bool HasEmoji => _icon.HasEmoji;
+            public bool EditableEmoji => true;
+            public string Emoji => _icon.Emoji;
+            public bool HasTexture => _icon.HasTextureReference;
+            public bool EditableTexture => true;
+            public Texture Texture => _icon.TextureReference;
+            public void Set(string unityIcon, string emoji, Texture tex)
+            {
+                if (tex != null)
+                {
+                    _icon = Icon.Create(tex);
+                }
+                else if (!string.IsNullOrEmpty(unityIcon))
+                {
+                    _icon = Icon.CreateUnityIcon(unityIcon);
+                }
+                else if (!string.IsNullOrEmpty(emoji))
+                {
+                    _icon = Icon.CreateEmoji(emoji);
+                }
+                else
+                {
+                    _icon = default;
+                }
+                _callback?.Invoke(_icon);
+            }
+            Action<Icon> _callback;
+            Icon _icon;
+        }
+        IIconReceiver _iconReceiver;
         SearchField _searchField = new();
         private string _searchString = "";
         private Vector2 _scrollPosition;
