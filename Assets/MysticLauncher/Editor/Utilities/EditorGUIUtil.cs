@@ -32,6 +32,19 @@ namespace Mystic
         {
             GUILayout.Label(content, RichStyle, options);
         }
+
+        public static string TextPlaceholderFeild(string text, string placeholder, params GUILayoutOption[] options)
+        {
+            text = EditorGUILayout.TextField(text, options);
+            if (string.IsNullOrEmpty(text))
+            {
+                var prev = GUI.color;
+                GUI.color = Color.gray;
+                GUI.Label(GUILayoutUtility.GetLastRect(), placeholder);
+                GUI.color = prev;
+            }
+            return text;
+        }
         static GUIContent FolderContent
         {
             get

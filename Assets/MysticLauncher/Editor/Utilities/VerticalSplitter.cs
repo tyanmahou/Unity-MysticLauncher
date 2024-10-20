@@ -13,14 +13,17 @@ namespace Mystic
         }
         public VerticalSplitter(float minOffset, float maxOffset)
         {
+            _separatorHeight = 200;
             _separatorMin = h => minOffset;
             _separatorMax = h => h - maxOffset;
         }
         public VerticalSplitter(
+            Func<float, float> separatorInit,
             Func<float, float> separatorMin,
             Func<float, float> separatorMax            
             )
         {
+            _separatorInit = separatorInit;
             _separatorMin = separatorMin;
             _separatorMax = separatorMax;
         }
@@ -124,17 +127,24 @@ namespace Mystic
             {
                 _position = _positionTmp;
                 _position.height = p.y - _position.y;
+                if (!_init)
+                {
+                    _separatorHeight = _separatorInit?.Invoke(_position.height) ?? _separatorHeight;
+                }
+                _init = true;
             }
         }
 
-        float _separatorHeight = 200f;
+        float _separatorHeight;
         Func<float, float> _separatorMin;
         Func<float, float> _separatorMax;
+        Func<float, float> _separatorInit;
         bool _isDragging = false;
         Vector2 _scrollPos1;
         Vector2 _scrollPos2;
 
         Rect _positionTmp;
         Rect _position;
+        bool _init = false;
     }
 }
