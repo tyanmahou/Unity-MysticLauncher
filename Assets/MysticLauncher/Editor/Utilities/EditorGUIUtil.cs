@@ -230,6 +230,26 @@ namespace Mystic
             }
             return false;
         }
+        public static GUILayout.VerticalScope ScopedMargin(int left, int right, int top, int bottom)
+        {
+            var style = new GUIStyle();
+            style.margin = new RectOffset()
+            {
+                left = left,
+                right = right,
+                top = top,
+                bottom = bottom,
+            };
+            return new GUILayout.VerticalScope(style);
+        }
+        public static GUILayout.VerticalScope ScopedMargin(int leftRight, int topBottom)
+        {
+            return ScopedMargin(leftRight, leftRight, topBottom, topBottom);
+        }
+        public static GUILayout.VerticalScope ScopedMargin(int margin = 5)
+        {
+            return ScopedMargin(margin, margin);
+        }
         public static int MultiLineToolBar(int selected, IEnumerable<GUIContent> contents)
         {
             return MultiLineToolBar(selected, contents, EditorStyles.toolbarButton);
