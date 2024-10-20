@@ -7,35 +7,60 @@ namespace Mystic
     [Serializable]
     public class VerticalSplitter
     {
-        public VerticalSplitter()
+        public VerticalSplitter():
+            this(50, 50)
         {
         }
         public VerticalSplitter(float minOffset, float maxOffset)
         {
-            _separatorHeightMinOffset = minOffset;
-            _separatorHeightMaxOffset = maxOffset;
+            _separatorMin = h => minOffset;
+            _separatorMax = h => h - maxOffset;
         }
-        public void Begin()
+        public VerticalSplitter(
+            Func<float, float> separatorMin,
+            Func<float, float> separatorMax            
+            )
+        {
+            _separatorMin = separatorMin;
+            _separatorMax = separatorMax;
+        }
+        public class ScopedTopView : IDisposable
+        {
+            internal ScopedTopView(VerticalSplitter splitter)
+            {
+                splitter.BeginTopView();
+            }
+            public void Dispose() 
+            {
+                GUILayout.EndScrollView();
+            }
+        }
+        public ScopedTopView SplitTop()
+        {
+            return new(this);
+        }
+        public class ScopedBottomView : IDisposable
+        {
+            internal ScopedBottomView(VerticalSplitter splitter)
+            {
+                _splitter = splitter;
+                _splitter.BeginBottomView();
+            }
+            public void Dispose()
+            {
+                _splitter.EndBottomView();
+            }
+            VerticalSplitter _splitter;
+        }
+        public ScopedBottomView SplitBottom()
+        {
+            return new(this);
+        }
+
+        private void BeginTopView()
         {
             _positionTmp = GUILayoutUtility.GetRect(0, 0);
             _scrollPos1 = GUILayout.BeginScrollView(_scrollPos1, GUILayout.Height(_separatorHeight));
-        }
-        public void Split()
-        {
-            GUILayout.EndScrollView();
-            // セパレーター
-            DrawSeparator();
-            _scrollPos2 = GUILayout.BeginScrollView(_scrollPos2, GUILayout.ExpandHeight(true));
-        }
-        public void End()
-        {
-            GUILayout.EndScrollView();
-            var p = GUILayoutUtility.GetRect(0, 0);
-            if (Event.current.type == EventType.Repaint)
-            {
-                _position = _positionTmp;
-                _position.height = p.y - _position.y;
-            }
         }
         private void DrawSeparator()
         {
@@ -78,11 +103,33 @@ namespace Mystic
                 default:
                     break;
             }
-            _separatorHeight = Mathf.Clamp(_separatorHeight, _separatorHeightMinOffset, _position.height - _separatorHeightMaxOffset); // 最小サイズを設定
+            _separatorHeight = Mathf.Clamp(
+                _separatorHeight,
+                Mathf.Max(_separatorMin?.Invoke(_position.height) ?? 1, 1),
+                Mathf.Min(_separatorMax?.Invoke(_position.height) ?? _position.height -1, _position.height-1)
+                );
         }
+
+        private void BeginBottomView()
+        {
+            // セパレーター
+            DrawSeparator();
+            _scrollPos2 = GUILayout.BeginScrollView(_scrollPos2, GUILayout.ExpandHeight(true));
+        }
+        private void EndBottomView()
+        {
+            GUILayout.EndScrollView();
+            var p = GUILayoutUtility.GetRect(0, 0);
+            if (Event.current.type == EventType.Repaint)
+            {
+                _position = _positionTmp;
+                _position.height = p.y - _position.y;
+            }
+        }
+
         float _separatorHeight = 200f;
-        float _separatorHeightMinOffset = 50f;
-        float _separatorHeightMaxOffset = 50f;
+        Func<float, float> _separatorMin;
+        Func<float, float> _separatorMax;
         bool _isDragging = false;
         Vector2 _scrollPos1;
         Vector2 _scrollPos2;
