@@ -18,7 +18,7 @@ namespace Mystic
             if (!string.IsNullOrEmpty(Label.Text) || Label.Icon.IsValid)
             {
                 var content = EditorGUIUtil.GetIconContent16x16(Label);
-                EditorGUILayout.LabelField(content, EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(content, EditorStyles.boldLabel, GUILayout.MinWidth(0));
             }
             foreach (var entry in Elements)
             {
