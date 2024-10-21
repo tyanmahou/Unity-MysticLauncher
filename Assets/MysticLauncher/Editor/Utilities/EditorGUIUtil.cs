@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Mystic
 {
@@ -217,7 +218,15 @@ namespace Mystic
             var content = NewIconContent(iconName, text, tooltip);
             return GUILayout.Button(content, GUILayout.Height(EditorGUIUtility.singleLineHeight + 4));
         }
-
+        public static void TruncateFit(in Rect rect, string label, GUIStyle style)
+        {
+            TruncateFit(rect, new GUIContent(label), style);
+        }
+        public static void TruncateFit(in Rect rect, GUIContent label, GUIStyle style)
+        {
+            TruncateFit(label, rect.width, style);
+            GUI.Label(rect, label, style);
+        }
         public static bool TruncateFit(GUIContent label, float width, GUIStyle style)
         {
             Vector2 labelSize = style.CalcSize(label);
@@ -494,17 +503,25 @@ namespace Mystic
 
             return resizedTexture;
         }
-        public static Texture2D ListBackGroundTexture(int index)
+        public static Color ListBackGroundColor(int index)
         {
             if (index % 2 == 0)
             {
-                return ColorTexture(new Color32(56, 56, 56, 255));
+                return new Color32(56, 56, 56, 255);
             }
             else
             {
-                return ColorTexture(new Color32(63, 63, 63, 255));
+                return new Color32(63, 63, 63, 255);
             }
         }
+        public static Texture2D ListBackGroundTexture(int index)
+            => ColorTexture(ListBackGroundColor(index));
+        public static Color ListHoverBackGroundColor() => new Color32(48, 48, 48, 255);
+        public static Texture2D ListHoverBackGroundTexture()
+        {
+            return ColorTexture(ListHoverBackGroundColor());
+        }
+        public static Color ListSelectedBackGroundColor() => new Color32(44, 93, 135, 255);
         public static Texture2D ColorTexture(in Color color)
         {
             if (_colorTextures.TryGetValue(color, out Texture2D texture))

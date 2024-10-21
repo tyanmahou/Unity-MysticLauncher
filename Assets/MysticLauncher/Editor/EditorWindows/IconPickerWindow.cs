@@ -17,6 +17,13 @@ namespace Mystic
             window.Init(iconProp, emojiProp, textureProp);
             window.ShowAuxWindow();
         }
+        public static void ShowFromIcon(SerializedProperty property)
+        {
+            var tex = property.FindPropertyRelative("_icon");
+            var unityIcon = property.FindPropertyRelative("_unityIcon");
+            var emoji = property.FindPropertyRelative("_emoji");
+            Show(unityIcon, emoji, tex);
+        }
         public static void Show(Action<Icon> callback, Icon icon = default)
         {
             IconPickerWindow window = CreateInstance<IconPickerWindow>();
