@@ -10,7 +10,7 @@ namespace Mystic
     {
         [SerializeField, HideInInspector]
         private List<MemoEntry> _memos = new List<MemoEntry>();
-        public IEnumerable<MemoEntry> EnumerateMemos => _memos.Reverse<MemoEntry>();
+        public IEnumerable<MemoEntry> EnumerateMemos => _memos;
 
         public int Count => _memos.Count;
         [HideInInspector]
@@ -28,7 +28,6 @@ namespace Mystic
         public void Register(MemoEntry entry)
         {
             _memos.Add(entry);
-            SelectIndex = _memos.Count - 1;
         }
         public void Unregister(MemoEntry entry)
         {

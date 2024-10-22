@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Linq;
+using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -16,43 +18,83 @@ namespace Mystic
             {
                 _serializedObject = new SerializedObject(UserNotePad.instance);
             }
-            var notePad = UserNotePad.instance;
 
+            // ヘッダー
+            DrawHeader();
+            EditorGUIUtil.DrawSeparator();
+
+            // 上のビュー
             using (_splitter.SplitTop())
             {
-                if (_dateStyle == null)
-                {
-                    _dateStyle = new GUIStyle(EditorStyles.label);
-                    _dateStyle.fontSize = 11;
-                }
-                int index = 0;
-                foreach (var memo in notePad.EnumerateMemos)
-                {
-                    DrawEntry(memo, notePad.Count - 1 -index);
-                    ++index;
-                }
-                var rest = GUILayoutUtility.GetRect(0, 0, GUILayout.MinHeight(50), GUILayout.ExpandHeight(true));
-                if (GUI.Button(rest, GUIContent.none, GUIStyle.none))
-                {
-                    _serializedObject.FindProperty("SelectIndex").intValue = -1;
-                    _serializedObject.ApplyModifiedProperties();
-                    GUIUtility.keyboardControl = 0;
-                }
-                GUILayoutUtility.GetRect(0, 0, GUILayout.Height(4));
+                // リスト描画
+                DrawMemoList();
             }
+            // 下のビュー
             using(_splitter.SplitBottom())
             {
+                // 編集ビュー
                 using (EditorGUIUtil.ScopedMargin())
                 {
                     DrawEdit();
                 }
             }
         }
+        private void DrawHeader()
+        {
+            GUILayout.Space(5);
+            {
+                using var horizontal = new EditorGUILayout.HorizontalScope();
+                string prevSearch = _searchString;
+                _searchString = _searchField.OnGUI(_searchString);
+                if (EditorGUIUtil.IconButton("d_Toolbar Plus@2x", "New Memo"))
+                {
+                    CreateNew();
+                }
+                using (new EditorGUI.DisabledScope(UserNotePad.instance.SelectedMemo is null))
+                    if (EditorGUIUtil.IconButton("d_Toolbar Minus@2x", "Remove Memo"))
+                    {
+                        RemoveMemo(UserNotePad.instance.SelectedMemo);
+                    }
+            }
+            GUILayout.Space(5);
+        }
+        private void DrawMemoList()
+        {
+            var notePad = UserNotePad.instance;
+            if (_dateStyle == null)
+            {
+                _dateStyle = new GUIStyle(EditorStyles.label);
+                _dateStyle.fontSize = 11;
+            }
+            bool Filter(MemoEntry memo)
+            {
+                return memo.Title.IsSearched(_searchString) || memo.Text.IsSearched(_searchString);
+            }
+            var memos = notePad
+                .EnumerateMemos
+                .Select((memo, index) => (memo, index)) // index付与
+                .Where(memoIndex => Filter(memoIndex.memo)) // サーチ
+                .Reverse();
+            foreach (var (memo, index) in memos)
+            {
+                DrawEntry(memo, index);
+            }
+            var rest = GUILayoutUtility.GetRect(0, 0, GUILayout.MinHeight(50), GUILayout.ExpandHeight(true));
+            if (GUI.Button(rest, GUIContent.none, GUIStyle.none))
+            {
+                _serializedObject.FindProperty("SelectIndex").intValue = -1;
+                _serializedObject.ApplyModifiedProperties();
+                GUIUtility.keyboardControl = 0;
+            }
+            GUILayoutUtility.GetRect(0, 0, GUILayout.Height(4));
+        }
         private void DrawEntry(MemoEntry entry, int index)
         {
+            var notePad = UserNotePad.instance;
+
             var rect = GUILayoutUtility.GetRect(0, 54);
-            var bg = EditorGUIUtil.ListBackGroundColor(UserNotePad.instance.Count - 1 - index);
-            if (index == UserNotePad.instance.SelectIndex)
+            var bg = EditorGUIUtil.ListBackGroundColor(notePad.Count - 1 - index);
+            if (index == notePad.SelectIndex)
             {
                 bg = EditorGUIUtil.ListSelectedBackGroundColor();
             }
@@ -88,24 +130,19 @@ namespace Mystic
                     {
                         GenericMenu menu = new GenericMenu();
 
-                        menu.AddItem(new GUIContent("Remove"), false, () =>
-                        {
-                            Undo.RecordObject(UserNotePad.instance, "Remove Memo");
-                            UserNotePad.instance.SelectIndex = -1;
-                            UserNotePad.instance.Unregister(entry);
-                            UserNotePad.instance.Save();
-                        });
+                        menu.AddItem(new GUIContent("Remove"), false, () => RemoveMemo(entry));
                         menu.ShowAsContext();
                     }
                 }
                 float width = rect.width;
                 float height = rect.height;
+                rect.x += 4;
                 rect.y += 2;
                 // 日付
                 rect.height = 18;
                 if (!string.IsNullOrEmpty(entry.URL))
                 {
-                    rect.width = width - 22;
+                    rect.width = width - 22 - 4;
                 }
                 EditorGUI.LabelField(rect, entry.CreatedAt, _dateStyle);
                 rect.y += 18;
@@ -116,7 +153,7 @@ namespace Mystic
                     GUI.DrawTexture(rect, icon.image, ScaleMode.ScaleToFit);
                 }
                 rect.x += 32;
-                rect.width = width - 32;
+                rect.width = width - 32 - 4;
                 rect.height = 18;
                 EditorGUIUtil.TruncateFit(rect, entry.Title, EditorStyles.boldLabel);
                 rect.y += 18;
@@ -126,21 +163,21 @@ namespace Mystic
         }
         private void DrawEdit()
         {
+            var notePad = UserNotePad.instance;
+
             _serializedObject.Update();
-            var memo = UserNotePad.instance.Memo(_serializedObject.FindProperty("SelectIndex").intValue);
+            int selectIndex = _serializedObject.FindProperty("SelectIndex").intValue;
+            var memo = notePad.Memo(selectIndex);
             if (memo is null)
             {
                 if (GUILayout.Button("New"))
                 {
-                    memo = new MemoEntry();
-                    Undo.RecordObject(UserNotePad.instance, "Create Memo");
-                    UserNotePad.instance.Register(memo);
-                    UserNotePad.instance.Save();
+                    memo = CreateNew();
                 }
                 return;
             }
             var memosProp = _serializedObject.FindProperty("_memos");
-            var memoProp = memosProp.GetArrayElementAtIndex(UserNotePad.instance.SelectIndex);
+            var memoProp = memosProp.GetArrayElementAtIndex(selectIndex);
             if (_reorderableEntries is null)
             {
                 _reorderableEntries = new ReorderableList(null, typeof(UnityEngine.Object), true, true, true, true)
@@ -193,7 +230,7 @@ namespace Mystic
             {
                 memo.UpdateOpenedAt();
                 _serializedObject.ApplyModifiedProperties();
-                UserNotePad.instance.Save();
+                notePad.Save();
             }
         }
         private void DrawEntryHeader(Rect rect)
@@ -205,6 +242,27 @@ namespace Mystic
             var element = _reorderableEntries.serializedProperty.GetArrayElementAtIndex(index);
             element.objectReferenceValue = EditorGUI.ObjectField(rect, element.objectReferenceValue, typeof(UnityEngine.Object), false);
         }
+        MemoEntry CreateNew()
+        {
+            var notePad = UserNotePad.instance;
+            var memo = new MemoEntry();
+            Undo.RecordObject(notePad, "Create Memo");
+            notePad.Register(memo);
+            notePad.SelectIndex = notePad.Count - 1;
+            notePad.Save();
+            return memo;
+        }
+        void RemoveMemo(MemoEntry entry)
+        {
+            var notePad = UserNotePad.instance;
+            Undo.RecordObject(notePad, "Remove Memo");
+            notePad.Unregister(entry);
+            if (notePad.SelectIndex >= notePad.Count)
+            {
+                notePad.SelectIndex = notePad.Count - 1;
+            }
+            notePad.Save();
+        }
         public override string ToString()
         {
             return Title;
@@ -215,8 +273,12 @@ namespace Mystic
             separatorMax: h => Mathf.Max(h / 2, h - 40)
             );
         ReorderableList _reorderableEntries;
+        DoubleClickCtrl _doubleClick = new();
 
         SerializedObject _serializedObject;
         static GUIStyle _dateStyle;
+
+        SearchField _searchField = new();
+        string _searchString = string.Empty;
     }
 }
