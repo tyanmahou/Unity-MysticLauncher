@@ -35,7 +35,14 @@ namespace Mystic
                 // 編集ビュー
                 using (EditorGUIUtil.ScopedMargin())
                 {
-                    DrawEdit();
+                    if (UserNotePad.instance.IsLockEdit)
+                    {
+                        DrawMemo();
+                    }
+                    else
+                    {
+                        DrawEdit();
+                    }
                 }
             }
         }
@@ -55,6 +62,15 @@ namespace Mystic
                     {
                         RemoveMemo(UserNotePad.instance.SelectedMemo);
                     }
+                if (EditorGUIUtil.IconButton(
+                    UserNotePad.instance.IsLockEdit ? "Unlocked@2x" : "Locked@2x",
+                    UserNotePad.instance.IsLockEdit ? "Lock Edit" : "Unlock Edit"
+                    ))
+                {
+                    UserNotePad.instance.IsLockEdit = !UserNotePad.instance.IsLockEdit;
+                    UserNotePad.instance.Save();
+                    _serializedObject.Update();
+                }
             }
             GUILayout.Space(5);
         }
@@ -75,9 +91,11 @@ namespace Mystic
                 .Select((memo, index) => (memo, index)) // index付与
                 .Where(memoIndex => Filter(memoIndex.memo)) // サーチ
                 .Reverse();
+            int viewIndex = 0;
             foreach (var (memo, index) in memos)
             {
-                DrawEntry(memo, index);
+                DrawEntry(memo, index, viewIndex);
+                ++viewIndex;
             }
             var rest = GUILayoutUtility.GetRect(0, 0, GUILayout.MinHeight(50), GUILayout.ExpandHeight(true));
             if (GUI.Button(rest, GUIContent.none, GUIStyle.none))
@@ -88,12 +106,12 @@ namespace Mystic
             }
             GUILayoutUtility.GetRect(0, 0, GUILayout.Height(4));
         }
-        private void DrawEntry(MemoEntry entry, int index)
+        private void DrawEntry(MemoEntry entry, int index, int viewIndex)
         {
             var notePad = UserNotePad.instance;
 
             var rect = GUILayoutUtility.GetRect(0, 54);
-            var bg = EditorGUIUtil.ListBackGroundColor(notePad.Count - 1 - index);
+            var bg = EditorGUIUtil.ListBackGroundColor(viewIndex);
             if (index == notePad.SelectIndex)
             {
                 bg = EditorGUIUtil.ListSelectedBackGroundColor();
@@ -150,7 +168,12 @@ namespace Mystic
                 rect.height = 32;
                 if (entry.Icon.TryGetGUIContent(out var icon))
                 {
-                    GUI.DrawTexture(rect, icon.image, ScaleMode.ScaleToFit);
+                    var iconRect = rect;
+                    iconRect.x += 2;
+                    iconRect.y += 2;
+                    iconRect.width -= 4;
+                    iconRect.height -= 4;
+                    GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);
                 }
                 rect.x += 32;
                 rect.width = width - 32 - 4;
@@ -161,6 +184,81 @@ namespace Mystic
                 EditorGUIUtil.TruncateFit(rect, entry.Text.Split('\n')[0], _dateStyle);
             }
         }
+        private void DrawMemo()
+        {
+            var notePad = UserNotePad.instance;
+            var entry = notePad.SelectedMemo;
+            if (entry is null)
+            {
+                if (GUILayout.Button("New"))
+                {
+                    CreateNew();
+                }
+                return;
+            }
+            using (new GUILayout.HorizontalScope())
+            {
+                var iconRect = EditorGUIUtil.GetFixRect(32, 32);
+                if (entry.Icon.TryGetGUIContent(out var icon))
+                {
+                    iconRect.x += 2;
+                    iconRect.y += 2;
+                    iconRect.width -= 4;
+                    iconRect.height -= 4;
+                    GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);
+                }
+                using (new GUILayout.VerticalScope())
+                {
+                    GUILayout.Space(8);
+                    EditorGUILayout.LabelField(entry.Title, EditorStyles.boldLabel, GUILayout.MinWidth(0));
+                }
+            }
+            EditorGUIUtil.DrawSeparator();
+            {
+                GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+                labelStyle.wordWrap = true;
+                labelStyle.richText = true;
+                labelStyle.alignment = TextAnchor.UpperLeft;
+                EditorGUILayout.SelectableLabel(entry.Text, labelStyle, GUILayout.ExpandHeight(true));
+            }
+            foreach (var asset in entry.Assets)
+            {
+                var content = EditorGUIUtility.ObjectContent(asset, typeof(UnityEngine.Object));
+                if (GUILayout.Button(content, EditorStyles.objectField, GUILayout.MinWidth(0), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+                {
+                    EditorGUIUtility.PingObject(asset);
+                    if (_doubleClick.DoubleClick())
+                    {
+                        AssetDatabase.OpenAsset(asset);
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(entry.URL))
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField(EditorGUIUtil.NewIconContent("d_Linked", tooltip: "link URL"), GUILayout.Width(16));
+                    if (EditorGUILayout.LinkButton(entry.URL, GUILayout.MinWidth(0)))
+                    {
+                        Application.OpenURL(entry.URL);
+                    }
+                }
+            }
+            EditorGUIUtil.DrawSeparator();
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("Created", GUILayout.Width(50));
+                    EditorGUILayout.LabelField(":  " + entry.CreatedAt, GUILayout.MinWidth(0));
+                }
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("Updated", GUILayout.Width(50));
+                    EditorGUILayout.LabelField(":  " + entry.UpdatedAt, GUILayout.MinWidth(0));
+                }
+            }
+        }
+
         private void DrawEdit()
         {
             var notePad = UserNotePad.instance;
@@ -172,7 +270,7 @@ namespace Mystic
             {
                 if (GUILayout.Button("New"))
                 {
-                    memo = CreateNew();
+                    CreateNew();
                 }
                 return;
             }
@@ -249,6 +347,7 @@ namespace Mystic
             Undo.RecordObject(notePad, "Create Memo");
             notePad.Register(memo);
             notePad.SelectIndex = notePad.Count - 1;
+            notePad.IsLockEdit = false;
             notePad.Save();
             return memo;
         }

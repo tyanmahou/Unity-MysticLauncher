@@ -16,6 +16,9 @@ namespace Mystic
         [HideInInspector]
         public int SelectIndex = -1;
 
+        [HideInInspector]
+        public bool IsLockEdit = false;
+
         public MemoEntry SelectedMemo => Memo(SelectIndex);
         public MemoEntry Memo(int index)
         {

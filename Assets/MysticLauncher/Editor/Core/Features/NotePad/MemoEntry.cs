@@ -16,7 +16,7 @@ namespace Mystic
         public string Title = string.Empty;
         public string Text = string.Empty;
         public string URL = string.Empty;
-        public List<UnityEngine.Object> Assets;
+        public List<UnityEngine.Object> Assets = new();
         public string CreatedAt = string.Empty;
         public string UpdatedAt = string.Empty;
         public void Set(MemoEntry other)
