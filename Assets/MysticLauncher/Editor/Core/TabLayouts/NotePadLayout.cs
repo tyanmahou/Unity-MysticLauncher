@@ -77,11 +77,6 @@ namespace Mystic
         private void DrawMemoList()
         {
             var notePad = UserNotePad.instance;
-            if (_dateStyle == null)
-            {
-                _dateStyle = new GUIStyle(EditorStyles.label);
-                _dateStyle.fontSize = 11;
-            }
             bool Filter(MemoEntry memo)
             {
                 return memo.Title.IsSearched(_searchString) || memo.Text.IsSearched(_searchString);
@@ -108,6 +103,12 @@ namespace Mystic
         }
         private void DrawEntry(MemoEntry entry, int index, int viewIndex)
         {
+            var dateStyle = new GUIStyle(EditorStyles.label);
+            dateStyle.fontSize = 11;
+            var subTextStyle = new GUIStyle(EditorStyles.label);
+            subTextStyle.fontSize = 11;
+            subTextStyle.richText = true;
+
             var notePad = UserNotePad.instance;
 
             var rect = GUILayoutUtility.GetRect(0, 54);
@@ -162,7 +163,7 @@ namespace Mystic
                 {
                     rect.width = width - 22 - 4;
                 }
-                EditorGUI.LabelField(rect, entry.CreatedAt, _dateStyle);
+                EditorGUI.LabelField(rect, entry.CreatedAt, dateStyle);
                 rect.y += 18;
                 rect.width = 32;
                 rect.height = 32;
@@ -181,7 +182,7 @@ namespace Mystic
                 EditorGUIUtil.TruncateFit(rect, entry.Title, EditorStyles.boldLabel);
                 rect.y += 18;
                 rect.height = 14;
-                EditorGUIUtil.TruncateFit(rect, entry.Text.Split('\n')[0], _dateStyle);
+                EditorGUIUtil.TruncateFit(rect, entry.Text.Split('\n')[0], subTextStyle);
             }
         }
         private void DrawMemo()
@@ -375,7 +376,6 @@ namespace Mystic
         DoubleClickCtrl _doubleClick = new();
 
         SerializedObject _serializedObject;
-        static GUIStyle _dateStyle;
 
         SearchField _searchField = new();
         string _searchString = string.Empty;
