@@ -292,7 +292,7 @@ namespace Mystic
                 if (GUI.Button(iconRect, memo.Icon.GetGUIContent()))
                 {
                     var iconProp = memoProp.FindPropertyRelative("Icon");
-                    IconPickerWindow.ShowFromIcon(iconProp);
+                    IconPickerWindow.Show(iconProp);
                 }
                 using (new GUILayout.VerticalScope())
                 {

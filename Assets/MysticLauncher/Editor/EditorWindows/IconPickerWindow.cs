@@ -10,19 +10,19 @@ namespace Mystic
     {
         private const int IconSize = 32;  // アイコンのサイズ
 
-        public static void Show(SerializedProperty iconProp, SerializedProperty emojiProp = null, SerializedProperty textureProp = null)
-        {
-            IconPickerWindow window = CreateInstance<IconPickerWindow>();
-            window.titleContent = new GUIContent("Icon Picker");
-            window.Init(iconProp, emojiProp, textureProp);
-            window.ShowAuxWindow();
-        }
-        public static void ShowFromIcon(SerializedProperty property)
+        public static void Show(SerializedProperty property)
         {
             var tex = property.FindPropertyRelative("_icon");
             var unityIcon = property.FindPropertyRelative("_unityIcon");
             var emoji = property.FindPropertyRelative("_emoji");
             Show(unityIcon, emoji, tex);
+        }
+        public static void Show(SerializedProperty iconProp, SerializedProperty emojiProp, SerializedProperty textureProp)
+        {
+            IconPickerWindow window = CreateInstance<IconPickerWindow>();
+            window.titleContent = new GUIContent("Icon Picker");
+            window.Init(iconProp, emojiProp, textureProp);
+            window.ShowAuxWindow();
         }
         public static void Show(Action<Icon> callback, Icon icon = default)
         {
