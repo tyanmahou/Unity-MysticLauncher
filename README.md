@@ -31,3 +31,4 @@ https://github.com/tyanmahou/Unity-MysticLauncher.git?path=Assets/MysticLauncher
 - [お気に入り登録](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%81%8A%E6%B0%97%E3%81%AB%E5%85%A5%E3%82%8A%E7%99%BB%E9%8C%B2)
 - [編集アセット履歴](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E7%B7%A8%E9%9B%86%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4)
 - [環境変数](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)
+- [メモ帳](https://github.com/tyanmahou/Unity-MysticLauncher/wiki/%E3%83%A1%E3%83%A2%E5%B8%B3)
