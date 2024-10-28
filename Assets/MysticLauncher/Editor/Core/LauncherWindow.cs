@@ -56,9 +56,13 @@ namespace Mystic
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(EditorGUIUtility.IconContent("_Help"), EditorStyles.iconButton))
                 {
-                    using Process process = System.Diagnostics.Process.Start(projSettings.ProjectInfo.HelpUrl);
+                    Application.OpenURL(projSettings.ProjectInfo.HelpUrl);
                 }
                 GUILayout.Space(4);
+            }
+            else
+            {
+                GUILayout.Space(16);
             }
             // タイトル
             if (projSettings.ProjectInfo.CustomHeader == null)
