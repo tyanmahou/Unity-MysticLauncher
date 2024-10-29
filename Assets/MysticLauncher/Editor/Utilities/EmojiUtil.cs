@@ -28,6 +28,11 @@ namespace Mystic
                 texture = CreateTexture(unicodeKey);
                 _emojiTextures.Add(unicodeKey, texture);
             }
+            else if (!ReferenceEquals(texture, null) && texture == null)
+            {
+                texture = CreateTexture(unicodeKey);
+                _emojiTextures[unicodeKey] = texture;
+            }
             return texture;
         }
         public static string GetShortName(string unicodeKey)
