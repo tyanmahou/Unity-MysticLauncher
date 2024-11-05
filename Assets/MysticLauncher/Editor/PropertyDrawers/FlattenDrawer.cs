@@ -17,7 +17,7 @@ namespace Mystic
             if (it.NextVisible(true) && !SerializedProperty.EqualContents(it, end))
             {
                 EditorGUI.PropertyField(position, it, true);
-                position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                position.y += EditorGUI.GetPropertyHeight(it, true) + EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {
@@ -28,7 +28,7 @@ namespace Mystic
             while (it.NextVisible(false) && !SerializedProperty.EqualContents(it, end))
             {
                 EditorGUI.PropertyField(position, it, true);
-                position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                position.y += EditorGUI.GetPropertyHeight(it, true) + EditorGUIUtility.standardVerticalSpacing;
             }
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
