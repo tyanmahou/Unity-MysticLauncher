@@ -76,7 +76,7 @@ namespace Mystic
             // ターミナルを開く
             if (EditorGUIUtil.IconButton("d_BuildSettings.Standalone", "Open Terminal"))
             {
-                OpenTerminal(path);
+                TerminalUtil.Open(path);
             }
             // リモートを開く
             GUI.enabled = old && !string.IsNullOrEmpty(RemoteUrl);
@@ -98,35 +98,6 @@ namespace Mystic
             try
             {
                 using Process process = System.Diagnostics.Process.Start(path);
-            }
-            catch (System.Exception e)
-            {
-                UnityEngine.Debug.LogError(e.Message);
-            }
-        }
-        // ターミナル開く
-        void OpenTerminal(string path)
-        {
-            var terminalPath = UserEnv.instance.TerminalPath;
-            ProcessStartInfo processInfo = new ProcessStartInfo
-            {
-                FileName = terminalPath,
-                WorkingDirectory = path
-            };
-            if (!File.Exists(terminalPath))
-            {
-#if UNITY_EDITOR_WIN
-                processInfo.FileName = "cmd";
-#elif UNITY_EDITOR_OSX
-                processInfo.FileName = "open";
-                processInfo.Arguments = "-a Terminal";
-#elif UNITY_EDITOR_LINUX
-                processInfo.FileName = "gnome-terminal";
-#endif
-            }
-            try
-            {
-                using Process process = Process.Start(processInfo);
             }
             catch (System.Exception e)
             {

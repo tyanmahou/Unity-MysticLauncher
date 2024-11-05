@@ -68,7 +68,7 @@ namespace Mystic
             {
                 if (EditorGUIUtil.IconButton("d_BuildSettings.Standalone", "Open Terminal"))
                 {
-                    OpenTerminal(path);
+                    TerminalUtil.Open(path);
                 }
             }
             GUI.enabled = old;
@@ -78,28 +78,6 @@ namespace Mystic
             try
             {
                 using Process process = System.Diagnostics.Process.Start(path);
-            }
-            catch (System.Exception e)
-            {
-                UnityEngine.Debug.LogError(e.Message);
-            }
-        }
-        // ターミナル開く
-        void OpenTerminal(string path)
-        {
-            var terminalPath = UserEnv.instance.TerminalPath;
-            if (!File.Exists(terminalPath))
-            {
-                terminalPath = string.Empty;
-            }
-            ProcessStartInfo processInfo = new ProcessStartInfo
-            {
-                FileName = terminalPath,
-                WorkingDirectory = path
-            };
-            try
-            {
-                using Process process = Process.Start(processInfo);
             }
             catch (System.Exception e)
             {
