@@ -18,18 +18,17 @@ namespace Mystic
         public void Init(SerializedProperty property)
         {
             _property = property;
-            _windows = property.FindPropertyRelative("Windows");
-            _osx = property.FindPropertyRelative("OSX");
+            _windows = property.FindPropertyRelative(nameof(PlatformShellScript.Windows));
+            _osx = property.FindPropertyRelative(nameof(PlatformShellScript.OSX));
+            _autoPause = property.FindPropertyRelative(nameof(PlatformShellScript.AutoPause));
+            _workingDir = property.FindPropertyRelative(nameof(PlatformShellScript.WorkingDirectory));
 
-#if UNITY_EDITOR_WIN
-            _selectedTab = 0;
-#else
-            _selectedTab = 1;
-#endif
+            _selectedTab = DefaultTab();
         }
 
         void OnGUI()
         {
+            EditorGUI.BeginChangeCheck();
             int nextTab = GUILayout.Toolbar(
                 _selectedTab,
                 new string[] { "Windows", "OSX" },
@@ -56,54 +55,45 @@ namespace Mystic
             EditorGUILayout.EndScrollView();
             EditorGUIUtil.DrawSeparator();
             {
-                using(new GUILayout.HorizontalScope())
+                EditorGUILayout.PropertyField(_autoPause);
+                EditorGUILayout.PropertyField(_workingDir);
+
+                using (new EditorGUI.DisabledGroupScope(_selectedTab != DefaultTab()))
                 {
-                    _workingDir = EditorGUILayout.TextField("WorkingDirectory", _workingDir);
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("d_Folder Icon"), GUILayout.Height(18), GUILayout.Width(30)))
+                    var runContent = EditorGUIUtil.NewIconContent("Play", "Run", "Execute Scripts");
+                    if (GUILayout.Button(runContent))
                     {
-                        // ファイル選択ダイアログを表示
-                        string path = EditorUtility.OpenFolderPanel(
-                            "WorkingDirectory",
-                            string.Empty,
-                            string.Empty
-                            );
-                        if (!string.IsNullOrEmpty(path))
+                        var script = new PlatformShellScript()
                         {
-                            path = PathUtil.RelativePathInProject(path, isDirectory: true);
-                            _workingDir = path;
-                        }
-                        Focus();
+                            Windows = _windows.stringValue,
+                            OSX = _osx.stringValue,
+                            AutoPause = _autoPause.boolValue,
+                            WorkingDirectory = _workingDir.stringValue,
+                        };
+                        TerminalUtil.Exec(script);
                     }
                 }
-                if (GUILayout.Button("Run"))
-                {
-                    var script = new PlatformShellScript()
-                    {
-                        Windows = _windows.stringValue,
-                        OSX = _osx.stringValue,
-                    };
-                    TerminalUtil.Exec(script, true, _workingDir);
-                    Focus();
-                }
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                _property.serializedObject.ApplyModifiedProperties();
             }
         }
         void EditWindows()
         {
-            EditorGUI.BeginChangeCheck();
             _windows.stringValue = EditorGUILayout.TextArea(_windows.stringValue, GUILayout.ExpandHeight(true));
-            if (EditorGUI.EndChangeCheck())
-            {
-                _windows.serializedObject.ApplyModifiedProperties();
-            }
         }
         void EditOSX()
         {
-            EditorGUI.BeginChangeCheck();
             _osx.stringValue = EditorGUILayout.TextArea(_osx.stringValue, GUILayout.ExpandHeight(true));
-            if (EditorGUI.EndChangeCheck())
-            {
-                _osx.serializedObject.ApplyModifiedProperties();
-            }
+        }
+        int DefaultTab()
+        {
+#if UNITY_EDITOR_WIN
+            return 0;
+#else
+            return 1;
+#endif
         }
         private void OnDestroy()
         {
@@ -111,9 +101,10 @@ namespace Mystic
         private SerializedProperty _property;
         private SerializedProperty _windows;
         private SerializedProperty _osx;
+ 
+        private SerializedProperty _autoPause;
+        private SerializedProperty _workingDir;
         private Vector2 _scrollPosition;
         private int _selectedTab = 0;
-
-        private string _workingDir = "./";
     }
 }

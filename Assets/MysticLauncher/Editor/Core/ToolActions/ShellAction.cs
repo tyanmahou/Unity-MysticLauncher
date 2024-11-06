@@ -7,16 +7,9 @@ namespace Mystic
     {
         public PlatformShellScript Script = new();
 
-        public bool AutoPause = true;
-
-        [FolderSelect]
-        public string WorkingDirectory = string.Empty;
-
         public void Execute()
         {
-            var workingDir = string.IsNullOrEmpty(WorkingDirectory) ? string.Empty : PathUtil.FixedFullPath(WorkingDirectory);
-
-            TerminalUtil.Exec(Script, AutoPause, workingDir);
+            TerminalUtil.Exec(Script);
         }
         public string Tooltip()
         {

@@ -34,7 +34,7 @@ namespace Mystic
                 UnityEngine.Debug.LogError(e.Message);
             }
         }
-        public static void Exec(PlatformShellScript script, bool pause, string workingDir)
+        public static void Exec(PlatformShellScript script)
         {
             // スクリプトファイルに内容を書き込む
 #if UNITY_EDITOR_WIN
@@ -42,7 +42,7 @@ namespace Mystic
 #else
             string scriptSourceCode = script.OSX;
 #endif
-            if (pause)
+            if (script.AutoPause)
             {
 #if UNITY_EDITOR_WIN
                scriptSourceCode += "\npause";
@@ -52,6 +52,7 @@ namespace Mystic
             }
             try
             {
+                string workingDir = string.IsNullOrEmpty(script.WorkingDirectory) ? string.Empty : PathUtil.FixedFullPath(script.WorkingDirectory);
                 // PowerShell スクリプトを実行
 #if UNITY_EDITOR_WIN
                 var processInfo = new ProcessStartInfo
