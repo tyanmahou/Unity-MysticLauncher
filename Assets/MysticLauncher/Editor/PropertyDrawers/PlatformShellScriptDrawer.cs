@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Mystic
 {
-    [CustomPropertyDrawer(typeof(PlatformShell))]
-    public class PlatformShellDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(PlatformShellScript))]
+    public class PlatformShellScriptDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -24,7 +24,7 @@ namespace Mystic
             style.imagePosition = ImagePosition.ImageLeft;
             if (GUI.Button(position, content, style))
             {
-                ShellEditWindow.Show(property);
+                ShellScriptEditWindow.Show(property);
             }
             EditorGUI.EndProperty();
             EditorGUI.indentLevel = i;

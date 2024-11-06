@@ -5,7 +5,7 @@ namespace Mystic
     [Serializable]
     public class ShellAction : IToolAction
     {
-        public PlatformShell Script = new();
+        public PlatformShellScript Script = new();
 
         public bool AutoPause = true;
 

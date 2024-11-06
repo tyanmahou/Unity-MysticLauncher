@@ -34,7 +34,7 @@ namespace Mystic
                 UnityEngine.Debug.LogError(e.Message);
             }
         }
-        public static void Exec(PlatformShell script, bool pause, string workingDir)
+        public static void Exec(PlatformShellScript script, bool pause, string workingDir)
         {
             // スクリプトファイルに内容を書き込む
 #if UNITY_EDITOR_WIN

@@ -3,7 +3,7 @@
 namespace Mystic
 {
     [Serializable]
-    public class PlatformShell
+    public class PlatformShellScript
     {
         public string Windows = string.Empty;
         public string OSX = string.Empty;

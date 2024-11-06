@@ -6,14 +6,14 @@ namespace Mystic
     /// <summary>
     /// Shell編集
     /// </summary>
-    public class ShellEditWindow : EditorWindow
+    public class ShellScriptEditWindow : EditorWindow
     {
         public static void Show(SerializedProperty property)
         {
-            ShellEditWindow window = CreateInstance<ShellEditWindow>();
-            window.titleContent = new GUIContent("Shell Edit");
+            ShellScriptEditWindow window = CreateInstance<ShellScriptEditWindow>();
+            window.titleContent = new GUIContent("Shell Script Edit");
             window.Init(property);
-            window.ShowAuxWindow();
+            window.ShowUtility();
         }
         public void Init(SerializedProperty property)
         {
@@ -54,6 +54,38 @@ namespace Mystic
                     break;
             }
             EditorGUILayout.EndScrollView();
+            EditorGUIUtil.DrawSeparator();
+            {
+                using(new GUILayout.HorizontalScope())
+                {
+                    _workingDir = EditorGUILayout.TextField("WorkingDirectory", _workingDir);
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("d_Folder Icon"), GUILayout.Height(18), GUILayout.Width(30)))
+                    {
+                        // ファイル選択ダイアログを表示
+                        string path = EditorUtility.OpenFolderPanel(
+                            "WorkingDirectory",
+                            string.Empty,
+                            string.Empty
+                            );
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            path = PathUtil.RelativePathInProject(path, isDirectory: true);
+                            _workingDir = path;
+                        }
+                        Focus();
+                    }
+                }
+                if (GUILayout.Button("Run"))
+                {
+                    var script = new PlatformShellScript()
+                    {
+                        Windows = _windows.stringValue,
+                        OSX = _osx.stringValue,
+                    };
+                    TerminalUtil.Exec(script, true, _workingDir);
+                    Focus();
+                }
+            }
         }
         void EditWindows()
         {
@@ -81,5 +113,7 @@ namespace Mystic
         private SerializedProperty _osx;
         private Vector2 _scrollPosition;
         private int _selectedTab = 0;
+
+        private string _workingDir = "./";
     }
 }
