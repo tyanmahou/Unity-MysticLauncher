@@ -49,7 +49,7 @@ namespace Mystic
             }
             if (dropdown)
             {
-                DropboxPopup.Show(_position, Tabs, i => _selectedTab = i);
+                DropdownPopup.Show(_position, Tabs, i => _selectedTab = i);
             }
             if (_selectedTab < Tabs.Length)
             {
@@ -62,7 +62,7 @@ namespace Mystic
         }
         int _selectedTab = 0;
         Rect _position;
-        public class DropboxPopup : PopupWindowContent
+        public class DropdownPopup : PopupWindowContent
         {
             public static void Show(Rect position, Tab[] tab, Action<int> selected)
             {
@@ -71,9 +71,9 @@ namespace Mystic
                 pos.width = 0;
 
                 position.height = (4 + EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * tab.Length + 10 - EditorGUIUtility.standardVerticalSpacing;
-                PopupWindow.Show(pos, new DropboxPopup(position, tab, selected));
+                PopupWindow.Show(pos, new DropdownPopup(position, tab, selected));
             }
-            DropboxPopup(Rect position, Tab[] tab, Action<int> selected)
+            DropdownPopup(Rect position, Tab[] tab, Action<int> selected)
             {
                 _position = GUIUtility.GUIToScreenRect(position);
                 _tab = tab;
