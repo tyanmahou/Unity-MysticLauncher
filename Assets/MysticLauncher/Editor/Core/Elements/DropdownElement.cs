@@ -101,7 +101,6 @@ namespace Mystic
                     rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
                 }
             }
-            SerializedProperty _prop;
             Rect _position;
             Tab[] _tab;
             Action<int> _selected;
