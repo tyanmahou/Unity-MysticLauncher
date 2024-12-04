@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Mystic
 {
-    public struct TabDropdown
+    /// <summary>
+    /// Dropdown
+    /// </summary>
+    [Serializable]
+    public class TabDropdown
     {
-        public void OnGUI(int selected, IReadOnlyList<GUIContent> contents, Action<int> selectedCallback = null)
+        public int OnGUI(IEnumerable<GUIContent> contents)
         {
-            bool dropdown = EditorGUILayout.DropdownButton(contents[selected], FocusType.Passive);
+            return OnGUI(contents.ToArray());
+        }
+        public int OnGUI(IReadOnlyList<GUIContent> contents)
+        {
+            if (_selected >= contents.Count)
+            {
+                return 0;
+            }
+            bool dropdown = EditorGUILayout.DropdownButton(contents[_selected], FocusType.Passive);
             if (Event.current.type == EventType.Repaint)
             {
                 _position = GUILayoutUtility.GetLastRect();
@@ -17,9 +30,11 @@ namespace Mystic
             }
             if (dropdown)
             {
-                DropdownPopup.Show(_position, contents, selectedCallback);
+                DropdownPopup.Show(_position, contents, i => _selected = i);
             }
+            return _selected;
         }
+        int _selected = 0;
         Rect _position;
 
         class DropdownPopup : PopupWindowContent
