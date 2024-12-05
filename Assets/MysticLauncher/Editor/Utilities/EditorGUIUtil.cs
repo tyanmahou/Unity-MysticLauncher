@@ -533,6 +533,17 @@ namespace Mystic
             _colorTextures.TryAdd(color, texture);
             return texture;
         }
+
+        /// <summary>
+        /// ミュート
+        /// </summary>
+        public static void MuteButton()
+        {
+            // トグルのスタイル
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.toolbarButton);
+            GUIContent content = EditorGUIUtil.NewIconContent(EditorUtility.audioMasterMute ? "d_SceneViewAudio@2x" : "d_SceneViewAudio On@2x");
+            EditorUtility.audioMasterMute = GUILayout.Toggle(EditorUtility.audioMasterMute, content, toggleStyle, GUILayout.Width(25));
+        }
         static Dictionary<Texture, Texture> _iconTextures16x16 = new();
         static Dictionary<Texture, Texture> _iconTextures32x32 = new();
         static Dictionary<Color, Texture2D> _colorTextures = new();
