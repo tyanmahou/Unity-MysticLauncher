@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace Mystic
 {
-    public struct TabToolBar
+    [Serializable]
+    public class TabToolBar
     {
-        public int OnGUI(int selected, IEnumerable<GUIContent> contents, Action<int> onContext = null)
+        public int OnGUI(IEnumerable<GUIContent> contents)
         {
             _deltaTime = (float)EditorApplication.timeSinceStartup - _prevTime;
             _prevTime = (float)EditorApplication.timeSinceStartup;
@@ -18,16 +19,17 @@ namespace Mystic
                 _position = GUILayoutUtility.GetLastRect();
             }
             //タブの表示
-            selected = EditorGUIUtil.ScrollToolBar(
+            _selected = EditorGUIUtil.ScrollToolBar(
                 _position,
-               selected,
+               _selected,
                ref _scrollTabX,
                _deltaTime,
                contents,
-               onContext
+               i => _selected = i
                );
-            return selected;
+            return _selected;
         }
+        int _selected = 0;
         float _scrollTabX;
         float _deltaTime;
         float _prevTime;

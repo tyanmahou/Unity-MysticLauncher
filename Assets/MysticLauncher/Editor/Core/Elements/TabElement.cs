@@ -38,18 +38,17 @@ namespace Mystic
         }
         Tab DrawTabNavi()
         {
-            _selectedTab = _tabToolBar.OnGUI(_selectedTab, Tabs.Select(t => EditorGUIUtil.GetIconContent16x16(t.Title)), i => _selectedTab = i);
+            int selectedTab = _tabToolBar.OnGUI(Tabs.Select(t => EditorGUIUtil.GetIconContent16x16(t.Title)));
 
-            if (_selectedTab < Tabs.Length)
+            if (selectedTab < Tabs.Length)
             {
-                return Tabs[_selectedTab];
+                return Tabs[selectedTab];
             }
             else
             {
                 return null;
             }
         }
-        int _selectedTab = 0;
-        TabToolBar _tabToolBar;
+        TabToolBar _tabToolBar = new();
     }
 }

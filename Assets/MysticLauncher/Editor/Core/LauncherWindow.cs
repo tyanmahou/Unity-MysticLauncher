@@ -112,19 +112,20 @@ namespace Mystic
 
             tabs.AddRange(projSettings.ProjectTabs.Where(t => t != null));
             tabs.AddRange(userSettings.UserTabs.Where(t => t != null));
-            _selectedTab = _tabToolBar.OnGUI(_selectedTab, tabs.Select(TabContent), i => _selectedTab = i);
 
-            if (_selectedTab < tabs.Count)
+            // ツールバー
+            int selectedTab = _tabToolBar.OnGUI(tabs.Select(TabContent));
+
+            if (selectedTab < tabs.Count)
             {
-                return tabs[_selectedTab];
+                return tabs[selectedTab];
             }
             else
             {
                 return null;
             }
         }
-        int _selectedTab = 0;
         Vector2 _contentScrollPosition;
-        TabToolBar _tabToolBar;
+        TabToolBar _tabToolBar = new();
     }
 }

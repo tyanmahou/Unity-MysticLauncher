@@ -38,7 +38,7 @@ namespace Mystic
         }
         Tab DrawTabNavi()
         {
-            int selectedTab = _dropDown.OnGUI(Tabs.Select(t => t.Title.GetGUIContent()));
+            int selectedTab = _dropDown.OnGUI(Tabs.Select(t => EditorGUIUtil.GetIconContent16x16(t.Title)));
             if (selectedTab < Tabs.Length)
             {
                 return Tabs[selectedTab];
