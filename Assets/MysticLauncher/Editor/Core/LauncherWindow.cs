@@ -80,22 +80,31 @@ namespace Mystic
                     customStyle.alignment = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
                     GUILayout.Label(projSettings.ProjectInfo.ProjectName.Text, customStyle);
                 }
-                GUILayout.Space(-8);
             }
             else
             {
                 projSettings.ProjectInfo.CustomHeader.OnGUI();
             }
+            using (new EditorGUILayout.HorizontalScope())
             {
-                using var horizontal = new EditorGUILayout.HorizontalScope();
+                EditorGUIUtil.MuteButton();
                 GUILayout.FlexibleSpace();
-                if (EditorGUIUtil.IconTextButton("d__Popup", "Project "))
                 {
-                    SettingsService.OpenProjectSettings(LauncherProjectSettingsProvider.SettingPath);
-                }
-                if (EditorGUIUtil.IconTextButton("d__Popup", "User "))
-                {
-                    SettingsService.OpenUserPreferences(LauncherUserSettingsProvider.SettingPath);
+                    using (new EditorGUILayout.VerticalScope())
+                    {
+                        GUILayout.Space(-2);
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            if (EditorGUIUtil.IconTextButton("d__Popup", "Project "))
+                            {
+                                SettingsService.OpenProjectSettings(LauncherProjectSettingsProvider.SettingPath);
+                            }
+                            if (EditorGUIUtil.IconTextButton("d__Popup", "User "))
+                            {
+                                SettingsService.OpenUserPreferences(LauncherUserSettingsProvider.SettingPath);
+                            }
+                        }
+                    }
                 }
             }
             EditorGUIUtil.DrawSeparator();
