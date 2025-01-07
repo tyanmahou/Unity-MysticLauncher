@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Reflection;
 using UnityEditor;
 using System.Linq;
+using System.IO;
 
 namespace Mystic
 {
@@ -26,7 +27,7 @@ namespace Mystic
                 {
                     continue;
                 }
-                yield return icon.name;
+                yield return Path.GetFileNameWithoutExtension(assetName);
             }
         }
         private static IEnumerable<string> EnumerateIconAssetNames(AssetBundle bundle)

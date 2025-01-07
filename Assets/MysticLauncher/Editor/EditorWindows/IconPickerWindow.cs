@@ -111,7 +111,7 @@ namespace Mystic
 
             void OnClick(int index) => SetIcon(icons[index]);
             void OnContext(int index) => ShowContextIcon(icons[index]);
-            bool Selected(int index) => icons[index] == _iconReceiver.UnityIcon;
+            bool Selected(int index) => string.Equals(icons[index], _iconReceiver.UnityIcon, StringComparison.OrdinalIgnoreCase);
 
             DrawTextures(contents, OnClick, OnContext, Selected);
         }
