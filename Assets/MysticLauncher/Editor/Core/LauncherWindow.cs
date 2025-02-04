@@ -50,9 +50,10 @@ namespace Mystic
         {
             using var headerScan = _headerScoped.Scan();
             if (headerScan.TryGetRect(out Rect headerRect)){
-                if (projSettings.ProjectInfo.HeaderTexture != null)
+                var tex = projSettings.ProjectInfo.HeaderTexture;
+                if (tex != null)
                 {
-                    GUI.DrawTexture(headerRect, projSettings.ProjectInfo.HeaderTexture, ScaleMode.ScaleAndCrop);
+                    GUI.DrawTexture(headerRect, tex, ScaleMode.ScaleAndCrop);
                     EditorGUI.DrawRect(headerRect, new Color(0f, 0f, 0f, 0.6f));
                 }
             }
