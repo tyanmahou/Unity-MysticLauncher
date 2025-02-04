@@ -17,7 +17,6 @@ namespace Mystic
             icon.text = "Favorite";
             window.titleContent = icon;
             window.Init(asset, group);
-            window.Show();
         }
         public void Init(UnityEngine.Object asset, string group)
         {
@@ -80,7 +79,11 @@ namespace Mystic
                 }
 
                 GUI.enabled = oldEnabled && enabledAsset && userFavorite.IsRegistered(_asset);
+#if UNITY_6000_0_OR_NEWER
+                var unfav = new GUIContent(EditorGUIUtility.IconContent("d_winbtn_mac_close_a"));
+#else
                 var unfav = new GUIContent(EditorGUIUtility.IconContent("d_winbtn_mac_close_h"));
+#endif
                 unfav.text = "Remove";
 
                 if (GUILayout.Button(unfav, GUILayout.Width(80), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
