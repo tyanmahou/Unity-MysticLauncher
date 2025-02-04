@@ -19,6 +19,7 @@ namespace Mystic
             };
         }
         public Label ProjectName;
+        public Texture HeaderTexture;
         public string HelpUrl;
 
         [SerializeReference, SubclassSelector]

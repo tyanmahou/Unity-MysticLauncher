@@ -46,9 +46,16 @@ namespace Mystic
                 _contentScrollPosition = contentScroller.scrollPosition;
             }
         }
-
         void DrawProjectHeader(LauncherProjectSettings projSettings)
         {
+            using var headerScan = _headerScoped.Scan();
+            if (headerScan.TryGetRect(out Rect headerRect)){
+                if (projSettings.ProjectInfo.HeaderTexture != null)
+                {
+                    GUI.DrawTexture(headerRect, projSettings.ProjectInfo.HeaderTexture, ScaleMode.ScaleAndCrop);
+                    EditorGUI.DrawRect(headerRect, new Color(0f, 0f, 0f, 0.6f));
+                }
+            }
             if (!string.IsNullOrEmpty(projSettings.ProjectInfo.HelpUrl))
             {
                 using var horizontal = new EditorGUILayout.HorizontalScope();
@@ -135,5 +142,6 @@ namespace Mystic
         }
         Vector2 _contentScrollPosition;
         TabToolBar _tabToolBar = new();
+        RectScope _headerScoped = new();
     }
 }

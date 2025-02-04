@@ -20,6 +20,7 @@ MonoBehaviour:
         _icon: {fileID: 0}
         _unityIcon: d_Profiler.UIDetails@2x
         _emoji: 
+    HeaderTexture: {fileID: 0}
     HelpUrl: https://github.com/tyanmahou/Unity-MysticLauncher
     CustomHeader:
       rid: -2
