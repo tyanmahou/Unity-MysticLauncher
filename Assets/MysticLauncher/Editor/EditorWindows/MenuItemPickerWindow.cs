@@ -100,7 +100,11 @@ namespace Mystic
                 "File/Save As...",
                 "File/Open Project...",
                 "File/Save Project",
+#if UNITY_6000_0_OR_NEWER
+                "File/Build Profiles",
+#else
                 "File/Build Settings...",
+#endif
                 "File/Build And Run",
                 "File/Exit",
                 // Edit
