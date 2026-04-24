@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Mystic
 {
+    [Serializable]
     public class NotePadLayout : ITabLayout
     {
         public string Title => "NotePad";

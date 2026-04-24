@@ -14,7 +14,7 @@ namespace Mystic
         public static void ShowWindow()
         {
             var window = GetWindow<LauncherWindow>("Launcher");
-            var icon = new GUIContent(EditorGUIUtility.IconContent("d_Profiler.UIDetails"));
+            var icon = new GUIContent(EditorGUIUtility.IconContent("d_profiler.uicanvasdetails"));
             icon.text = "Launcher";
             window.titleContent = icon;
         }
@@ -79,7 +79,7 @@ namespace Mystic
                     GUILayout.Space(-8);
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon))
+                        if (projSettings.ProjectInfo.ProjectName.Icon.TryGetGUIContent(out var icon) && icon.image)
                         {
                             Rect iconRect = GUILayoutUtility.GetRect(45, 45);
                             GUI.DrawTexture(iconRect, icon.image, ScaleMode.ScaleToFit);

@@ -14,7 +14,7 @@ namespace Mystic
         [OnOpenAsset(0)]
         public static bool OnOpen(int instanceID, int line)
         {
-            var asset = EditorUtility.InstanceIDToObject(instanceID);
+            var asset = EditorUtility.EntityIdToObject(instanceID);
             Register(asset);
             return false;
         }
