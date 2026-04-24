@@ -88,12 +88,7 @@ namespace Mystic
             {
                 return null;
             }
-            ///////////////////////
-            // NOTE: Unity6のバグでハッシュの取り方がおかしいのでGetSpriteIndexFromNameが使えない
-            // var index = emoji.GetSpriteIndexFromName(unicodeKey);
-            int hash = TMP_TextUtilities.GetHashCode(unicodeKey);
-            int index = emoji.GetSpriteIndexFromHashcode(hash);
-            ///////////////////////
+            var index = emoji.GetSpriteIndexFromName(unicodeKey);
             if (index < 0)
             {
                 return null;
