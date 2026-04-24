@@ -96,7 +96,8 @@ namespace Mystic
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    EditorGUIUtil.MuteButton();
+                    HeaderUtil.MuteButton();
+                    HeaderUtil.TimeScaleButton();
                     GUILayout.FlexibleSpace();
                     {
                         using (new EditorGUILayout.VerticalScope())
