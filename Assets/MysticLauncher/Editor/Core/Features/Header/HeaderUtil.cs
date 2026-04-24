@@ -12,7 +12,7 @@ namespace Mystic
         {
             // トグルのスタイル
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.toolbarButton);
-            GUIContent content = EditorGUIUtil.NewIconContent(EditorUtility.audioMasterMute ? "d_SceneViewAudio@2x" : "d_SceneViewAudio On@2x");
+            GUIContent content = EditorGUIUtil.NewIconContent(EditorUtility.audioMasterMute ? "d_SceneViewAudio@2x" : "d_SceneViewAudio On@2x", tooltip: "AudioMasterMute");
             EditorUtility.audioMasterMute = GUILayout.Toggle(EditorUtility.audioMasterMute, content, toggleStyle, GUILayout.Width(25));
         }
         /// <summary>
