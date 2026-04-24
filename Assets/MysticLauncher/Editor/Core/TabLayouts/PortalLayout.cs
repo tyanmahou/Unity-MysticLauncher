@@ -7,7 +7,7 @@ namespace Mystic
     public class PortalLayout : ITabLayout
     {
         public string Title => "Portal";
-        public Icon Icon { get; set; } = Icon.CreateUnityIcon("d_profiler.uicanvasdetails");
+        public Icon Icon { get; set; } = Icon.CreateUnityIcon(UnityIconUtil.ProfilerUiDetails);
 
         public void OnGUI()
         {

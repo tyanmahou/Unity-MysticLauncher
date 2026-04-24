@@ -14,7 +14,7 @@ namespace Mystic
         public static void ShowWindow()
         {
             var window = GetWindow<LauncherWindow>("Launcher");
-            var icon = new GUIContent(EditorGUIUtility.IconContent("d_profiler.uicanvasdetails"));
+            var icon = new GUIContent(EditorGUIUtility.IconContent(UnityIconUtil.ProfilerUiDetails));
             icon.text = "Launcher";
             window.titleContent = icon;
         }

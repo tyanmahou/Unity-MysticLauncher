@@ -13,6 +13,11 @@ namespace Mystic
     /// </summary>
     public static class UnityIconUtil
     {
+        // NOTE: 名前が変わってるアイコン
+        public static string ProfilerUiDetails => VersionUtil.IsNewerThan("6000.3.8f1")
+            ? "d_profiler.uicanvasdetails"
+            : "d_profiler.uidetails";
+
         public static string[] GetIconNames()
         {
             return _iconNames ??= EnumerateIconNames().Distinct().ToArray();
